@@ -24,5 +24,8 @@ class Blog(models.Model):
     md_file = models.FileField("文件", upload_to='file/%Y/%m/%d/', blank=True)
     type_id = models.ManyToManyField("type", related_name="blog_post", verbose_name="分类")
 
+    class Meta:
+        ordering = ["-pub_time"]
+
     def __str__(self):
         return self.title

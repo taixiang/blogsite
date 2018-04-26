@@ -3,14 +3,14 @@
 
 {% block content %}
 
-<div class="container sidebar-position-left page-home  ">
+<div class="container sidebar-position-left page-detail  ">
     {% include "header.html" %}
     <main id="main" class="main">
         <div class="main-inner">
             <div class="content-wrap">
                 <div id="content" class="content">
                     <section id="posts" class="posts-expand">
-                        {% for blog in blogs %}
+
                         <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
                             <link itemprop="mainEntityOfPage"
                                   href="#">
@@ -24,8 +24,7 @@
 							</span>
                             <header class="post-header">
                                 <h1 class="post-title" itemprop="name headline">
-                                    <a class="post-title-link" href="{% url 'blog:detail' blog.id %}" target="_blank"
-                                       itemprop="url">{{blog.title}}</a>
+                                    {{detail.title}}
                                 </h1>
                                 <div class="post-meta">
                                     <span class="post-time">
@@ -34,8 +33,8 @@
                                           </span>
                                         <span class="post-meta-item-text">发表于</span>
                                           <time title="创建于" itemprop="dateCreated datePublished"
-                                                datetime="{{blog.pub_time | date:'Y-m-d'}}">
-                                            {{blog.pub_time | date:"Y-m-d"}}
+                                                datetime="{{detail.pub_time | date:'Y-m-d'}}">
+                                            {{detail.pub_time | date:"Y-m-d"}}
                                           </time>
                                         </span>
                                     <span class="post-category">
@@ -47,7 +46,7 @@
                                         <span class="post-meta-item-text">分类于</span>
 
                                         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                                            {% for type in blog.type_id.all %}
+                                            {% for type in detail.type_id.all %}
                                                 <a href="#" itemprop="url" rel="index">
                                                     <span itemprop="name">
                                                         {{ type }}
@@ -60,46 +59,23 @@
 
                                 </div>
                             </header>
-                            <div class="post-body" itemprop="articleBody">
-                                {{blog.desc}}
-                                <div class="post-button text-center">
-                                    <a class="btn" href="{% url 'blog:detail' blog.id %}" target="_blank"
-                                       rel="contents">
-                                        阅读全文 &raquo;
-                                    </a>
-                                </div>
+                            <div class="post-body" itemprop="articleBody" id="content-body">
+                                {{detail.desc}}
+
                             </div>
                             <footer class="post-footer">
                                 <div class="post-eof"></div>
                             </footer>
                         </article>
-                        {% endfor %}
+
                     </section>
-                    <nav class="pagination">
-                        {% if blogs.has_previous %}
-                            <a class="extend prev" rel="prev" href="?page={{ blogs.previous_page_number }}"><i class="fa fa-angle-left"></i></a>
-                        {% endif %}
 
-                        {% for pg in blogs.paginator.page_range %}
-                            {% if blogs.number == pg %}
-                        <span class="page-number current">{{pg}}</span>
-                            {% else %}
-                        <a class="page-number" href="?page={{pg}}">{{pg}}</a>
-                            {% endif %}
-                        {% endfor %}
-
-                        {% if blogs.has_next %}
-                            <a class="extend next" rel="next" href="?page={{ blogs.next_page_number }}"><i class="fa fa-angle-right"></i></a>
-                        {% endif %}
-
-                    </nav>
                 </div>
             </div>
                 {% include "side.html" %}
 
         </div>
     </main>
-    {% include "footer.html"  %}
 </div>
 
 
