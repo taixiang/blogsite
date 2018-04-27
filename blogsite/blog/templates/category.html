@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block content %}
+
+<div class="container sidebar-position-left  ">
+    {% include "header.html" %}
+    <main id="main" class="main">
+        <div class="main-inner">
+            <div class="content-wrap">
+                <div id="content" class="content">
+                    <div id="posts" class="posts-expand">
+                        <header class="post-header">
+                            <h1 class="post-title" itemprop="name headline">categories</h1>
+                        </header>
+                        <div class="category-all-page">
+                            <div class="category-all-title">
+                                目前共计 {{count}} 个分类
+                            </div>
+                            <div class="category-all">
+                                <ul class="category-list">
+                                    {% for cate in categorys %}
+                                    <li class="category-list-item">
+                                        <a class="category-list-link" href="{% url 'blog:category_detail' cate.id %}">{{cate.name}}</a>
+                                        <span class="category-list-count">{{cate.num_blogs}}</span>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+            {% include "side.html" %}
+        </div>
+    </main>
+    {% include "footer.html" %}
+</div>
+
+{% endblock %}

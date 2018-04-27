@@ -60,7 +60,6 @@
                                 </div>
                             </header>
                             <div class="post-body" itemprop="articleBody" id="content-body">
-                                {{detail.desc}}
 
                             </div>
                             <footer class="post-footer">
@@ -77,6 +76,28 @@
         </div>
     </main>
 </div>
+
+
+{% endblock %}
+
+
+{% block other %}
+<script>
+    $(function () {
+        {% if detail.md_file %}
+            $.ajax({
+                url: '/upload/{{detail.md_file}}',
+                type: "GET",
+                dataType: "text",
+                success: function (data) {
+                    markdownFromText(data, "content-body");
+                }
+            });
+        {% endif %}
+
+
+    });
+</script>
 
 
 {% endblock %}

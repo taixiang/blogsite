@@ -16,8 +16,14 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 from blog import views
-
+from django.conf import settings
+import os
+from django.conf.urls.static import static
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^blog/', include('blog.urls', namespace='blog', app_name='blog'))
 ]
+
+if settings.DEBUG:
+    media_root = os.path.join(settings.BASE_DIR, 'upload/')
+    urlpatterns += static('/upload/', document_root=media_root)

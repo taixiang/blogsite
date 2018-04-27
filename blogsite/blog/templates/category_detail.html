@@ -1,9 +1,8 @@
 {% extends "base.html" %}
 {% load staticfiles %}
-
 {% block content %}
 
-<div class="container sidebar-position-left page-archive  ">
+<div class="container sidebar-position-left  ">
     {% include "header.html" %}
     <main id="main" class="main">
         <div class="main-inner">
@@ -11,43 +10,35 @@
                 <div id="content" class="content">
 
                     <section id="posts" class="posts-collapse">
-                        <span class="archive-move-on"></span>
-
-                        <span class="archive-page-counter">
-
-                      OK! 目前共计 {{count}} 篇日志。 继续努力。
-                    </span>
-
-
-                        {% regroup blogs by pub_time.year as dates_by_year %}
-                        {% for year in dates_by_year %}
                         <div class="collection-title">
-                            <h2 class="archive-year motion-element" id="archive-year-2018"
-                                style="opacity: 1; display: block; transform: translateX(0px);">{{ year.grouper }}</h2>
+                            <h1 style="margin-left:10px">{{type}}
+                                <small>分类</small>
+                            </h1>
                         </div>
 
-                        {% regroup year by pub_time.month as month_post_group %}
-                        {% for d in year.list %}
-
+                        {% for blog in blogs %}
                         <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
                             <header class="post-header">
                                 <h2 class="post-title">
-                                    <a class="post-title-link" href="{% url 'blog:detail' d.id %}" target="_blank"
+                                    <a class="post-title-link" href="{% url 'blog:detail' blog.id %}" target="_blank"
                                        itemprop="url">
-                                        <span itemprop="name"> {{d.title}}</span>
+                                        <span itemprop="name">{{blog.title}}</span>
                                     </a>
                                 </h2>
                                 <div class="post-meta">
-                                    <time class="post-time" itemprop="dateCreated" datetime="{{d.pub_time}}"
-                                          content="{{ d.pub_time |date:'m' }}-{{ d.pub_time |date:'d' }}">{{ d.pub_time |date:'m' }}-{{ d.pub_time |date:'d' }}
+                                    <time class="post-time" itemprop="dateCreated"
+                                          datetime="2018-03-30T00:00:00+08:00"
+                                          content="{{blog.pub_time| date:'m-d' }}">
+                                        {{blog.pub_time | date:"m-d"}}
                                     </time>
                                 </div>
                             </header>
                         </article>
                         {% endfor %}
-                        {% endfor %}
+
 
                     </section>
+
                     <nav class="pagination">
                         {% if blogs.has_previous %}
                         <a class="extend prev" rel="prev" href="?page={{ blogs.previous_page_number }}"><i
@@ -68,8 +59,8 @@
                         {% endif %}
 
                     </nav>
-
                 </div>
+
 
             </div>
             {% include "side.html" %}
@@ -79,13 +70,3 @@
 </div>
 
 {% endblock %}
-
-{% block other %}
-<script type="text/javascript" id="motion.page.archive">
-    $('.archive-year').velocity('transition.slideLeftIn');
-
-</script>
-
-{% endblock %}
-
-

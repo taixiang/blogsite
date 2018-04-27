@@ -29,3 +29,15 @@ class Blog(models.Model):
 
     def __str__(self):
         return self.title
+
+class Me(models.Model):
+    name = models.CharField("昵称", max_length=150)
+    avatar = models.ImageField("头像", upload_to='file/%Y/%m/%d/', blank=True)
+    qr_code = models.ImageField("二维码", upload_to='file/%Y/%m/%d/', blank=True)
+    about_me = models.FileField("关于我", upload_to='file/%Y/%m/%d/', blank=True)
+    juejin = models.CharField("掘金", max_length=150)
+    zhihu = models.CharField("知乎", max_length=150)
+    jianshu = models.CharField("简书", max_length=150)
+
+    def __str__(self):
+        return self.name
