@@ -5,7 +5,7 @@
                     <div class="custom-logo-site-title">
                         <a href="{% url 'blog:index' %}" class="brand" rel="start">
                             <span class="logo-line-before"><i></i></span>
-                            <span class="site-title">程序猿tx</span>
+                            <span class="site-title">{{msg.name}}</span>
                             <span class="logo-line-after"><i></i></span>
                         </a>
                     </div>
@@ -40,7 +40,7 @@
                         </a>
                     </li>
                     <li class="menu-item menu-item-about">
-                        <a href="#" rel="section">
+                        <a href="{% url 'blog:about' %}" rel="section">
                             <i class="menu-item-icon fa fa-fw fa-user"></i> <br/>
                             关于
                         </a>

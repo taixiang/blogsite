@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block content %}
+<div class="container sidebar-position-left page-detail  ">
+    {% include "header.html" %}
+    <main id="main" class="main">
+        <div class="main-inner">
+            <div class="content-wrap">
+                <div id="content" class="content">
+                    <section id="posts" class="posts-expand">
+
+                        <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+                            <link itemprop="mainEntityOfPage"
+                                  href="#">
+                            <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+							  <meta itemprop="name" content="{{msg.name}}">
+							  <meta itemprop="description" content="">
+							  <meta itemprop="image" content="/images/avatar.jpg">
+							</span>
+                            <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+							  <meta itemprop="name" content="{{msg.name}}">
+							</span>
+                            <header class="post-header">
+                                <h1 class="post-title" itemprop="name headline">
+                                    {{detail.title}}
+                                </h1>
+                                <div class="post-meta">
+
+
+                                </div>
+                            </header>
+                            <div class="post-body" itemprop="articleBody" id="content-body">
+
+                            </div>
+                            <footer class="post-footer">
+                                <div class="post-eof"></div>
+                            </footer>
+                        </article>
+
+                    </section>
+
+                </div>
+            </div>
+                {% include "side.html" %}
+
+        </div>
+    </main>
+    {% include "footer.html"  %}
+</div>
+
+{% endblock %}
+
+{% block other %}
+<script>
+    $(function () {
+        {% if msg.about_me %}
+            $.ajax({
+                url: '/upload/{{msg.about_me}}',
+                type: "GET",
+                dataType: "text",
+                success: function (data) {
+                    markdownFromText(data, "content-body");
+                }
+            });
+        {% endif %}
+
+    });
+</script>
+
+{% endblock %}
