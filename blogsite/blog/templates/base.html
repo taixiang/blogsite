@@ -74,6 +74,12 @@
 <script type="text/javascript" src="{% static 'js/bootstrap.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/marked.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/post-details.js' %}"></script>
+<script >
+
+    if(/Android|webOS|iPhone|BlackBerry/i.test(navigator.userAgent)) {
+        $(".div_right_bottom").css("display","none")
+    }
+</script>
 
 {% block other %}{% endblock %}
 
