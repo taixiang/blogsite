@@ -10,7 +10,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 def index(request):
     me = Me.objects.all()
     blogs = Blog.objects.all()
-    paginator = Paginator(blogs, 5)
+    paginator = Paginator(blogs, 10)
     page = request.GET.get('page')
     try:
         customer = paginator.page(page)
@@ -36,7 +36,7 @@ def detail(request, blog_id):
 def archive(request):
     me = Me.objects.all()
     blogs = Blog.objects.all()
-    paginator = Paginator(blogs, 1)
+    paginator = Paginator(blogs, 10)
     page = request.GET.get('page')
     try:
         customer = paginator.page(page)
@@ -59,7 +59,7 @@ def category_detail(request, type_id):
     me = Me.objects.all()
     type = Type.objects.all().get(id=type_id)
     blogs = Blog.objects.all().filter(type_id=type_id)
-    paginator = Paginator(blogs, 1)
+    paginator = Paginator(blogs, 10)
     page = request.GET.get('page')
     try:
         customer = paginator.page(page)
