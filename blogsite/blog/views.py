@@ -30,6 +30,8 @@ def index(request):
 def detail(request, blog_id):
     me = Me.objects.all()
     detail = Blog.objects.get(id=blog_id)
+    detail.count +=1
+    detail.save()
     return render(request, "detail.html", {"detail": detail, "msg": me[0]})
 
 
