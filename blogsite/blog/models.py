@@ -36,6 +36,7 @@ class Me(models.Model):
     avatar = models.ImageField("头像", upload_to='file/%Y/%m/%d/', blank=True)
     qr_code = models.ImageField("二维码", upload_to='file/%Y/%m/%d/', blank=True)
     about_me = models.FileField("关于我", upload_to='file/%Y/%m/%d/', blank=True)
+    zan = models.ImageField("赞赏", upload_to='file/%Y/%m/%d/', blank=True)
     juejin = models.CharField("掘金", max_length=150)
     zhihu = models.CharField("知乎", max_length=150)
     jianshu = models.CharField("简书", max_length=150)

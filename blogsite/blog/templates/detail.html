@@ -47,7 +47,8 @@
 
                                         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                                             {% for type in detail.type_id.all %}
-                                                <a href="{% url 'blog:category_detail' type.id %}" itemprop="url" rel="index">
+                                                <a href="{% url 'blog:category_detail' type.id %}" itemprop="url"
+                                                   rel="index">
                                                     <span itemprop="name">
                                                         {{ type }}
                                                     </span>
@@ -62,6 +63,8 @@
                             <div class="post-body" itemprop="articleBody" id="content-body">
 
                             </div>
+
+
                             <footer class="post-footer">
                                 <div class="post-eof"></div>
                             </footer>
@@ -70,12 +73,29 @@
                     </section>
 
                 </div>
+                <div>
+                    <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center">
+                        <div></div>
+                        <button class="rewardButton" disable="enable"
+                                onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+                            <span>赞赏</span>
+                        </button>
+                        <div id="QR">
+                            <img class="wechat_qr"
+                                 src="/upload/file/2018/05/13/1411526180048_.pic.jpg"
+                                 alt="">
+
+                        </div>
+                    </div>
+                </div>
             </div>
-                {% include "side.html" %}
+
+            {% include "side.html" %}
 
         </div>
+
     </main>
-    {% include "footer.html"  %}
+    {% include "footer.html" %}
 </div>
 
 
@@ -98,6 +118,14 @@
 
 
     });
+
+
+
+
+
+
+
+
 </script>
 
 
