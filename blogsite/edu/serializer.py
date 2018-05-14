@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Mission, ClassType
+from .models import Mission, ClassType, Ques
 
 
 class SubTypeSerializer(serializers.ModelSerializer):
@@ -13,4 +13,10 @@ class MissionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Mission
-        fields = ('level', )
+        fields = ('level',)
+
+
+class QuesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Ques
+        fields = ("title",)

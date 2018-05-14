@@ -24,6 +24,7 @@ from edu import views as edu_view
 
 router = routers.DefaultRouter()
 router.register(r'missions', edu_view.MissionViewSet, base_name='missions')
+router.register(r'ques', edu_view.QuesViewSet, base_name='ques')
 
 
 urlpatterns = [
