@@ -10,6 +10,13 @@ class MissionAdmin(admin.ModelAdmin):
     list_per_page = 10
 
 
+class QuesAdmin(admin.ModelAdmin):
+    list_display = ('title', 'type_id')
+    list_filter = ('type_id',)
+    search_fields = ('title',)
+    list_per_page = 10
+
+
 admin.site.register(ClassType)
 admin.site.register(Mission, MissionAdmin)
-admin.site.register(Ques)
+admin.site.register(Ques, QuesAdmin)

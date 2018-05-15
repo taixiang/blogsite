@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils import timezone
 
+class_type = ((1, "小学"), (2, "初中"))
+
 
 # Create your models here.
 class ClassType(models.Model):
@@ -19,7 +21,7 @@ class ClassType(models.Model):
 
 class Mission(models.Model):
     level = models.IntegerField("关卡", default=0)
-    type_id = models.ForeignKey(ClassType)
+    type_id = models.IntegerField("年级", choices=class_type)
     pub_time = models.DateTimeField("时间", default=timezone.now)
 
     class Meta:
@@ -27,8 +29,11 @@ class Mission(models.Model):
         verbose_name = "关卡"
         verbose_name_plural = "关卡"
 
+    def type(self):
+        return self.get_type_id_display()
+
     def __str__(self):
-        return str(self.level) + str(self.type_id)
+        return str(self.level) + self.get_type_id_display()
 
 
 class Ques(models.Model):
@@ -38,7 +43,7 @@ class Ques(models.Model):
     optC = models.CharField("C选项", max_length=100)
     optD = models.CharField("D选项", max_length=100)
     correct = models.CharField("答案", max_length=4, choices=(("1", "A"), ("2", "B"), ("3", "C"), ("4", "D")))
-    type_id = models.ForeignKey(ClassType)
+    type_id = models.IntegerField("年级", choices=class_type)
     level_id = models.ForeignKey(Mission)
     pub_time = models.DateTimeField("时间", default=timezone.now)
 
@@ -46,23 +51,11 @@ class Ques(models.Model):
         verbose_name = "题目"
         verbose_name_plural = "题目"
 
+    def correctOpt(self):
+        return self.get_correct_display()
+
     def __str__(self):
         return self.title
-
-    def get_correct(self):
-        return self.get_correct_display
-
-
-class Result(models.Model):
-    point = models.IntegerField("分数", default=0)
-    user_id = models.CharField("openId", max_length=150, blank=True, default="")
-    type_id = models.IntegerField("班级id")
-    level_id = models.IntegerField("关卡id")
-    time = models.CharField("时间", max_length=150, blank=True, default="")
-
-    class Meta:
-        verbose_name = "答题信息"
-        verbose_name_plural = "答题信息"
 
 
 # 用户表
@@ -74,9 +67,23 @@ class UserInfo(models.Model):
     city = models.CharField("市", max_length=150, blank=True, default="")
     province = models.CharField("省", max_length=150, blank=True, default="")
     country = models.CharField("国家", max_length=150, blank=True, default="")
-    openId = models.CharField("openId", max_length=150, blank=True, default="")
+    openId = models.CharField("openId", max_length=150, blank=True, default="", unique=True)
     time = models.CharField("时间", max_length=150, blank=True, default="")
 
     class Meta:
         verbose_name = "用户列表"
         verbose_name_plural = "用户列表"
+
+
+class Result(models.Model):
+    point = models.IntegerField("分数", default=0)
+    # openId = models.CharField("openId", max_length=150, blank=True, default="")
+    type_id = models.IntegerField("年级", choices=class_type)
+    level_id = models.IntegerField("关卡id")
+    # user_id = models.ForeignKey(UserInfo)
+    user_id = models.ForeignKey(UserInfo, to_field="openId", blank=True, default="")
+    time = models.CharField("时间", max_length=150, blank=True, default="")
+
+    class Meta:
+        verbose_name = "答题信息"
+        verbose_name_plural = "答题信息"

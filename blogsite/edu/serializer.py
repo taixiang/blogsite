@@ -1,22 +1,32 @@
 from rest_framework import serializers
-from .models import Mission, ClassType, Ques
+from .models import Mission, ClassType, Ques, UserInfo, Result
 
 
-class SubTypeSerializer(serializers.ModelSerializer):
+class SubCateSerializer(serializers.ModelSerializer):
     class Meta:
-        model = ClassType
-        fields = ('name',)
+        model = UserInfo
+        fields = ('nickName',)
 
 
 class MissionSerializer(serializers.ModelSerializer):
-    # type_id = SubTypeSerializer()
-
     class Meta:
         model = Mission
-        fields = ('level',)
+        fields = ('level', 'type')
 
 
 class QuesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ques
-        fields = ("title",)
+        fields = ("title", 'optA', 'optB', 'optC', 'optD', 'correctOpt')
+
+
+class ResultSerializer(serializers.ModelSerializer):
+    # openId = SubCateSerializer(many=False)
+    nickName = serializers.SerializerMethodField("get_name")
+
+    class Meta:
+        model = Result
+        fields = ("point", 'nickName')
+
+    def get_name(self, obj):
+        return UserInfo.objects.get(openId=obj.openId).nickName
