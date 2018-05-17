@@ -21,11 +21,11 @@ class QuesSerializer(serializers.ModelSerializer):
 
 
 class ResultSerializer(serializers.ModelSerializer):
-    user_id = SubCateSerializer(many=False)
+    # user_id = SubCateSerializer(many=False)
 
     class Meta:
         model = Result
-        fields = ("point", "user_id", 'level_id')
+        fields = ("point", 'level_id', 'star')
 
 
 class TotalSerializer(serializers.ModelSerializer):

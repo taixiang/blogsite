@@ -83,6 +83,7 @@ class Result(models.Model):
     # user_id = models.ForeignKey(UserInfo)
     user_id = models.ForeignKey(UserInfo, to_field="openId", blank=True, default="")
     time = models.CharField("时间", max_length=150, blank=True, default="")
+    star = models.IntegerField("星星", default=0)
 
     class Meta:
         ordering = ["level_id"]

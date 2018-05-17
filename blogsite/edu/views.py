@@ -56,13 +56,31 @@ class ResultViewSet(viewsets.ModelViewSet):
         type_id = request.GET.get('type_id')
         user_id = request.GET.get('user_id')
         m_count = Mission.objects.filter(type_id=type_id).count()
-        print(m_count)
+        m_count = 4
+
         self.queryset = Result.objects.filter(type_id=type_id, user_id=user_id)
         queryset = self.filter_queryset(self.queryset)
         serializer = self.get_serializer(queryset, many=True)
         data = list(serializer.data)
-        print(len(data))
-        data.append({})
+
+        # print(data[len(data) - 1])
+        num = len(data)
+
+        if num == 0:  # 一关未答
+            print("11111111")
+            data.append({"star": 0, "level_id": 1})
+            for i in range(num + 2, m_count + 1):
+                data.append({"star": -1, "level_id": i})
+        elif data[num - 1]["star"] >= 2 and num < m_count:  # 最后一关是两颗星，则开启下一关
+            print("222222222")
+            data.append({"star": 0, "level_id": num + 1})
+            if num + 1 < m_count:
+                for i in range(num + 2, m_count + 1):
+                    data.append({"star": -1, "level_id": i})
+        elif num < m_count:  # 剩余未作答
+            print("33333333333")
+            for i in range(num + 1, m_count + 1):
+                data.append({"star": -1, "level_id": i})
 
         return Response(OrderedDict([
             ('code', 200),
