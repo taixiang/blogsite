@@ -26,7 +26,7 @@ router = routers.DefaultRouter()
 router.register(r'missions', edu_view.MissionViewSet, base_name='missions')
 router.register(r'ques', edu_view.QuesViewSet, base_name='ques')
 router.register(r'result', edu_view.ResultViewSet, base_name='result')
-
+router.register(r'total', edu_view.TotalViewSet, base_name='total')
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),

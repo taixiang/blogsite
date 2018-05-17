@@ -1,17 +1,17 @@
 from rest_framework import serializers
-from .models import Mission, ClassType, Ques, UserInfo, Result
+from .models import Mission, ClassType, Ques, UserInfo, Result, Total
 
 
 class SubCateSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserInfo
-        fields = ('nickName',)
+        fields = ('nickName', 'openId')
 
 
 class MissionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Mission
-        fields = ('level', 'type')
+        fields = ('id', 'level', 'type')
 
 
 class QuesSerializer(serializers.ModelSerializer):
@@ -21,12 +21,14 @@ class QuesSerializer(serializers.ModelSerializer):
 
 
 class ResultSerializer(serializers.ModelSerializer):
-    # openId = SubCateSerializer(many=False)
-    nickName = serializers.SerializerMethodField("get_name")
+    user_id = SubCateSerializer(many=False)
 
     class Meta:
         model = Result
-        fields = ("point", 'nickName')
+        fields = ("point", "user_id", 'level_id')
 
-    def get_name(self, obj):
-        return UserInfo.objects.get(openId=obj.openId).nickName
+
+class TotalSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Total
+        fields = ("score", "type_id")

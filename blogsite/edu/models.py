@@ -25,7 +25,6 @@ class Mission(models.Model):
     pub_time = models.DateTimeField("时间", default=timezone.now)
 
     class Meta:
-        ordering = ["-level"]
         verbose_name = "关卡"
         verbose_name_plural = "关卡"
 
@@ -75,15 +74,35 @@ class UserInfo(models.Model):
         verbose_name_plural = "用户列表"
 
 
+# 结果
 class Result(models.Model):
     point = models.IntegerField("分数", default=0)
     # openId = models.CharField("openId", max_length=150, blank=True, default="")
     type_id = models.IntegerField("年级", choices=class_type)
-    level_id = models.IntegerField("关卡id")
+    level_id = models.IntegerField("关卡")
     # user_id = models.ForeignKey(UserInfo)
     user_id = models.ForeignKey(UserInfo, to_field="openId", blank=True, default="")
     time = models.CharField("时间", max_length=150, blank=True, default="")
 
     class Meta:
+        ordering = ["level_id"]
         verbose_name = "答题信息"
         verbose_name_plural = "答题信息"
+
+    def __str__(self):
+        return str(self.point)
+
+
+# 总榜
+class Total(models.Model):
+    score = models.IntegerField("分数", default=0)
+    type_id = models.IntegerField("年级", choices=class_type)
+    user_id = models.ForeignKey(UserInfo, to_field="openId", blank=True, default="")
+
+    class Meta:
+        ordering = ["-score"]
+        verbose_name = "总榜"
+        verbose_name_plural = "总榜"
+
+    def __str__(self):
+        return str(self.score)
