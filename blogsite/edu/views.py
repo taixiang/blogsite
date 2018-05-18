@@ -8,7 +8,7 @@ from .serializer import MissionSerializer, QuesSerializer, ResultSerializer, Tot
 import json
 import time
 from django.http import JsonResponse, HttpResponse
-
+import random
 
 # Create your views here.
 # 关卡
@@ -41,9 +41,11 @@ class QuesViewSet(viewsets.ModelViewSet):
         self.queryset = Ques.objects.filter(type_id=type_id, level_id=level_id)
         queryset = self.filter_queryset(self.queryset)
         serializer = self.get_serializer(queryset, many=True)
+        data = list(serializer.data)
+        random.shuffle(data)
         return Response(OrderedDict([
             ('code', 200),
-            ('results', serializer.data)
+            ('results', data)
         ]))
 
 
@@ -62,10 +64,8 @@ class ResultViewSet(viewsets.ModelViewSet):
         queryset = self.filter_queryset(self.queryset)
         serializer = self.get_serializer(queryset, many=True)
         data = list(serializer.data)
-
         # print(data[len(data) - 1])
         num = len(data)
-
         if num == 0:  # 一关未答
             print("11111111")
             data.append({"star": 0, "level_id": 1})
@@ -88,11 +88,22 @@ class ResultViewSet(viewsets.ModelViewSet):
         ]))
 
 
-# 排行榜(区别type)
+# 排行榜
 class TotalViewSet(viewsets.ModelViewSet):
     queryset = Total.objects.all()
     serializer_class = TotalSerializer
 
+    def list(self, request, *args, **kwargs):
+        print("=========")
+        type_id = request.GET.get('type_id')
+
+        self.queryset = Total.objects.filter(type_id=type_id)
+        queryset = self.filter_queryset(self.queryset)
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(OrderedDict([
+            ('code', 200),
+            ('results', serializer.data)
+        ]))
 
 # 用户信息保存
 @csrf_exempt
@@ -114,15 +125,25 @@ def postResult(request):
     if request.method == 'POST':
         data = json.loads(request.body.decode('utf-8'))
         t = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
-        print(data)
         data['time'] = t
 
-        total = Total.objects.get_or_create(user_id_id=data["user_id_id"], type_id=data["type_id"])[0]
-        total.score += data["point"]
-        total.save()
+        # 同一班级、关卡，新分数大于原先的分数则保存
+        result = Result.objects.get_or_create(user_id_id=data["user_id_id"], type_id=data["type_id"], level_id=data["level_id"])[0]
+        print(data["point"])
+        print(result.point)
+        if data["point"] > result.point:
+            print("============")
+            curPoint = result.point
+            result.point = data["point"]
+            result.star = data["star"]
+            result.time = data["time"]
+            result.save()
+            # 总分 先减去当前保存 再加上最新的分数
+            total = Total.objects.get_or_create(user_id_id=data["user_id_id"], type_id=data["type_id"])[0]
+            total.score -= curPoint
+            total.score += data["point"]
+            total.save()
 
-        result = Result(**data)
-        result.save()
 
         res = "{ \"code\":" + "200" + ",\"result\":" + "\"提交成功\"}"
     return JsonResponse(res, safe=False)

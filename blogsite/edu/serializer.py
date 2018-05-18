@@ -5,7 +5,7 @@ from .models import Mission, ClassType, Ques, UserInfo, Result, Total
 class SubCateSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserInfo
-        fields = ('nickName', 'openId')
+        fields = ('nickName', 'openId', 'avatarUrl')
 
 
 class MissionSerializer(serializers.ModelSerializer):
@@ -29,6 +29,7 @@ class ResultSerializer(serializers.ModelSerializer):
 
 
 class TotalSerializer(serializers.ModelSerializer):
+    user_id = SubCateSerializer(many=False)
     class Meta:
         model = Total
-        fields = ("score", "type_id")
+        fields = ("score", "type_id", "user_id")
