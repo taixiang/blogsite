@@ -1,0 +1,132 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<!-- saved from url=(0041)http://h5.hunlipic.com/web.php?id=OTwnkf5 -->
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+		<meta name="keywords" content="">
+		<meta name="description" content="">
+        <!--<base href="http://h5.hunlipic.com/biaobai_donghua/">--><base href=".">
+		<title>❤️I LOVE YOU❤️</title>
+		<style >
+			*{margin:0;padding:0;}
+			/*body{background:url("./111_files/1.jpg");background-size:cover;}*/
+			/*start top*/
+			.top{width:400px;height:100px;margin:60px auto;font-size:30px;font-family:"华文行楷";color:#fff;
+			<!--background:-webkit-linear-gradient(45deg,#ff0000,#ffcc00,#ffff99,#33ccff,#00ff33,#6600ff,#333399);
+			-webkit-background-clip:text;-->}
+			/*end top*/
+			/*start box*/
+			.box{width:310px;height:310px;margin:auto;perspective:800px;/*景深*/}
+			.box .pic{position:relative;transform-style:preserve-3d;/*3d环境*/ animation:play 10s linear infinite;/*动画名称 执行时间 匀速 无限执行*/}
+			.box ul li{list-style:none;position:absolute;top:0;left:0;}
+			/*start box*/
+			/*定义一个关键帧*/
+			@keyframes play{
+				from{transform:rotateY(0deg);}
+				to{transform:rotateY(360deg);}
+			}
+			/*start text*/
+			#text{width:500px;height:200px;color:#6fade1;margin:auto;font-size:24px;font-family:"方正喵呜体";}
+			/*end text*/
+		</style>
+	</head>
+
+
+	<body style="" class="content">
+		<!--start top-->
+		<div class="top">
+			<marquee  behavior="alternate">我爱你</marquee>
+		</div>
+		<!--end top-->
+		<!--start box-->
+		<div class="box">
+			<div class="pic">
+				<ul>
+					<li style="transform: rotateY(0deg) translateZ(216px);"><img src="{% static 'img/1.png' %}" width="" height="" alt=""></li>
+					<li style="transform: rotateY(60deg) translateZ(216px);"><img src="{% static 'img/2.png' %}" width="" height="" alt=""></li>
+					<li style="transform: rotateY(120deg) translateZ(216px);"><img src="{% static 'img/3.png' %}" width="" height="" alt=""></li>
+					<li style="transform: rotateY(180deg) translateZ(216px);"><img src="{% static 'img/4.png' %}" width="" height="" alt=""></li>
+					<li style="transform: rotateY(240deg) translateZ(216px);"><img src="{% static 'img/5.png' %}" width="" height="" alt=""></li>
+					<li style="transform: rotateY(300deg) translateZ(216px);"><img src="{% static 'img/6.png' %}" width="" height="" alt=""></li>
+				</ul>
+			</div>
+		</div>
+		<!--end box-->
+		<!--start text-->
+		<div id="text" style="font-size:26px"></div>
+		<!--end text-->
+
+
+		<script src="{% static 'jquery.min.js' %}"></script>
+		<!--雪花-->
+		<script src="{% static 'snow.js' %}"></script>
+		<script>
+
+			$(".content").css("background", "url('{% static 'img/bg.jpg' %}')")
+            if(/Android|webOS|iPhone|BlackBerry/i.test(navigator.userAgent)) {
+
+            } else {
+                $(".content").css("background-size","cover")
+
+            }
+
+			$(".pic ul li").each(function(i){//遍历
+				var deg=360/$(".pic ul li").size();//size个数
+				//当前的li对象 添加css样式
+				$(this).css({"transform":"rotateY("+deg*i+"deg) translateZ(216px)"});
+
+				$.fn.snow({
+					minSize:10,
+					maxSize:15,
+					newOn:500,
+					flakeColor:"#ffffff"
+				});
+			});
+
+			var i=0;
+			var str="冰雪冷却不了我对你的热爱，台风吹散不走我对你的思念，喧哗淹没不了我的对你的心声，黑暗掩盖不了我对你的深情。从看到你的那一刻起，我的心跳就告诉我你是我今生等待的人，是你给了我勇气和动力，我会用一生的努力来呵护这份心动的。";
+
+			window.onload=function typing(){
+				//获取div
+				var mydiv=document.getElementById("text");
+				mydiv.innerHTML+=str.charAt(i);
+				i++;
+				var id=setTimeout(typing,100);
+				if(i==str.length){
+					clearTimeout(id);
+				}
+
+			}
+		</script>
+
+        <audio  autoplay="autoplay" loop="loop" id="audio" src="{% static 'gbqq.mp3' %}">
+
+</audio>
+
+
+	<script>
+
+	if(/Android|webOS|iPhone|BlackBerry/i.test(navigator.userAgent)) {
+//--创建页面监听，等待微信端页面加载完毕 触发音频播放
+document.addEventListener('DOMContentLoaded', function () {
+    function audioAutoPlay() {
+        var audio = document.getElementById('audio');
+            audio.play();
+        document.addEventListener("WeixinJSBridgeReady", function () {
+            audio.play();
+        }, false);
+    }
+    audioAutoPlay();
+});
+	} else {
+		$("#audio").attr("src","http://www.hunlipic.com/e/mp3/gbqq.mp3");
+
+	}
+
+
+
+	</script>
+  </body></html>
