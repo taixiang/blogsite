@@ -9,6 +9,8 @@ import json
 import time
 from django.http import JsonResponse, HttpResponse
 import random
+import requests
+
 
 # Create your views here.
 # 关卡
@@ -48,7 +50,7 @@ class QuesViewSet(viewsets.ModelViewSet):
             ('results', data)
         ]))
 
-
+# 用户关卡
 class ResultViewSet(viewsets.ModelViewSet):
     queryset = Result.objects.all()
     serializer_class = ResultSerializer
@@ -58,7 +60,13 @@ class ResultViewSet(viewsets.ModelViewSet):
         type_id = request.GET.get('type_id')
         user_id = request.GET.get('user_id')
         m_count = Mission.objects.filter(type_id=type_id).count()
-        m_count = 4
+        # m_count = 4
+
+        if m_count == 0:
+            return Response(OrderedDict([
+            ('code', 200),
+            ('results', [])
+        ]))
 
         self.queryset = Result.objects.filter(type_id=type_id, user_id=user_id)
         queryset = self.filter_queryset(self.queryset)
@@ -104,6 +112,19 @@ class TotalViewSet(viewsets.ModelViewSet):
             ('code', 200),
             ('results', serializer.data)
         ]))
+
+# 获取openid
+def getOpenId(request):
+    jscode = request.GET.get('code')
+    print(jscode)
+    print(111111)
+    resp = requests.get(
+        "https://api.weixin.qq.com/sns/jscode2session?appid=wxf5e6ccf6b668dcd2&secret=b82a131139a2be2fdbfba95e4ed63d3e&js_code=" + str(
+            jscode) + "&grant_type=authorization_code")
+    print(resp.text)
+    # data = serializers.serialize("json", resp.text)
+    return HttpResponse(json.dumps(resp.text), content_type="application/json")
+
 
 # 用户信息保存
 @csrf_exempt

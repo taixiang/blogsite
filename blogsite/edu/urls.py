@@ -5,5 +5,6 @@ urlpatterns = [
     # url(r'^getOpenId', views.getOpenId, name='getOpenId'),
     url(r'^postUserInfo', views.postUserInfo, name='postUserInfo'),
     url(r'^postResult', views.postResult, name='postResult'),
+    url(r'^getOpenId', views.getOpenId, name='getOpenId'),
 
 ]
