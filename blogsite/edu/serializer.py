@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Mission, ClassType, Ques, UserInfo, Result, Total
+from .models import Mission, ClassType, Ques, UserInfo, Result, Total, Question
 
 
 class SubCateSerializer(serializers.ModelSerializer):
@@ -30,6 +30,14 @@ class ResultSerializer(serializers.ModelSerializer):
 
 class TotalSerializer(serializers.ModelSerializer):
     user_id = SubCateSerializer(many=False)
+
     class Meta:
         model = Total
         fields = ("score", "type_id", "user_id")
+
+
+# 小学题目
+class QuestionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Question
+        fields = ("title", "optA", "optB", "optC", "optD", "correct")

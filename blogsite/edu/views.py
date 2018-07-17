@@ -3,8 +3,9 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework import viewsets
 from rest_framework.response import Response
 from collections import OrderedDict
-from .models import Mission, ClassType, Ques, UserInfo, Result, Total
-from .serializer import MissionSerializer, QuesSerializer, ResultSerializer, TotalSerializer
+from .models import Mission, ClassType, Ques, UserInfo, Result, Total, Question
+from .serializer import MissionSerializer, QuesSerializer, ResultSerializer, \
+    TotalSerializer, QuestionSerializer
 import json
 import time
 from django.http import JsonResponse, HttpResponse
@@ -50,6 +51,7 @@ class QuesViewSet(viewsets.ModelViewSet):
             ('results', data)
         ]))
 
+
 # 用户关卡
 class ResultViewSet(viewsets.ModelViewSet):
     queryset = Result.objects.all()
@@ -64,9 +66,9 @@ class ResultViewSet(viewsets.ModelViewSet):
 
         if m_count == 0:
             return Response(OrderedDict([
-            ('code', 200),
-            ('results', [])
-        ]))
+                ('code', 200),
+                ('results', [])
+            ]))
 
         self.queryset = Result.objects.filter(type_id=type_id, user_id=user_id)
         queryset = self.filter_queryset(self.queryset)
@@ -113,6 +115,38 @@ class TotalViewSet(viewsets.ModelViewSet):
             ('results', serializer.data)
         ]))
 
+
+# 结果信息
+@csrf_exempt
+def postResult(request):
+    if request.method == 'POST':
+        data = json.loads(request.body.decode('utf-8'))
+        t = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
+        data['time'] = t
+
+        # 同一班级、关卡，新分数大于原先的分数则保存
+        result = Result.objects.get_or_create(user_id_id=data["user_id_id"], type_id=data["type_id"],
+                                              level_id=data["level_id"])[0]
+        print(data["point"])
+        print(result.point)
+        if data["point"] > result.point:
+            print("============")
+            curPoint = result.point
+            result.point = data["point"]
+            result.star = data["star"]
+            result.time = data["time"]
+            result.save()
+            # 总分 先减去当前保存 再加上最新的分数
+            total = Total.objects.get_or_create(user_id_id=data["user_id_id"], type_id=data["type_id"])[0]
+            total.score -= curPoint
+            total.score += data["point"]
+            total.save()
+
+        res = "{ \"code\":" + "200" + ",\"result\":" + "\"提交成功\"}"
+    return JsonResponse(res, safe=False)
+
+
+# ===================================================================================================================
 # 获取openid
 def getOpenId(request):
     jscode = request.GET.get('code')
@@ -140,31 +174,30 @@ def postUserInfo(request):
     return JsonResponse(None, safe=False)
 
 
-# 结果信息
+# 小学题目
+class QuestionViewSet(viewsets.ModelViewSet):
+    queryset = Question.objects.all()
+    serializer_class = QuestionSerializer
+
+    def list(self, request, *args, **kwargs):
+        try:
+            # 随机获取10条
+            queryset = Question.objects.order_by("?")[:10]
+            serializer = self.get_serializer(queryset, many=True)
+            return Response(OrderedDict([
+                ('code', 200),
+                ('results', serializer.data)
+            ]))
+        except:
+            return Response(OrderedDict([
+                ('code', 500),
+                ('results', None)
+            ]))
+
+
+# 上传结果
 @csrf_exempt
-def postResult(request):
+def postPoint(request):
     if request.method == 'POST':
-        data = json.loads(request.body.decode('utf-8'))
-        t = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
-        data['time'] = t
-
-        # 同一班级、关卡，新分数大于原先的分数则保存
-        result = Result.objects.get_or_create(user_id_id=data["user_id_id"], type_id=data["type_id"], level_id=data["level_id"])[0]
-        print(data["point"])
-        print(result.point)
-        if data["point"] > result.point:
-            print("============")
-            curPoint = result.point
-            result.point = data["point"]
-            result.star = data["star"]
-            result.time = data["time"]
-            result.save()
-            # 总分 先减去当前保存 再加上最新的分数
-            total = Total.objects.get_or_create(user_id_id=data["user_id_id"], type_id=data["type_id"])[0]
-            total.score -= curPoint
-            total.score += data["point"]
-            total.save()
-
-
-        res = "{ \"code\":" + "200" + ",\"result\":" + "\"提交成功\"}"
-    return JsonResponse(res, safe=False)
+        pass
+    return JsonResponse(None, safe=False)

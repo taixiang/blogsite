@@ -107,3 +107,66 @@ class Total(models.Model):
 
     def __str__(self):
         return str(self.score)
+
+
+# 小学 新题目
+class Question(models.Model):
+    title = models.TextField("题目", blank=True, default="")
+    optA = models.CharField("选项A", blank=True, default="", max_length=400)
+    optB = models.CharField("选项B", blank=True, default="", max_length=400)
+    optC = models.CharField("选项C", blank=True, default="", max_length=400)
+    optD = models.CharField("选项D", blank=True, default="", max_length=400)
+    point = models.CharField("考点", blank=True, default="", max_length=400)
+    correct = models.CharField("答案", max_length=4, choices=(("1", "A"), ("2", "B"), ("3", "C"), ("4", "D")))
+    analyze = models.TextField("解析", blank=True, default="")
+    type_id = models.IntegerField("年级", choices=class_type)
+
+    class Meta:
+        verbose_name = "小学题目"
+        verbose_name_plural = "小学题目"
+
+
+# 初中 新题目
+class QuestionM(models.Model):
+    title = models.TextField("题目", blank=True, default="")
+    optA = models.CharField("选项A", blank=True, default="", max_length=400)
+    optB = models.CharField("选项B", blank=True, default="", max_length=400)
+    optC = models.CharField("选项C", blank=True, default="", max_length=400)
+    optD = models.CharField("选项D", blank=True, default="", max_length=400)
+    point = models.CharField("考点", blank=True, default="", max_length=400)
+    correct = models.CharField("答案", max_length=4, choices=(("1", "A"), ("2", "B"), ("3", "C"), ("4", "D")))
+    analyze = models.TextField("解析", blank=True, default="")
+    type_id = models.IntegerField("年级", choices=class_type)
+
+    class Meta:
+        verbose_name = "初中题目"
+        verbose_name_plural = "初中题目"
+
+
+# 答对数目
+class Score(models.Model):
+    point = models.IntegerField("答对数目", default=0)
+    type_id = models.IntegerField("年级", choices=class_type)
+    user_id = models.ForeignKey(UserInfo, to_field="openId", blank=True, default="")
+    time = models.CharField("时间", max_length=150, blank=True, default="")
+    wrong = models.TextField("答错的题目集合", blank=True, default="")
+
+
+# 纠错信息
+class ErrorInfo(models.Model):
+    user_id = models.ForeignKey(UserInfo, to_field="openId", blank=True, default="")
+    type_id = models.IntegerField("年级", choices=class_type)
+    qId = models.IntegerField("题目id")
+    content = models.TextField("内容", default="", blank=True)
+    time = models.CharField("时间", max_length=150, blank=True, default="")
+
+    class Meta:
+        verbose_name = "纠错信息"
+        verbose_name_plural = "纠错信息"
+
+
+# 意见反馈
+class Advice(models.Model):
+    content = models.TextField("意见反馈", blank=True, default="")
+    user_id = models.ForeignKey(UserInfo, to_field="openId", blank=True, default="")
+    time = models.CharField("时间", max_length=150, blank=True, default="")
