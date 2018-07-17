@@ -5,7 +5,7 @@ import xlsxwriter
 
 driverOptions = webdriver.ChromeOptions()
 # C:\Users\Administrator\AppData\Local\Google\Chrome\User Data   /Users/tx/Library/Caches/Google/Chrome
-driverOptions.add_argument(r"user-data-dir=C:\Users\Administrator\AppData\Local\Google\Chrome\User Data")
+driverOptions.add_argument(r"user-data-dir=/Users/tx/Library/Caches/Google/Chrome")
 driver = webdriver.Chrome("chromedriver", 0, driverOptions)
 driver.get("http://oldzujuan.21cnjy.com/index.php?mod=frame&xd=1&xk=2")
 # 获取当前窗口句柄（窗口A）
@@ -67,6 +67,10 @@ sheet.set_column(5, 5, 24)
 sheet.set_column(7, 7, 34)
 
 while True:
+
+    if cur_num == 2:
+        break
+
     # 页面元素
     content = BeautifulSoup(driver.page_source, "lxml")
     tList = content.find("div", class_="tList")
@@ -91,7 +95,7 @@ while True:
         if other_sel is not None:
             print("多余的题目====================")
             continue
-        tds = div_selector.table.tbody.tr.find_all("td")
+        tds = div_selector.table.tbody.find_all("td")
         print("选项-----------------------------------")
         opts = [""] * 4
         for td_i, td in enumerate(tds):
