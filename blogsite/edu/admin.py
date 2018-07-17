@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import ClassType, Mission, Ques
+from .models import ClassType, Mission, Ques, UserInfo, Result, Total
 
 
 # Register your models here.
@@ -20,3 +20,6 @@ class QuesAdmin(admin.ModelAdmin):
 admin.site.register(ClassType)
 admin.site.register(Mission, MissionAdmin)
 admin.site.register(Ques, QuesAdmin)
+admin.site.register(UserInfo)
+admin.site.register(Result)
+admin.site.register(Total)

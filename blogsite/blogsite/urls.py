@@ -35,6 +35,8 @@ urlpatterns = [
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^api/', include(router.urls)),
     url(r'^edu/', include('edu.urls', namespace='edu', app_name='edu')),
+    url(r'^love/', include('love.urls', namespace="love", app_name="love")),
+
 ]
 
 if settings.DEBUG:
