@@ -149,7 +149,15 @@ class Score(models.Model):
     type_id = models.IntegerField("年级", choices=class_type)
     user_id = models.ForeignKey(UserInfo, to_field="openId", blank=True, default="")
     time = models.CharField("时间", max_length=150, blank=True, default="")
-    wrong = models.TextField("答错的题目集合", blank=True, default="")
+
+
+# 错题表 用户id 题目id 答题情况
+class WrongQues(models.Model):
+    user_id = models.ForeignKey(UserInfo, to_field="openId", blank=True, default="")
+    type_id = models.IntegerField("年级", choices=class_type)
+    qId = models.IntegerField("题目id")
+    answer = models.CharField("回答", max_length=4, blank=True, default="")
+    time = models.CharField("时间", max_length=150, blank=True, default="")
 
 
 # 纠错信息

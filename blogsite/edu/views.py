@@ -3,9 +3,9 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework import viewsets
 from rest_framework.response import Response
 from collections import OrderedDict
-from .models import Mission, ClassType, Ques, UserInfo, Result, Total, Question
+from .models import Mission, ClassType, Ques, UserInfo, Result, Total, Question, Score, WrongQues
 from .serializer import MissionSerializer, QuesSerializer, ResultSerializer, \
-    TotalSerializer, QuestionSerializer
+    TotalSerializer, QuestionSerializer, RankSerializer
 import json
 import time
 from django.http import JsonResponse, HttpResponse
@@ -199,5 +199,49 @@ class QuestionViewSet(viewsets.ModelViewSet):
 @csrf_exempt
 def postPoint(request):
     if request.method == 'POST':
-        pass
-    return JsonResponse(None, safe=False)
+        data = json.loads(request.body.decode('utf-8'))
+        t = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
+        data["time"] = t
+        # 答对提交
+        score = Score.objects.get_or_create(user_id_id=data["user_id_id"], type_id=data["type_id"])[0]
+        score.point += data["point"]
+        score.time = data["time"]
+        score.save()
+
+        # 错题收集
+        wrongs = data["wrongs"]
+        answers = data["answers"]
+        wrong_list = wrongs.split(",")
+        answer_list = answers.split(",")
+        for i, w in enumerate(wrong_list):
+            wq = WrongQues(user_id_id=data["user_id_id"], type_id=data["type_id"])
+            wq.qId = wrong_list[i]
+            wq.answer = answer_list[i]
+            wq.time = data["time"]
+            wq.save()
+
+    res = "{ \"code\":" + "200" + ",\"result\":" + "\"提交成功\"}"
+    return JsonResponse(res, safe=False)
+
+
+# 新排行榜
+class RankViewSet(viewsets.ModelViewSet):
+    queryset = Score.objects.all()
+    serializer_class = RankSerializer
+
+    def list(self, request, *args, **kwargs):
+        print("=========")
+        type_id = request.GET.get('type_id')
+
+        self.queryset = Score.objects.filter(type_id=type_id).order_by("-point")
+        queryset = self.filter_queryset(self.queryset)
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(OrderedDict([
+            ('code', 200),
+            ('results', serializer.data)
+        ]))
+
+# 错题集
+class WrongViewSet(viewsets.ModelViewSet):
+    queryset = WrongQues.objects.all()
+    # serializer_class =
