@@ -5,7 +5,7 @@ import xlsxwriter
 
 driverOptions = webdriver.ChromeOptions()
 # C:\Users\Administrator\AppData\Local\Google\Chrome\User Data   /Users/tx/Library/Caches/Google/Chrome
-driverOptions.add_argument(r"user-data-dir=C:\Users\Administrator\AppData\Local\Google\Chrome\User Data")
+driverOptions.add_argument(r"user-data-dir=/Users/tx/Library/Caches/Google/Chrome")
 driver = webdriver.Chrome("chromedriver", 0, driverOptions)
 driver.get("http://oldzujuan.21cnjy.com/index.php?mod=frame&xd=1&xk=2")
 # 获取当前窗口句柄（窗口A）
@@ -47,9 +47,9 @@ driver.find_element_by_name("QuestType_1").click()
 time.sleep(5)
 
 # 当前页码
-cur_num = 43
+cur_num = 58
 
-for i in range(7):
+for i in range(10):
     page = "[title='转到第%d页']" % (9 + 5 * i)
     driver.find_element_by_css_selector(page).click()
     time.sleep(10)
@@ -78,15 +78,15 @@ for i in range(7):
 # driver.find_element_by_css_selector(page2).click()
 # time.sleep(2)
 
-page3 = "[title='转到第%d页']" % cur_num
-driver.find_element_by_css_selector(page3).click()
-time.sleep(10)
+# page3 = "[title='转到第%d页']" % cur_num
+# driver.find_element_by_css_selector(page3).click()
+# time.sleep(10)
 
 # 记录空题目
 file_empty = open('empty.txt', 'a', encoding='utf-8')
 
 # 创建excel表格
-file = xlsxwriter.Workbook("yuwen4.xlsx")
+file = xlsxwriter.Workbook("yuwen6.xlsx")
 # 创建工作表
 sheet = file.add_worksheet()
 headers = ["题目", "A", "B", "C", "D", "考点", "正确答案", "分析"]
