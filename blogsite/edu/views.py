@@ -210,15 +210,18 @@ def postPoint(request):
 
         # 错题收集
         wrongs = data["wrongs"]
-        answers = data["answers"]
-        wrong_list = wrongs.split(",")
-        answer_list = answers.split(",")
-        for i, w in enumerate(wrong_list):
-            wq = WrongQues(user_id_id=data["user_id_id"], type_id=data["type_id"])
-            wq.qId = wrong_list[i]
-            wq.answer = answer_list[i]
-            wq.time = data["time"]
-            wq.save()
+        if len(wrongs) > 0:
+            print("========错题")
+            print(wrongs)
+            answers = data["answers"]
+            wrong_list = wrongs.split(",")
+            answer_list = answers.split(",")
+            for i, w in enumerate(wrong_list):
+                wq = WrongQues(user_id_id=data["user_id_id"], type_id=data["type_id"])
+                wq.qId = wrong_list[i]
+                wq.answer = answer_list[i]
+                wq.time = data["time"]
+                wq.save()
 
     res = "{ \"code\":" + "200" + ",\"result\":" + "\"提交成功\"}"
     return JsonResponse(res, safe=False)

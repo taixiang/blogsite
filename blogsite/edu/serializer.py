@@ -40,7 +40,7 @@ class TotalSerializer(serializers.ModelSerializer):
 class QuestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Question
-        fields = ("title", "optA", "optB", "optC", "optD", "correct")
+        fields = ("id", "title", "optA", "optB", "optC", "optD", "correct")
 
 
 # 排行榜
