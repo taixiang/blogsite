@@ -3,9 +3,9 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework import viewsets
 from rest_framework.response import Response
 from collections import OrderedDict
-from .models import Mission, ClassType, Ques, UserInfo, Result, Total, Question, Score, WrongQues
+from .models import Mission, ClassType, Ques, UserInfo, Result, Total, Question, Score, WrongQues, ErrorInfo
 from .serializer import MissionSerializer, QuesSerializer, ResultSerializer, \
-    TotalSerializer, QuestionSerializer, RankSerializer
+    TotalSerializer, QuestionSerializer, RankSerializer, WrongSerializer, ErrorSerializer
 import json
 import time
 from django.http import JsonResponse, HttpResponse
@@ -244,7 +244,32 @@ class RankViewSet(viewsets.ModelViewSet):
             ('results', serializer.data)
         ]))
 
+
 # 错题集
 class WrongViewSet(viewsets.ModelViewSet):
     queryset = WrongQues.objects.all()
-    # serializer_class =
+    serializer_class = WrongSerializer
+
+    def list(self, request, *args, **kwargs):
+        self.queryset = WrongQues.objects.filter(user_id_id="1").filter(type_id=1)
+        queryset = self.filter_queryset(self.queryset)
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(OrderedDict([
+            ('code', 200),
+            ('results', serializer.data)
+        ]))
+
+
+# 纠错
+class ErrorViewSet(viewsets.ModelViewSet):
+    queryset = ErrorInfo.objects.all()
+    serializer_class = ErrorSerializer
+
+    def list(self, request, *args, **kwargs):
+        self.queryset = ErrorInfo.objects.filter(user_id_id="1").filter(type_id=1)
+        queryset = self.filter_queryset(self.queryset)
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(OrderedDict([
+            ('code', 200),
+            ('results', serializer.data)
+        ]))

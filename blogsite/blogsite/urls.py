@@ -29,6 +29,8 @@ router.register(r'result', edu_view.ResultViewSet, base_name='result')
 router.register(r'total', edu_view.TotalViewSet, base_name='total')
 router.register(r'p_ques', edu_view.QuestionViewSet, base_name='p_ques')
 router.register(r'rank', edu_view.RankViewSet, base_name='rank')
+router.register(r'wrongQues', edu_view.WrongViewSet, base_name='wrongQues')
+router.register(r'error', edu_view.ErrorViewSet, base_name='error')
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),

@@ -159,6 +159,11 @@ class WrongQues(models.Model):
     answer = models.CharField("回答", max_length=4, blank=True, default="")
     time = models.CharField("时间", max_length=150, blank=True, default="")
 
+    class Meta:
+        verbose_name = "错题集"
+        verbose_name_plural = "错题集"
+        ordering = ["-time"]
+
 
 # 纠错信息
 class ErrorInfo(models.Model):
@@ -171,6 +176,8 @@ class ErrorInfo(models.Model):
     class Meta:
         verbose_name = "纠错信息"
         verbose_name_plural = "纠错信息"
+        ordering = ["-time"]
+
 
 
 # 意见反馈

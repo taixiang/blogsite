@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from .models import Mission, ClassType, Ques, UserInfo, Result, Total, Question,Score
+from .models import Mission, ClassType, Ques, UserInfo, Result, Total, Question, Score, WrongQues, QuestionM, ErrorInfo
+from django.forms.models import model_to_dict
 
 
 class SubCateSerializer(serializers.ModelSerializer):
@@ -51,5 +52,36 @@ class RankSerializer(serializers.ModelSerializer):
         model = Score
         fields = ("point", "type_id", "user_id")
 
-# #错题集
-# class WrongSerializer(serializers.ModelSerializer)
+
+# 错题集
+class WrongSerializer(serializers.ModelSerializer):
+    pId = serializers.SerializerMethodField("getQues")
+
+    class Meta:
+        model = WrongQues
+        fields = ("answer", "pId")
+
+    def getQues(self, obj):
+        if obj.type_id == 1:
+            queryset = Question.objects.get(id=obj.qId)
+        else:
+            queryset = QuestionM.objects.get(id=obj.qId)
+        content = model_to_dict(queryset)
+        return content
+
+
+# 纠错
+class ErrorSerializer(serializers.ModelSerializer):
+    pId = serializers.SerializerMethodField("getQues")
+
+    class Meta:
+        model = ErrorInfo
+        fields = ("content", "pId")
+
+    def getQues(self, obj):
+        if obj.type_id == 1:
+            queryset = Question.objects.get(id=obj.qId)
+        else:
+            queryset = QuestionM.objects.get(id=obj.qId)
+        content = model_to_dict(queryset)
+        return content
