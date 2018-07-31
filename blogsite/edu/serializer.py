@@ -59,7 +59,7 @@ class WrongSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = WrongQues
-        fields = ("answer", "pId")
+        fields = ("id","answer", "pId")
 
     def getQues(self, obj):
         if obj.type_id == 1:

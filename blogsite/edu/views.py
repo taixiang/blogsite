@@ -251,7 +251,9 @@ class WrongViewSet(viewsets.ModelViewSet):
     serializer_class = WrongSerializer
 
     def list(self, request, *args, **kwargs):
-        self.queryset = WrongQues.objects.filter(user_id_id="1").filter(type_id=1)
+        type_id = request.GET.get('type_id')
+        user_id_id = request.GET.get('user_id')
+        self.queryset = WrongQues.objects.filter(user_id_id=user_id_id).filter(type_id=type_id)
         queryset = self.filter_queryset(self.queryset)
         serializer = self.get_serializer(queryset, many=True)
         return Response(OrderedDict([
