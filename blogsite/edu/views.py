@@ -226,6 +226,21 @@ def postPoint(request):
     res = "{ \"code\":" + "200" + ",\"result\":" + "\"提交成功\"}"
     return JsonResponse(res, safe=False)
 
+# 纠错信息
+@csrf_exempt
+def postError(request):
+    print("===================")
+    if request.method == 'POST':
+        data = json.loads(request.body.decode('utf-8'))
+        t = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
+        data["time"] = t
+
+        ErrorInfo(**data).save()
+        result = "{ \"code\":" + "200" + ",\"result\":" + "\"提交成功\"}"
+
+    return JsonResponse(result, safe=False)
+
+
 
 # 新排行榜
 class RankViewSet(viewsets.ModelViewSet):
@@ -268,7 +283,9 @@ class ErrorViewSet(viewsets.ModelViewSet):
     serializer_class = ErrorSerializer
 
     def list(self, request, *args, **kwargs):
-        self.queryset = ErrorInfo.objects.filter(user_id_id="1").filter(type_id=1)
+        type_id = request.GET.get('type_id')
+        user_id_id = request.GET.get('user_id')
+        self.queryset = ErrorInfo.objects.filter(user_id_id=user_id_id).filter(type_id=type_id)
         queryset = self.filter_queryset(self.queryset)
         serializer = self.get_serializer(queryset, many=True)
         return Response(OrderedDict([
