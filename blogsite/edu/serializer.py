@@ -76,7 +76,7 @@ class ErrorSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ErrorInfo
-        fields = ("content", "pId")
+        fields = ("id","content", "pId")
 
     def getQues(self, obj):
         if obj.type_id == 1:

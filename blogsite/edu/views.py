@@ -3,7 +3,8 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework import viewsets
 from rest_framework.response import Response
 from collections import OrderedDict
-from .models import Mission, ClassType, Ques, UserInfo, Result, Total, Question, Score, WrongQues, ErrorInfo
+from .models import Mission, ClassType, Ques, UserInfo, Result, Total, Question,\
+    Score, WrongQues, ErrorInfo, Advice
 from .serializer import MissionSerializer, QuesSerializer, ResultSerializer, \
     TotalSerializer, QuestionSerializer, RankSerializer, WrongSerializer, ErrorSerializer
 import json
@@ -292,3 +293,15 @@ class ErrorViewSet(viewsets.ModelViewSet):
             ('code', 200),
             ('results', serializer.data)
         ]))
+
+@csrf_exempt
+def postAdvice(request):
+    if request.method == 'POST':
+        data = json.loads(request.body.decode('utf-8'))
+        t = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
+        data["time"] = t
+
+        Advice(**data).save()
+        result = "{ \"code\":" + "200" + ",\"result\":" + "\"提交成功\"}"
+
+    return JsonResponse(result, safe=False)

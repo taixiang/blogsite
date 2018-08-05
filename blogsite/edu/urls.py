@@ -8,5 +8,6 @@ urlpatterns = [
     url(r'^getOpenId', views.getOpenId, name='getOpenId'),
     url(r'^postPoint', views.postPoint, name='postPoint'),
     url(r'^postError', views.postError, name='postError'),
+    url(r'^postAdvice', views.postAdvice, name='postAdvice'),
 
 ]
