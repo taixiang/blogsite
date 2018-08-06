@@ -262,6 +262,9 @@ class RankViewSet(viewsets.ModelViewSet):
                 serializer = self.get_serializer(page, many=True)
                 return Response(OrderedDict([
                     ('code', 200),
+                    ('count', self.paginator.page.paginator.count),
+                    ('next', self.paginator.get_next_link()),
+                    ('previous', self.paginator.get_previous_link()),
                     ('results', serializer.data)
                 ]))
 
@@ -279,6 +282,7 @@ class RankViewSet(viewsets.ModelViewSet):
 
 # 错题集
 class WrongViewSet(viewsets.ModelViewSet):
+    pagination_class = ResultPagination
     queryset = WrongQues.objects.all()
     serializer_class = WrongSerializer
 
@@ -288,6 +292,16 @@ class WrongViewSet(viewsets.ModelViewSet):
             user_id_id = request.GET.get('user_id')
             self.queryset = WrongQues.objects.filter(user_id_id=user_id_id).filter(type_id=type_id)
             queryset = self.filter_queryset(self.queryset)
+            page = self.paginate_queryset(queryset)
+            if page is not None:
+                serializer = self.get_serializer(page, many=True)
+                return Response(OrderedDict([
+                    ('code', 200),
+                    ('count', self.paginator.page.paginator.count),
+                    ('next', self.paginator.get_next_link()),
+                    ('previous', self.paginator.get_previous_link()),
+                    ('results', serializer.data)
+                ]))
             serializer = self.get_serializer(queryset, many=True)
             return Response(OrderedDict([
                 ('code', 200),
@@ -302,6 +316,7 @@ class WrongViewSet(viewsets.ModelViewSet):
 
 # 纠错
 class ErrorViewSet(viewsets.ModelViewSet):
+    pagination_class = ResultPagination
     queryset = ErrorInfo.objects.all()
     serializer_class = ErrorSerializer
 
@@ -311,6 +326,16 @@ class ErrorViewSet(viewsets.ModelViewSet):
             user_id_id = request.GET.get('user_id')
             self.queryset = ErrorInfo.objects.filter(user_id_id=user_id_id).filter(type_id=type_id)
             queryset = self.filter_queryset(self.queryset)
+            page = self.paginate_queryset(queryset)
+            if page is not None:
+                serializer = self.get_serializer(page, many=True)
+                return Response(OrderedDict([
+                    ('code', 200),
+                    ('count', self.paginator.page.paginator.count),
+                    ('next', self.paginator.get_next_link()),
+                    ('previous', self.paginator.get_previous_link()),
+                    ('results', serializer.data)
+                ]))
             serializer = self.get_serializer(queryset, many=True)
             return Response(OrderedDict([
                 ('code', 200),
