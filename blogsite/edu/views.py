@@ -3,10 +3,10 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework import viewsets
 from rest_framework.response import Response
 from collections import OrderedDict
-from .models import Mission, ClassType, Ques, UserInfo, Result, Total, Question,\
+from .models import Mission, ClassType, Ques, UserInfo, Result, Total, Question, \
     Score, WrongQues, ErrorInfo, Advice
 from .serializer import MissionSerializer, QuesSerializer, ResultSerializer, \
-    TotalSerializer, QuestionSerializer, RankSerializer, WrongSerializer, ErrorSerializer
+    TotalSerializer, QuestionSerializer, RankSerializer, WrongSerializer, ErrorSerializer, ResultPagination
 import json
 import time
 from django.http import JsonResponse, HttpResponse
@@ -227,6 +227,7 @@ def postPoint(request):
     res = "{ \"code\":" + "200" + ",\"result\":" + "\"提交成功\"}"
     return JsonResponse(res, safe=False)
 
+
 # 纠错信息
 @csrf_exempt
 def postError(request):
@@ -242,23 +243,38 @@ def postError(request):
     return JsonResponse(result, safe=False)
 
 
-
 # 新排行榜
 class RankViewSet(viewsets.ModelViewSet):
+    pagination_class = ResultPagination
     queryset = Score.objects.all()
     serializer_class = RankSerializer
 
     def list(self, request, *args, **kwargs):
-        print("=========")
-        type_id = request.GET.get('type_id')
+        try:
+            print("=========")
+            type_id = request.GET.get('type_id')
 
-        self.queryset = Score.objects.filter(type_id=type_id).order_by("-point")
-        queryset = self.filter_queryset(self.queryset)
-        serializer = self.get_serializer(queryset, many=True)
-        return Response(OrderedDict([
-            ('code', 200),
-            ('results', serializer.data)
-        ]))
+            self.queryset = Score.objects.filter(type_id=type_id).order_by("-point")
+            queryset = self.filter_queryset(self.queryset)
+            page = self.paginate_queryset(queryset)
+            if page is not None:
+
+                serializer = self.get_serializer(page, many=True)
+                return Response(OrderedDict([
+                    ('code', 200),
+                    ('results', serializer.data)
+                ]))
+
+            serializer = self.get_serializer(queryset, many=True)
+            return Response(OrderedDict([
+                ('code', 200),
+                ('results', serializer.data)
+            ]))
+        except:
+            return Response(OrderedDict([
+                ('code', 500),
+                ('results', None)
+            ]))
 
 
 # 错题集
@@ -267,15 +283,21 @@ class WrongViewSet(viewsets.ModelViewSet):
     serializer_class = WrongSerializer
 
     def list(self, request, *args, **kwargs):
-        type_id = request.GET.get('type_id')
-        user_id_id = request.GET.get('user_id')
-        self.queryset = WrongQues.objects.filter(user_id_id=user_id_id).filter(type_id=type_id)
-        queryset = self.filter_queryset(self.queryset)
-        serializer = self.get_serializer(queryset, many=True)
-        return Response(OrderedDict([
-            ('code', 200),
-            ('results', serializer.data)
-        ]))
+        try:
+            type_id = request.GET.get('type_id')
+            user_id_id = request.GET.get('user_id')
+            self.queryset = WrongQues.objects.filter(user_id_id=user_id_id).filter(type_id=type_id)
+            queryset = self.filter_queryset(self.queryset)
+            serializer = self.get_serializer(queryset, many=True)
+            return Response(OrderedDict([
+                ('code', 200),
+                ('results', serializer.data)
+            ]))
+        except:
+            return Response(OrderedDict([
+                ('code', 500),
+                ('results', None)
+            ]))
 
 
 # 纠错
@@ -284,15 +306,22 @@ class ErrorViewSet(viewsets.ModelViewSet):
     serializer_class = ErrorSerializer
 
     def list(self, request, *args, **kwargs):
-        type_id = request.GET.get('type_id')
-        user_id_id = request.GET.get('user_id')
-        self.queryset = ErrorInfo.objects.filter(user_id_id=user_id_id).filter(type_id=type_id)
-        queryset = self.filter_queryset(self.queryset)
-        serializer = self.get_serializer(queryset, many=True)
-        return Response(OrderedDict([
-            ('code', 200),
-            ('results', serializer.data)
-        ]))
+        try:
+            type_id = request.GET.get('type_id')
+            user_id_id = request.GET.get('user_id')
+            self.queryset = ErrorInfo.objects.filter(user_id_id=user_id_id).filter(type_id=type_id)
+            queryset = self.filter_queryset(self.queryset)
+            serializer = self.get_serializer(queryset, many=True)
+            return Response(OrderedDict([
+                ('code', 200),
+                ('results', serializer.data)
+            ]))
+        except:
+            return Response(OrderedDict([
+                ('code', 500),
+                ('results', None)
+            ]))
+
 
 @csrf_exempt
 def postAdvice(request):

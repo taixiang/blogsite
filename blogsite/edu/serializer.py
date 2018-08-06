@@ -1,7 +1,11 @@
 from rest_framework import serializers
+from rest_framework.pagination import PageNumberPagination
 from .models import Mission, ClassType, Ques, UserInfo, Result, Total, Question, Score, WrongQues, QuestionM, ErrorInfo
 from django.forms.models import model_to_dict
 
+
+class ResultPagination(PageNumberPagination):
+    page_size = 1
 
 class SubCateSerializer(serializers.ModelSerializer):
     class Meta:
