@@ -73,6 +73,9 @@ class UserInfo(models.Model):
         verbose_name = "用户列表"
         verbose_name_plural = "用户列表"
 
+    def __str__(self):
+        return self.nickName
+
 
 # 结果
 class Result(models.Model):
@@ -150,6 +153,11 @@ class Score(models.Model):
     user_id = models.ForeignKey(UserInfo, to_field="openId", blank=True, default="")
     time = models.CharField("时间", max_length=150, blank=True, default="")
 
+    class Meta:
+        verbose_name = "排行榜"
+        verbose_name_plural = "排行榜"
+        ordering = ["-point"]
+
 
 # 错题表 用户id 题目id 答题情况
 class WrongQues(models.Model):
@@ -179,9 +187,13 @@ class ErrorInfo(models.Model):
         ordering = ["-time"]
 
 
-
 # 意见反馈
 class Advice(models.Model):
     content = models.TextField("意见反馈", blank=True, default="")
     user_id = models.ForeignKey(UserInfo, to_field="openId", blank=True, default="")
     time = models.CharField("时间", max_length=150, blank=True, default="")
+
+    class Meta:
+        verbose_name = "意见"
+        verbose_name_plural = "意见"
+        ordering = ["-time"]
