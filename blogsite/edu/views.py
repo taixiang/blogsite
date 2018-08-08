@@ -4,7 +4,7 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from collections import OrderedDict
 from .models import Mission, ClassType, Ques, UserInfo, Result, Total, Question, \
-    Score, WrongQues, ErrorInfo, Advice
+    Score, WrongQues, ErrorInfo, Advice, QuestionM
 from .serializer import MissionSerializer, QuesSerializer, ResultSerializer, \
     TotalSerializer, QuestionSerializer, RankSerializer, WrongSerializer, ErrorSerializer, ResultPagination
 import json
@@ -196,6 +196,27 @@ class QuestionViewSet(viewsets.ModelViewSet):
             ]))
 
 
+# 初中题目
+class QuestionMViewSet(viewsets.ModelViewSet):
+    queryset = QuestionM.objects.all()
+    serializer_class = QuestionSerializer
+
+    def list(self, request, *args, **kwargs):
+        try:
+            # 随机获取10条
+            queryset = QuestionM.objects.order_by("?")[:10]
+            serializer = self.get_serializer(queryset, many=True)
+            return Response(OrderedDict([
+                ('code', 200),
+                ('results', serializer.data)
+            ]))
+        except:
+            return Response(OrderedDict([
+                ('code', 500),
+                ('results', None)
+            ]))
+
+
 # 上传结果
 @csrf_exempt
 def postPoint(request):
@@ -258,7 +279,6 @@ class RankViewSet(viewsets.ModelViewSet):
             queryset = self.filter_queryset(self.queryset)
             page = self.paginate_queryset(queryset)
             if page is not None:
-
                 serializer = self.get_serializer(page, many=True)
                 return Response(OrderedDict([
                     ('code', 200),

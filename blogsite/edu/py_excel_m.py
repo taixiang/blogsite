@@ -4,9 +4,9 @@ import django
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "blogsite.settings")
 django.setup()
-from edu.models import Question
+from edu.models import QuestionM
 
-data = xlrd.open_workbook("./all.xlsx")
+data = xlrd.open_workbook("../yuwen_m.xlsx")
 table = data.sheets()[0]
 nRow = table.nrows
 nCol = table.ncols
@@ -20,7 +20,7 @@ for i in range(1, nRow):
         if len(r[6]) <= 0:
             print(str(i))
             file_empty.write("第" + str(i) + "行")
-        ques = Question()
+        ques = QuestionM()
         ques.title = r[0]
         ques.optA = r[1]
         ques.optB = r[2]
