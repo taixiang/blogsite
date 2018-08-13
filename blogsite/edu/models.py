@@ -120,7 +120,7 @@ class Question(models.Model):
     optC = models.CharField("选项C", blank=True, default="", max_length=400)
     optD = models.CharField("选项D", blank=True, default="", max_length=400)
     point = models.CharField("考点", blank=True, default="", max_length=400)
-    correct = models.CharField("答案", max_length=4, choices=(("1", "A"), ("2", "B"), ("3", "C"), ("4", "D")))
+    correct = models.CharField("答案", max_length=4)
     analyze = models.TextField("解析", blank=True, default="")
     type_id = models.IntegerField("年级", choices=class_type)
 
@@ -137,7 +137,7 @@ class QuestionM(models.Model):
     optC = models.CharField("选项C", blank=True, default="", max_length=400)
     optD = models.CharField("选项D", blank=True, default="", max_length=400)
     point = models.CharField("考点", blank=True, default="", max_length=400)
-    correct = models.CharField("答案", max_length=4, choices=(("1", "A"), ("2", "B"), ("3", "C"), ("4", "D")))
+    correct = models.CharField("答案", max_length=4)
     analyze = models.TextField("解析", blank=True, default="")
     type_id = models.IntegerField("年级", choices=class_type)
 

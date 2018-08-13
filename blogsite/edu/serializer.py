@@ -47,6 +47,12 @@ class QuestionSerializer(serializers.ModelSerializer):
         model = Question
         fields = ("id", "title", "optA", "optB", "optC", "optD", "correct")
 
+# 初中题目
+class QuestionMSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = QuestionM
+        fields = ("id", "title", "optA", "optB", "optC", "optD", "correct")
+
 
 # 排行榜
 class RankSerializer(serializers.ModelSerializer):

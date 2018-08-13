@@ -6,7 +6,8 @@ from collections import OrderedDict
 from .models import Mission, ClassType, Ques, UserInfo, Result, Total, Question, \
     Score, WrongQues, ErrorInfo, Advice, QuestionM
 from .serializer import MissionSerializer, QuesSerializer, ResultSerializer, \
-    TotalSerializer, QuestionSerializer, RankSerializer, WrongSerializer, ErrorSerializer, ResultPagination
+    TotalSerializer, QuestionSerializer, RankSerializer, WrongSerializer, ErrorSerializer, ResultPagination, \
+    QuestionMSerializer
 import json
 import time
 from django.http import JsonResponse, HttpResponse
@@ -199,7 +200,7 @@ class QuestionViewSet(viewsets.ModelViewSet):
 # 初中题目
 class QuestionMViewSet(viewsets.ModelViewSet):
     queryset = QuestionM.objects.all()
-    serializer_class = QuestionSerializer
+    serializer_class = QuestionMSerializer
 
     def list(self, request, *args, **kwargs):
         try:
