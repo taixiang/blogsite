@@ -5,7 +5,7 @@ from django.forms.models import model_to_dict
 
 
 class ResultPagination(PageNumberPagination):
-    page_size = 1
+    page_size = 15
 
 class SubCateSerializer(serializers.ModelSerializer):
     class Meta:
