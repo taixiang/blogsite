@@ -40,6 +40,7 @@ class Me(models.Model):
     juejin = models.CharField("掘金", max_length=150)
     zhihu = models.CharField("知乎", max_length=150)
     jianshu = models.CharField("简书", max_length=150)
+    count = models.IntegerField("次数", default=0)
 
     def __str__(self):
         return self.name

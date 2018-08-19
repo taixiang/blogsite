@@ -74,4 +74,7 @@ def category_detail(request, type_id):
 
 def about(request):
     me = Me.objects.all()
+    me_first = me[0]
+    me_first.count +=1
+    me_first.save()
     return render(request, "about.html", {"msg": me[0]})
