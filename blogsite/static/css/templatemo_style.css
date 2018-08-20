@@ -200,7 +200,7 @@ a.menu-toggle-btn {
 	height: 46px;
 	background: #b69e40;
 	position: relative;
-	background: url(../images/templatemo_teamhexa.png) no-repeat;
+	background: url(../img/stu/templatemo_teamhexa.png) no-repeat;
 	margin-bottom: 10px;
 }
 .smallhexagon:before {
@@ -373,10 +373,10 @@ a.menu-toggle-btn {
     width: 46px;
 	height: 40px;
 	position: relative;
-    background: url(../images/templatemo_footerhexa.png) no-repeat;
+    background: url(../img/stu/templatemo_footerhexa.png) no-repeat;
 }
 
- a:hover .hex_footer{ background: url(../images/templatemo_teamhexa_hover.png) no-repeat; }
+ a:hover .hex_footer{ background: url(../img/stu/templatemo_teamhexa_hover.png) no-repeat; }
 
 .hex_footer span.fa{ color: #ffffff; font-size: 16px; line-height: 40px; }
 

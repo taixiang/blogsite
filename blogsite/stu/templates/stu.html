@@ -15,7 +15,7 @@
         <div class="container">
             <div class="row templatemo_gallerygap">
                 <div class="col-md-3 col-sm-12">
-                    <a href="#">11111</a>
+                    <a href="#"></a>
                 </div>
             </div> <!-- /.row -->
         </div> <!-- /.container -->
@@ -31,412 +31,245 @@
                 {% for img in imgs %}
 
                 {% if forloop.counter == 1 %}
-                1
+                <div class="hex col-sm-6">
+                    <div>
+                        <div class="hexagon hexagon2 gallery-item">
+                            <div class="hexagon-in1">
+                                <div class="hexagon-in2" style="background-image: url(/upload/{{img.img}});">
+                                    <div class="overlay">
+                                        <a href="/upload/{{img.img}}" data-rel="lightbox"
+                                           class="fa fa-expand"></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 {% elif forloop.counter == 2 %}
-                2
-                {% endif %}
+                <div class="hex col-sm-6">
+                    <div>
+                        <div class="hexagon hexagon2 gallery-item">
+                            <div class="hexagon-in1">
+                                <div class="hexagon-in2" style="background-image: url(/upload/{{img.img}});">
+                                    <div class="overlay">
+                                        <a href="/upload/{{img.img}}" data-rel="lightbox"
+                                           class="fa fa-expand"></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% elif forloop.counter == 3 %}
 
+                <div class="hex col-sm-6  templatemo-hex-top2">
+                    <div>
+                        <div class="hexagon hexagon2 gallery-item">
+                            <div class="hexagon-in1">
+                                <div class="hexagon-in2" style="background-image: url(/upload/{{img.img}});">
+                                    <div class="overlay">
+                                        <a href="/upload/{{img.img}}" data-rel="lightbox"
+                                           class="fa fa-expand"></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {% elif forloop.counter == 4 %}
+                <div class="hex col-sm-6  templatemo-hex-top3">
+                    <div>
+                        <div class="hexagon hexagon2 gallery-item">
+                            <div class="hexagon-in1">
+                                <div class="hexagon-in2" style="background-image: url(/upload/{{img.img}});">
+                                    <div class="overlay">
+                                        <a href="/upload/{{img.img}}" data-rel="lightbox"
+                                           class="fa fa-expand"></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% elif forloop.counter == 5 %}
+                <div class="hex col-sm-6  templatemo-hex-top3">
+                    <div>
+                        <div class="hexagon hexagon2 gallery-item">
+                            <div class="hexagon-in1">
+                                <div class="hexagon-in2" style="background-image: url(/upload/{{img.img}});">
+                                    <div class="overlay">
+                                        <a href="/upload/{{img.img}}" data-rel="lightbox"
+                                           class="fa fa-expand"></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% elif forloop.counter == 6 %}
+                <div class="hex col-sm-6 hex-offset templatemo-hex-top1 templatemo-hex-top2">
+                    <div>
+                        <div class="hexagon hexagon2 gallery-item">
+                            <div class="hexagon-in1">
+                                <div class="hexagon-in2" style="background-image: url(/upload/{{img.img}});">
+                                    <div class="overlay">
+                                        <a href="/upload/{{img.img}}" data-rel="lightbox"
+                                           class="fa fa-expand"></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% elif forloop.counter == 7 %}
+                <div class="hex col-sm-6 templatemo-hex-top1 templatemo-hex-top3">
+                    <div>
+                        <div class="hexagon hexagon2 gallery-item">
+                            <div class="hexagon-in1">
+                                <div class="hexagon-in2" style="background-image: url(/upload/{{img.img}});">
+                                    <div class="overlay">
+                                        <a href="/upload/{{img.img}}" data-rel="lightbox"
+                                           class="fa fa-expand"></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% elif forloop.counter == 8 %}
+                <div class="hex col-sm-6 templatemo-hex-top1  templatemo-hex-top3">
+                    <div>
+                        <div class="hexagon hexagon2 gallery-item">
+                            <div class="hexagon-in1">
+                                <div class="hexagon-in2" style="background-image: url(/upload/{{img.img}});">
+                                    <div class="overlay">
+                                        <a href="/upload/{{img.img}}" data-rel="lightbox" class="fa fa-expand"></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% elif forloop.counter == 9 %}
+                <div class="hex col-sm-6 templatemo-hex-top1  templatemo-hex-top2">
+                    <div>
+                        <div class="hexagon hexagon2 gallery-item">
+                            <div class="hexagon-in1">
+                                <div class="hexagon-in2" style="background-image: url(/upload/{{img.img}});">
+                                    <div class="overlay">
+                                        <a href="/upload/{{img.img}}" data-rel="lightbox" class="fa fa-expand"></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
 
                 {% endfor %}
 
-                <div class="hex col-sm-6">
-                    <div>
-                        <div class="hexagon hexagon2 gallery-item">
-                            <div class="hexagon-in1">
-                                <div class="hexagon-in2" style="background-image: url({% static 'img/stu/1.jpg' %});">
-                                    <div class="overlay">
-                                        <a href="{% static 'img/stu/1.jpg' %}" data-rel="lightbox"
-                                           class="fa fa-expand"></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="hex col-sm-6">
-                    <div>
-                        <div class="hexagon hexagon2 gallery-item">
-                            <div class="hexagon-in1">
-                                <div class="hexagon-in2" style="background-image: url({% static 'img/stu/2.jpg' %});">
-                                    <div class="overlay">
-                                        <a href="{% static 'img/stu/2.jpg' %}" data-rel="lightbox"
-                                           class="fa fa-expand"></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="hex col-sm-6  templatemo-hex-top2">
-                    <div>
-                        <div class="hexagon hexagon2 gallery-item">
-                            <div class="hexagon-in1">
-                                <div class="hexagon-in2" style="background-image: url({% static 'img/stu/3.jpg' %});">
-                                    <div class="overlay">
-                                        <a href="{% static 'img/stu/3.jpg' %}" data-rel="lightbox"
-                                           class="fa fa-expand"></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="hex col-sm-6  templatemo-hex-top3">
-                    <div>
-                        <div class="hexagon hexagon2 gallery-item">
-                            <div class="hexagon-in1">
-                                <div class="hexagon-in2" style="background-image: url({% static 'img/stu/4.jpg' %});">
-                                    <div class="overlay">
-                                        <a href="{% static 'img/stu/4.jpg' %}" data-rel="lightbox"
-                                           class="fa fa-expand"></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="hex col-sm-6  templatemo-hex-top3">
-                    <div>
-                        <div class="hexagon hexagon2 gallery-item">
-                            <div class="hexagon-in1">
-                                <div class="hexagon-in2" style="background-image: url({% static 'img/stu/5.jpg' %});">
-                                    <div class="overlay">
-                                        <a href="{% static 'img/stu/5.jpg' %}" data-rel="lightbox"
-                                           class="fa fa-expand"></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="hex col-sm-6 hex-offset templatemo-hex-top1 templatemo-hex-top2">
-                    <div>
-                        <div class="hexagon hexagon2 gallery-item">
-                            <div class="hexagon-in1">
-                                <div class="hexagon-in2" style="background-image: url({% static 'img/stu/6.jpg' %});">
-                                    <div class="overlay">
-                                        <a href="{% static 'img/stu/6.jpg' %}" data-rel="lightbox"
-                                           class="fa fa-expand"></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="hex col-sm-6 templatemo-hex-top1 templatemo-hex-top3">
-                    <div>
-                        <div class="hexagon hexagon2 gallery-item">
-                            <div class="hexagon-in1">
-                                <div class="hexagon-in2" style="background-image: url({% static 'img/stu/7.jpg' %});">
-                                    <div class="overlay">
-                                        <a href="{% static 'img/stu/7.jpg' %}" data-rel="lightbox"
-                                           class="fa fa-expand"></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="hex col-sm-6 templatemo-hex-top1  templatemo-hex-top3">
-                    <div>
-                        <div class="hexagon hexagon2 gallery-item">
-                            <div class="hexagon-in1">
-                                <div class="hexagon-in2" style="background-image: url(images/gallery/8.jpg);">
-                                    <div class="overlay">
-                                        <a href="images/gallery/8.jpg" data-rel="lightbox" class="fa fa-expand"></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="hex col-sm-6 templatemo-hex-top1  templatemo-hex-top2">
-                    <div>
-                        <div class="hexagon hexagon2 gallery-item">
-                            <div class="hexagon-in1">
-                                <div class="hexagon-in2" style="background-image: url(images/gallery/9.jpg);">
-                                    <div class="overlay">
-                                        <a href="images/gallery/9.jpg" data-rel="lightbox" class="fa fa-expand"></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
             </div>
         </div>
-        <div id="newpost" class="container answer_list templatemo_gallerytop">
-            <div class="row templatemorow">
-
-
-                <div class="hex col-sm-6">
-                    <div>
-                        <div class="hexagon hexagon2 gallery-item">
-                            <div class="hexagon-in1">
-                                <div class="hexagon-in2" style="background-image: url({% static 'img/stu/1.jpg' %});">
-                                    <div class="overlay">
-                                        <a href="{% static 'img/stu/1.jpg' %}" data-rel="lightbox"
-                                           class="fa fa-expand"></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="hex col-sm-6">
-                    <div>
-                        <div class="hexagon hexagon2 gallery-item">
-                            <div class="hexagon-in1">
-                                <div class="hexagon-in2" style="background-image: url({% static 'img/stu/2.jpg' %});">
-                                    <div class="overlay">
-                                        <a href="{% static 'img/stu/2.jpg' %}" data-rel="lightbox"
-                                           class="fa fa-expand"></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="hex col-sm-6  templatemo-hex-top2">
-                    <div>
-                        <div class="hexagon hexagon2 gallery-item">
-                            <div class="hexagon-in1">
-                                <div class="hexagon-in2" style="background-image: url({% static 'img/stu/3.jpg' %});">
-                                    <div class="overlay">
-                                        <a href="{% static 'img/stu/3.jpg' %}" data-rel="lightbox"
-                                           class="fa fa-expand"></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="hex col-sm-6  templatemo-hex-top3">
-                    <div>
-                        <div class="hexagon hexagon2 gallery-item">
-                            <div class="hexagon-in1">
-                                <div class="hexagon-in2" style="background-image: url({% static 'img/stu/4.jpg' %});">
-                                    <div class="overlay">
-                                        <a href="{% static 'img/stu/4.jpg' %}" data-rel="lightbox"
-                                           class="fa fa-expand"></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="hex col-sm-6  templatemo-hex-top3">
-                    <div>
-                        <div class="hexagon hexagon2 gallery-item">
-                            <div class="hexagon-in1">
-                                <div class="hexagon-in2" style="background-image: url({% static 'img/stu/5.jpg' %});">
-                                    <div class="overlay">
-                                        <a href="{% static 'img/stu/5.jpg' %}" data-rel="lightbox"
-                                           class="fa fa-expand"></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="hex col-sm-6 hex-offset templatemo-hex-top1 templatemo-hex-top2">
-                    <div>
-                        <div class="hexagon hexagon2 gallery-item">
-                            <div class="hexagon-in1">
-                                <div class="hexagon-in2" style="background-image: url({% static 'img/stu/6.jpg' %});">
-                                    <div class="overlay">
-                                        <a href="{% static 'img/stu/6.jpg' %}" data-rel="lightbox"
-                                           class="fa fa-expand"></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="hex col-sm-6 templatemo-hex-top1 templatemo-hex-top3">
-                    <div>
-                        <div class="hexagon hexagon2 gallery-item">
-                            <div class="hexagon-in1">
-                                <div class="hexagon-in2" style="background-image: url({% static 'img/stu/7.jpg' %});">
-                                    <div class="overlay">
-                                        <a href="{% static 'img/stu/7.jpg' %}" data-rel="lightbox"
-                                           class="fa fa-expand"></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="hex col-sm-6 templatemo-hex-top1  templatemo-hex-top3">
-                    <div>
-                        <div class="hexagon hexagon2 gallery-item">
-                            <div class="hexagon-in1">
-                                <div class="hexagon-in2" style="background-image: url(images/gallery/8.jpg);">
-                                    <div class="overlay">
-                                        <a href="images/gallery/8.jpg" data-rel="lightbox" class="fa fa-expand"></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="hex col-sm-6 templatemo-hex-top1  templatemo-hex-top2">
-                    <div>
-                        <div class="hexagon hexagon2 gallery-item">
-                            <div class="hexagon-in1">
-                                <div class="hexagon-in2" style="background-image: url(images/gallery/9.jpg);">
-                                    <div class="overlay">
-                                        <a href="images/gallery/9.jpg" data-rel="lightbox" class="fa fa-expand"></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="newpost1" class="container answer_list templatemo_gallerytop">
-            <div class="row templatemorow">
-
-
-                <div class="hex col-sm-6">
-                    <div>
-                        <div class="hexagon hexagon2 gallery-item">
-                            <div class="hexagon-in1">
-                                <div class="hexagon-in2" style="background-image: url({% static 'img/stu/1.jpg' %});">
-                                    <div class="overlay">
-                                        <a href="{% static 'img/stu/1.jpg' %}" data-rel="lightbox"
-                                           class="fa fa-expand"></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="hex col-sm-6">
-                    <div>
-                        <div class="hexagon hexagon2 gallery-item">
-                            <div class="hexagon-in1">
-                                <div class="hexagon-in2" style="background-image: url({% static 'img/stu/2.jpg' %});">
-                                    <div class="overlay">
-                                        <a href="{% static 'img/stu/2.jpg' %}" data-rel="lightbox"
-                                           class="fa fa-expand"></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="hex col-sm-6  templatemo-hex-top2">
-                    <div>
-                        <div class="hexagon hexagon2 gallery-item">
-                            <div class="hexagon-in1">
-                                <div class="hexagon-in2" style="background-image: url({% static 'img/stu/3.jpg' %});">
-                                    <div class="overlay">
-                                        <a href="{% static 'img/stu/3.jpg' %}" data-rel="lightbox"
-                                           class="fa fa-expand"></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="hex col-sm-6  templatemo-hex-top3">
-                    <div>
-                        <div class="hexagon hexagon2 gallery-item">
-                            <div class="hexagon-in1">
-                                <div class="hexagon-in2" style="background-image: url({% static 'img/stu/4.jpg' %});">
-                                    <div class="overlay">
-                                        <a href="{% static 'img/stu/4.jpg' %}" data-rel="lightbox"
-                                           class="fa fa-expand"></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="hex col-sm-6  templatemo-hex-top3">
-                    <div>
-                        <div class="hexagon hexagon2 gallery-item">
-                            <div class="hexagon-in1">
-                                <div class="hexagon-in2" style="background-image: url({% static 'img/stu/5.jpg' %});">
-                                    <div class="overlay">
-                                        <a href="{% static 'img/stu/5.jpg' %}" data-rel="lightbox"
-                                           class="fa fa-expand"></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="hex col-sm-6 hex-offset templatemo-hex-top1 templatemo-hex-top2">
-                    <div>
-                        <div class="hexagon hexagon2 gallery-item">
-                            <div class="hexagon-in1">
-                                <div class="hexagon-in2" style="background-image: url({% static 'img/stu/6.jpg' %});">
-                                    <div class="overlay">
-                                        <a href="{% static 'img/stu/6.jpg' %}" data-rel="lightbox"
-                                           class="fa fa-expand"></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="hex col-sm-6 templatemo-hex-top1 templatemo-hex-top3">
-                    <div>
-                        <div class="hexagon hexagon2 gallery-item">
-                            <div class="hexagon-in1">
-                                <div class="hexagon-in2" style="background-image: url({% static 'img/stu/7.jpg' %});">
-                                    <div class="overlay">
-                                        <a href="{% static 'img/stu/7.jpg' %}" data-rel="lightbox"
-                                           class="fa fa-expand"></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="hex col-sm-6 templatemo-hex-top1  templatemo-hex-top3">
-                    <div>
-                        <div class="hexagon hexagon2 gallery-item">
-                            <div class="hexagon-in1">
-                                <div class="hexagon-in2" style="background-image: url(images/gallery/8.jpg);">
-                                    <div class="overlay">
-                                        <a href="images/gallery/8.jpg" data-rel="lightbox" class="fa fa-expand"></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="hex col-sm-6 templatemo-hex-top1  templatemo-hex-top2">
-                    <div>
-                        <div class="hexagon hexagon2 gallery-item">
-                            <div class="hexagon-in1">
-                                <div class="hexagon-in2" style="background-image: url(images/gallery/9.jpg);">
-                                    <div class="overlay">
-                                        <a href="images/gallery/9.jpg" data-rel="lightbox" class="fa fa-expand"></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="container">
+        {% if has_next %}
+        <div class="container" id="load_more">
             <div class="row">
-                <div class="templatemo_loadmore">
-                    <button class="gallery_more" id="button" onClick="showhide()">Load More</button>
+                <div class="templatemo_loadmore" id="qqqq">
+                    <button class="gallery_more" id="button" onclick="load()">Load More</button>
                 </div>
             </div>
         </div>
+        {% endif %}
     </div>
-
 </div>
+<script>
+    var moreId= 1;
+    var page = 2
+
+    function load(){
+        console.log("==========111")
+        $.ajax({
+            type:'GET',
+            url:"{% url 'stu:moreImg' %}?page="+page,
+            dataType:'json',
+            success:function(response, status){
+                var data = JSON.parse(response)
+                var style = ""
+                console.log(data)
+
+                if(!data.next){
+                    $("#load_more").css("display","none");
+                }
+
+                page = data.page+1;
+
+                $("#load_more").before('<div class="container answer_list templatemo_gallerytop"> <div id="moreId'+moreId+'" class="row templatemorow"></div> </div> ')
+
+                $.each(data.data,function(i,item){
+                    var imgUrl = "/upload/"+item.fields.img
+                    if(i==0){
+                        style = "hex col-sm-6"
+                    }else if(i==1){
+                        style = "hex col-sm-6"
+                    }else if(i==2){
+                        style = "hex col-sm-6  templatemo-hex-top2"
+                    }else if(i==3){
+                        style = "hex col-sm-6  templatemo-hex-top3"
+                    }else if(i==4){
+                        style = "hex col-sm-6  templatemo-hex-top3"
+                    }else if(i==5){
+                        style = "hex col-sm-6 hex-offset templatemo-hex-top1 templatemo-hex-top2"
+                    }else if(i==6){
+                        style = "hex col-sm-6 templatemo-hex-top1 templatemo-hex-top3"
+                    }else if(i==7){
+                        style = "hex col-sm-6 templatemo-hex-top1 templatemo-hex-top3"
+                    }else if(i==8){
+                        style = "hex col-sm-6 templatemo-hex-top1 templatemo-hex-top2"
+                    }
+
+                    $("#moreId"+moreId).append('<div class="'+style+'">'
+                        + '<div>'
+                        + '<div class="hexagon hexagon2 gallery-item">'
+                        + '<div class="hexagon-in1">'
+                        + '<div class="hexagon-in2" style="background-image: url('+ imgUrl +');"> '
+                        + '<div class="overlay">'
+                        + ' <a href="'+ imgUrl +'" data-rel="lightbox" class="fa fa-expand"></a> '
+                        + '</div>'
+                        + '</div>'
+                        + '</div>'
+                        + '</div>'
+                        + '</div>'
+                        + '</div>'
+                    )
+
+                })
+                moreId +=1;
+                //鼠标经过动画
+                $(".overlay").hide();
+                $('.gallery-item').hover(
+                      function() {
+                        $(this).find('.overlay').addClass('animated fadeIn').show();
+                      },
+                      function() {
+                        $(this).find('.overlay').removeClass('animated fadeIn').hide();
+                      }
+                );
+                //移除最后一个lightbox，重新加载
+                $("#lightbox").eq(-1).remove();
+                $(function(){
+                    $('[data-rel="lightbox"]').lightbox();
+                });
+
+
+                }
+        })
+
+
+
+    }
+
+
+</script>
+
 
 {% endblock %}
