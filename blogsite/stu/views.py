@@ -44,3 +44,11 @@ def moreImg(request):
     else:
         data = "{ \"data\":" + data + ",\"page\":" + page + ",\"next\":\"\" }"
     return JsonResponse(data, safe=False)
+
+
+def count(request):
+    id = request.GET.get("id")
+    img = StuImg.objects.get(pk=id)
+    img.count += 1
+    img.save()
+    return JsonResponse(None, safe=False)
