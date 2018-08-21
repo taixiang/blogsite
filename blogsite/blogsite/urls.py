@@ -41,7 +41,7 @@ urlpatterns = [
     url(r'^api/', include(router.urls)),
     url(r'^edu/', include('edu.urls', namespace='edu', app_name='edu')),
     url(r'^love/', include('love.urls', namespace="love", app_name="love")),
-    url(r'^stu/', include('stu.urls', namespace='stu', app_name='stu')),
+    url(r'^517518/', include('stu.urls', namespace='stu', app_name='stu')),
 ]
 
 if settings.DEBUG:
