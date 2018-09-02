@@ -181,6 +181,10 @@
         </div>
         {% endif %}
     </div>
+
+    <audio  autoplay="autoplay" loop="loop" id="audio" src="{% static 'dfp.mp3' %}">
+
+</audio>
 </div>
 <script>
     var moreId= 1;
@@ -277,6 +281,25 @@
 
 
     }
+
+
+if(/Android|webOS|iPhone|BlackBerry/i.test(navigator.userAgent)) {
+//--创建页面监听，等待微信端页面加载完毕 触发音频播放
+document.addEventListener('DOMContentLoaded', function () {
+    function audioAutoPlay() {
+        var audio = document.getElementById('audio');
+            audio.play();
+        document.addEventListener("WeixinJSBridgeReady", function () {
+            audio.play();
+        }, false);
+    }
+    audioAutoPlay();
+});
+	} else {
+		$("#audio").attr("src","{% static 'dfp.mp3' %}");
+
+	}
+
 
 
 </script>
