@@ -51,3 +51,12 @@ class Me(models.Model):
 class Ascii(models.Model):
     img = models.ImageField("图片", upload_to='file/%Y/%m/%d/', blank=True)
     pub_time = models.DateTimeField("时间", default=timezone.now)
+
+    def image(self):
+        return '<img src="/upload/%s" width="60px" height="60px" />' % self.img
+
+    image.allow_tags = True
+    image.short_description = "图片"
+
+    def __str__(self):
+        return self.img

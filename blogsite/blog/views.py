@@ -3,6 +3,7 @@ from django.shortcuts import render
 from .models import Blog, Type, Me, Ascii
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import time
+from PIL import Image
 
 
 # Create your views here.
@@ -89,4 +90,25 @@ def post_img(request):
         print("============")
         print(ascii.img)
         ascii.save()
+        im = Image.open("11.jpg")
+        im = im.resize((80, 80), Image.NEAREST)
+        txt = ""
+
+        for i in range(80):
+            for j in range(80):
+                txt += get_char(*im.getpixel((j, i)))
+            txt += '\n'
+        with open("test.txt", 'w') as f:
+            f.write(txt)
     return render(request, "ascii.html")
+
+
+def get_char(r, g, b, alpha=256):
+    ascii_char = list("$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\|()1{}[]?-_+~<>i!lI;:,\"^`'. ")
+    if alpha == 0:
+        return ' '
+    length = len(ascii_char)
+    gray = int(0.2126 * r + 0.7152 * g + 0.0722 * b)
+
+    unit = (256.0 + 1) / length
+    return ascii_char[int(gray / unit)]
