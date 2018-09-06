@@ -1,7 +1,8 @@
 from django.db.models import Count
 from django.shortcuts import render
-from .models import Blog, Type, Me
+from .models import Blog, Type, Me, Ascii
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+import time
 
 
 # Create your views here.
@@ -30,7 +31,7 @@ def index(request):
 def detail(request, blog_id):
     me = Me.objects.all()
     detail = Blog.objects.get(id=blog_id)
-    detail.count +=1
+    detail.count += 1
     detail.save()
     return render(request, "detail.html", {"detail": detail, "msg": me[0]})
 
@@ -75,6 +76,17 @@ def category_detail(request, type_id):
 def about(request):
     me = Me.objects.all()
     me_first = me[0]
-    me_first.count +=1
+    me_first.count += 1
     me_first.save()
     return render(request, "about.html", {"msg": me[0]})
+
+
+# 字符画
+def post_img(request):
+    if request.method == "POST":
+        t = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
+        ascii = Ascii(img=request.FILES.get('img'), pub_time=t)
+        print("============")
+        print(ascii.img)
+        ascii.save()
+    return render(request, "ascii.html")

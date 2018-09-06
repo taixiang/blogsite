@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from .views import index, detail, archive, category, category_detail, about
+from .views import index, detail, archive, category, category_detail, about, post_img
 
 urlpatterns = [
     url(r'^$', index, name='index'),
@@ -7,5 +7,7 @@ urlpatterns = [
     url(r'^archive', archive, name='archive'),
     url(r'^category', category, name='category'),
     url(r'(?P<type_id>\d+)/category', category_detail, name='category_detail'),
-    url(r'^about', about, name="about")
+    url(r'^about', about, name="about"),
+    url(r'^post_img', post_img, name="post_img")
+
 ]
