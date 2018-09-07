@@ -49,8 +49,8 @@ class Me(models.Model):
 
 # 字符码
 class Ascii(models.Model):
-    img = models.ImageField("图片", upload_to='file/%Y/%m/%d/', blank=True)
-    pub_time = models.DateTimeField("时间", default=timezone.now)
+    img = models.ImageField("图片", upload_to='postimg/', blank=True)
+    time = models.CharField("时间", max_length=150, blank=True, default="")
 
     def image(self):
         return '<img src="/upload/%s" width="60px" height="60px" />' % self.img

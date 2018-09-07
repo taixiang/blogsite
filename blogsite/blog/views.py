@@ -4,6 +4,10 @@ from .models import Blog, Type, Me, Ascii
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import time
 from PIL import Image
+import os
+from django.conf import settings
+from django.http import FileResponse
+import threading
 
 
 # Create your views here.
@@ -84,23 +88,52 @@ def about(request):
 
 # 字符画
 def post_img(request):
+    media_root = os.path.join(settings.BASE_DIR, 'upload/')
+    print(media_root)
     if request.method == "POST":
-        t = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
-        ascii = Ascii(img=request.FILES.get('img'), pub_time=t)
-        print("============")
-        print(ascii.img)
-        ascii.save()
-        im = Image.open("11.jpg")
-        im = im.resize((80, 80), Image.NEAREST)
-        txt = ""
+        img = request.FILES.get('img')
+        if img is not None:
+            width = int(request.POST["width"])
+            if width <= 0:
+                width = 80
+            height = int(request.POST["height"])
+            if height <= 0:
+                height = 80
+            t = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
+            ascii = Ascii(img=img, time=t)
+            # print("============")
+            ascii.save()
+            print(ascii.img)
+            im = Image.open(media_root + str(ascii.img))
+            im = im.resize((width, height), Image.NEAREST)
+            txt = ""
+            txt_name = str(ascii.id) + ".txt"
+            for i in range(height):
+                for j in range(width):
+                    txt += get_char(*im.getpixel((j, i)))
+                txt += '\n'
+            with open(txt_name, 'w') as f:
+                f.write(txt)
 
-        for i in range(80):
-            for j in range(80):
-                txt += get_char(*im.getpixel((j, i)))
-            txt += '\n'
-        with open("test.txt", 'w') as f:
-            f.write(txt)
-    return render(request, "ascii.html")
+            file = open(txt_name, 'rb')
+            response = FileResponse(file)
+
+            response['Content-Type'] = 'application/octet-stream'
+            response['Content-Disposition'] = 'attachment;filename="%s"' % txt_name
+            try:
+                return response
+            finally:
+                # file.close()
+                # os.remove(txt_name)
+                # time.sleep(0.5)
+                # return render(request, "ascii.html")
+                pass
+                # os.remove(txt_name)
+                # return render(request, "ascii.html")
+        else:
+            return render(request, "ascii.html")
+    else:
+        return render(request, "ascii.html")
 
 
 def get_char(r, g, b, alpha=256):

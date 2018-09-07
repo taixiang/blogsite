@@ -40,7 +40,7 @@ class ImageWidget2(forms.FileInput):
 
 class AsciiAdmin(admin.ModelAdmin):
     list_per_page = 10
-    list_display = ('pub_time','image')
+    list_display = ('time','image')
     formfield_overrides = {models.ImageField: {'widget': ImageWidget2}}
 
 
