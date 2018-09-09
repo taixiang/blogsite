@@ -2,17 +2,39 @@
 {% load staticfiles %}
 
 {% block content %}
-文件上传：
 
+<div class="container sidebar-position-left page-detail  ">
+    {% include "header.html" %}
 
-<form action="" method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    宽：<input type="number" name="width" value="80"><br>
-    高：<input type="number" name="height" value="80">
-    <br>
-    <input type="file" name="img">
-    <input type="submit" value="完成">
-</form>
+    <main id="main" class="main">
+        <div class="main-inner">
+            <div class="content-wrap">
+                <div id="content" class="content">
+                    <section id="posts" class="posts-expand">
+
+                        <form action="" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            宽：<input type="number" name="width" value="80"><br>
+                            高：<input type="number" name="height" value="80"><br>
+                            <div style="margin-top:20px">
+                            文件上传：
+                            </div>
+
+                            <input type="file" name="img">
+                            <input type="submit" value="下载" class="am-btn am-btn-primary">
+                        </form>
+
+                    </section>
+
+                </div>
+            </div>
+            {% include "side.html" %}
+
+        </div>
+    </main>
+
+    {% include "footer.html" %}
+</div>
 
 
 {% endblock %}

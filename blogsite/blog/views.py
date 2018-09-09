@@ -107,7 +107,9 @@ def post_img(request):
             im = Image.open(media_root + str(ascii.img))
             im = im.resize((width, height), Image.NEAREST)
             txt = ""
-            txt_name = str(ascii.id) + ".txt"
+
+            sub_txt_name = str(ascii.id) + ".txt"
+            txt_name = media_root + "txt/" + sub_txt_name
             for i in range(height):
                 for j in range(width):
                     txt += get_char(*im.getpixel((j, i)))
@@ -119,21 +121,14 @@ def post_img(request):
             response = FileResponse(file)
 
             response['Content-Type'] = 'application/octet-stream'
-            response['Content-Disposition'] = 'attachment;filename="%s"' % txt_name
-            try:
-                return response
-            finally:
-                # file.close()
-                # os.remove(txt_name)
-                # time.sleep(0.5)
-                # return render(request, "ascii.html")
-                pass
-                # os.remove(txt_name)
-                # return render(request, "ascii.html")
+            response['Content-Disposition'] = 'attachment;filename="%s"' % sub_txt_name
+            return response
         else:
-            return render(request, "ascii.html")
+            me = Me.objects.all()
+            return render(request, "ascii.html",{"msg": me[0]})
     else:
-        return render(request, "ascii.html")
+        me = Me.objects.all()
+        return render(request, "ascii.html",{"msg": me[0]})
 
 
 def get_char(r, g, b, alpha=256):
