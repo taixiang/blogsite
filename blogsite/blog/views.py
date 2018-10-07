@@ -140,3 +140,6 @@ def get_char(r, g, b, alpha=256):
 
     unit = (256.0 + 1) / length
     return ascii_char[int(gray / unit)]
+
+def get_root(request):
+    return render(request,"root.txt")
