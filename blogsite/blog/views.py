@@ -5,10 +5,8 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import time
 from PIL import Image
 import os
-from django.conf import settings
-from django.http import FileResponse
 from django.http import HttpResponseRedirect
-
+from django.conf import settings
 
 # Create your views here.
 
@@ -115,8 +113,12 @@ def post_img(request):
                 txt += '\n'
             with open(txt_name, 'w') as f:
                 f.write(txt)
+            if settings.DEBUG:
+                url = "http://127.0.0.1:8000/upload/txt/"+sub_txt_name
+            else:
+                url = "https://www.manjiexiang.cn/upload/txt/"+sub_txt_name
 
-            return HttpResponseRedirect(txt_name)
+            return HttpResponseRedirect(url)
         else:
             me = Me.objects.all()
             return render(request, "ascii.html",{"msg": me[0]})
