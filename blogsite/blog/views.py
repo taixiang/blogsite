@@ -8,6 +8,7 @@ import os
 from django.conf import settings
 from django.http import FileResponse
 import threading
+from django.http import StreamingHttpResponse
 
 
 # Create your views here.
@@ -118,7 +119,7 @@ def post_img(request):
                 f.write(txt)
 
             file = open(txt_name, 'rb')
-            response = FileResponse(file)
+            response = StreamingHttpResponse(file)
 
             response['Content-Type'] = 'application/octet-stream'
             response['Content-Disposition'] = 'attachment;filename="%s"' % sub_txt_name
