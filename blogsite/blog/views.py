@@ -7,8 +7,7 @@ from PIL import Image
 import os
 from django.conf import settings
 from django.http import FileResponse
-import threading
-from django.http import StreamingHttpResponse
+from django.http import HttpResponseRedirect
 
 
 # Create your views here.
@@ -99,12 +98,11 @@ def post_img(request):
                 width = 80
             height = int(request.POST["height"])
             if height <= 0:
-                height = 80
+                height = 60
             t = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
             ascii = Ascii(img=img, time=t)
             # print("============")
             ascii.save()
-            print(ascii.img)
             im = Image.open(media_root + str(ascii.img))
             im = im.resize((width, height), Image.NEAREST)
             txt = ""
@@ -118,12 +116,7 @@ def post_img(request):
             with open(txt_name, 'w') as f:
                 f.write(txt)
 
-            file = open(txt_name, 'rb')
-            response = StreamingHttpResponse(file)
-
-            response['Content-Type'] = 'application/octet-stream'
-            response['Content-Disposition'] = 'attachment;filename="%s"' % sub_txt_name
-            return response
+            return HttpResponseRedirect(txt_name)
         else:
             me = Me.objects.all()
             return render(request, "ascii.html",{"msg": me[0]})
