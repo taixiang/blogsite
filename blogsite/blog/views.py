@@ -75,6 +75,20 @@ def category_detail(request, type_id):
         customer = paginator.page(paginator.num_pages)
     return render(request, "category_detail.html", {"blogs": customer, "type": type.name, "msg": me[0]})
 
+def category_name(request):
+    me = Me.objects.all()
+    type = Type.objects.all().get(name="彩蛋")
+    blogs = Blog.objects.all().filter(type_id=type.id)
+    paginator = Paginator(blogs, 10)
+    page = request.GET.get('page')
+    try:
+        customer = paginator.page(page)
+    except PageNotAnInteger:
+        customer = paginator.page(1)
+    except EmptyPage:
+        customer = paginator.page(paginator.num_pages)
+    return render(request, "category_detail.html", {"blogs": customer, "type": type.name, "msg": me[0]})
+
 
 def about(request):
     me = Me.objects.all()
