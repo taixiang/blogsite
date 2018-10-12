@@ -43,6 +43,7 @@ urlpatterns = [
     url(r'^edu/', include('edu.urls', namespace='edu', app_name='edu')),
     url(r'^love/', include('love.urls', namespace="love", app_name="love")),
     url(r'^517518/', include('stu.urls', namespace='stu', app_name='stu')),
+    url(r'^msmm/', include('msmm.urls', namespace="msmm", app_name="msmm")),
 ]
 
 if settings.DEBUG:
