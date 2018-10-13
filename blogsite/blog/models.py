@@ -24,6 +24,7 @@ class Blog(models.Model):
     md_file = models.FileField("文件", upload_to='file/%Y/%m/%d/', blank=True)
     type_id = models.ManyToManyField("type", related_name="blog_post", verbose_name="分类")
     count = models.IntegerField("次数", default=0)
+    is_show = models.IntegerField("显示", default=0)
 
     class Meta:
         ordering = ["-pub_time"]

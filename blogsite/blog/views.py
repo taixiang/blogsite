@@ -13,7 +13,7 @@ from django.conf import settings
 
 def index(request):
     me = Me.objects.all()
-    blogs = Blog.objects.all()
+    blogs = Blog.objects.all().filter(is_show=0)
     paginator = Paginator(blogs, 10)
     page = request.GET.get('page')
     try:
@@ -41,7 +41,7 @@ def detail(request, blog_id):
 
 def archive(request):
     me = Me.objects.all()
-    blogs = Blog.objects.all()
+    blogs = Blog.objects.all().filter(is_show=0)
     paginator = Paginator(blogs, 10)
     page = request.GET.get('page')
     try:
@@ -64,7 +64,7 @@ def category(request):
 def category_detail(request, type_id):
     me = Me.objects.all()
     type = Type.objects.all().get(id=type_id)
-    blogs = Blog.objects.all().filter(type_id=type_id)
+    blogs = Blog.objects.all().filter(type_id=type_id,is_show=0)
     paginator = Paginator(blogs, 10)
     page = request.GET.get('page')
     try:
@@ -78,7 +78,7 @@ def category_detail(request, type_id):
 def category_name(request):
     me = Me.objects.all()
     type = Type.objects.all().get(name="彩蛋")
-    blogs = Blog.objects.all().filter(type_id=type.id)
+    blogs = Blog.objects.all().filter(type_id=type.id,is_show=0)
     paginator = Paginator(blogs, 10)
     page = request.GET.get('page')
     try:

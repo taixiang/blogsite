@@ -2337,3 +2337,12 @@ footer {
 .btn-full {
 	width: 100%;
 }
+.site_logo{
+    border-radius:5px
+}
+.logo_txt{
+    display: inline;
+    font-size: 20px;
+    color: white;
+    margin-left: 5px;
+}
