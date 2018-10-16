@@ -54,10 +54,10 @@ class Ascii(models.Model):
     time = models.CharField("时间", max_length=150, blank=True, default="")
 
     def image(self):
-        return '<img src="/upload/%s" width="60px" height="60px" />' % self.img
+        return '<img src="/upload/%s" width="100px" height="100px" />' % self.img
 
     image.allow_tags = True
     image.short_description = "图片"
 
     def __str__(self):
-        return self.img
+        return self.time

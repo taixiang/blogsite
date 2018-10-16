@@ -28,7 +28,7 @@ class ImageWidget2(forms.FileInput):
         input_html = super(ImageWidget2, self).render(name, value, attrs)
         if hasattr(value, 'width') and hasattr(value, 'height'):
 
-            image_html = '<img src="/upload/%s" width="60px" height="60px" />' % value.name
+            image_html = '<img src="/upload/%s" width="100px" height="100px" />' % value.name
 
             output = self.template % {'input': input_html,
                                       'image': image_html}
@@ -38,7 +38,7 @@ class ImageWidget2(forms.FileInput):
 
 
 
-class AsciiAdmin(admin.ModelAdmin):
+class AsciiAdminqq(admin.ModelAdmin):
     list_per_page = 10
     list_display = ('time','image')
     formfield_overrides = {models.ImageField: {'widget': ImageWidget2}}
@@ -48,4 +48,4 @@ class AsciiAdmin(admin.ModelAdmin):
 admin.site.register(Type)
 admin.site.register(Blog, BlogAdmin)
 admin.site.register(Me)
-admin.site.register(Ascii, AsciiAdmin)
+admin.site.register(Ascii, AsciiAdminqq)
