@@ -1,3 +1,4 @@
+{% load staticfiles %}
 <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
         <div class="header-inner">
             <div class="site-brand-wrapper">
@@ -49,6 +50,14 @@
                         <a href="{% url 'blog:about' %}" rel="section" target="_blank">
                             <i class="menu-item-icon fa fa-fw fa-user"></i> <br/>
                             关于
+                        </a>
+                    </li>
+                    <li class="menu-item menu-item-about box2">
+                        <a rel="section" target="_blank" title="666666">
+                            <span><img src="{% static 'img/tb.jpg' %}" alt=""/>
+                            </span>
+                            <i class="menu-item-icon fa fa-fw fa-book"></i> <br/>
+                            双11
                         </a>
                     </li>
                     <li class="menu-item menu-item-gift">
