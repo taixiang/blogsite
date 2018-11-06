@@ -7,7 +7,7 @@ from PIL import Image
 import os
 from django.http import HttpResponseRedirect
 from django.conf import settings
-
+from . import randomcode
 # Create your views here.
 
 
@@ -142,6 +142,10 @@ def post_img(request):
 
 #验证码
 def validate_code(request):
+    media_root = os.path.join(settings.BASE_DIR, 'upload/')
+    img_name = media_root + "img/pic.png"
+    print(media_root)
+    randomcode.createImg(img_name)
     return render(request,"validate.html")
 
 
