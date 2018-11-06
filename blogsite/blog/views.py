@@ -140,6 +140,10 @@ def post_img(request):
         me = Me.objects.all()
         return render(request, "ascii.html",{"msg": me[0]})
 
+#验证码
+def validate_code(request):
+    return render(request,"validate.html")
+
 
 def get_char(r, g, b, alpha=256):
     ascii_char = list("$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\|()1{}[]?-_+~<>i!lI;:,\"^`'. ")
