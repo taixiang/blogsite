@@ -40,7 +40,7 @@ def createImg(img_name):
     img = Image.new(mode="RGB", size=(width, height), color=bg_color)
     draw = ImageDraw.Draw(img)
     # /System/Library/Fonts/PingFang.ttc
-    font = ImageFont.truetype(font="/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", size=36)
+    font = ImageFont.truetype(font="/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", size=36)
     for i in range(5):
         random_item = getRandomStr()
         txt_color = getRandomColor()
