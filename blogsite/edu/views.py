@@ -380,3 +380,6 @@ def postAdvice(request):
         result = "{ \"code\":" + "200" + ",\"result\":" + "\"提交成功\"}"
 
     return JsonResponse(result, safe=False)
+
+def test(request):
+    return render(request,"test.html")

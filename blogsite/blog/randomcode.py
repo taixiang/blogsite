@@ -4,6 +4,7 @@ import random
 width = 160
 height = 50
 
+
 # 生成随机颜色
 def getRandomColor():
     c1 = random.randint(0, 255)
@@ -19,6 +20,7 @@ def getRandomStr():
     random_char = random.choice([random_num, random_lower, random_upper])
     return random_char
 
+
 def drawLine(draw):
     for i in range(5):
         x1 = random.randint(0, width)
@@ -27,15 +29,18 @@ def drawLine(draw):
         y2 = random.randint(0, height)
         draw.line((x1, y1, x2, y2), fill=getRandomColor())
 
+
 def drawPoint(draw):
     for i in range(50):
-        draw.point((random.randint(0, width),random.randint(0, height)),fill=getRandomColor())
+        draw.point((random.randint(0, width), random.randint(0, height)), fill=getRandomColor())
+
 
 def createImg(img_name):
     bg_color = getRandomColor()
     img = Image.new(mode="RGB", size=(width, height), color=bg_color)
     draw = ImageDraw.Draw(img)
-    font = ImageFont.truetype(font="/System/Library/Fonts/PingFang.ttc", size=36)
+    # /System/Library/Fonts/PingFang.ttc
+    font = ImageFont.truetype(font="arial.ttf", size=36)
     for i in range(5):
         random_item = getRandomStr()
         txt_color = getRandomColor()
@@ -46,6 +51,5 @@ def createImg(img_name):
     drawPoint(draw)
     with open(img_name, "wb") as f:
         img.save(f, format="png")
-
 
 # createImg()

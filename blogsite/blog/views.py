@@ -8,6 +8,8 @@ import os
 from django.http import HttpResponseRedirect
 from django.conf import settings
 from . import randomcode
+
+
 # Create your views here.
 
 
@@ -64,7 +66,7 @@ def category(request):
 def category_detail(request, type_id):
     me = Me.objects.all()
     type = Type.objects.all().get(id=type_id)
-    blogs = Blog.objects.all().filter(type_id=type_id,is_show=0)
+    blogs = Blog.objects.all().filter(type_id=type_id, is_show=0)
     paginator = Paginator(blogs, 10)
     page = request.GET.get('page')
     try:
@@ -75,10 +77,11 @@ def category_detail(request, type_id):
         customer = paginator.page(paginator.num_pages)
     return render(request, "category_detail.html", {"blogs": customer, "type": type.name, "msg": me[0]})
 
+
 def category_name(request):
     me = Me.objects.all()
     type = Type.objects.all().get(name="彩蛋")
-    blogs = Blog.objects.all().filter(type_id=type.id,is_show=0)
+    blogs = Blog.objects.all().filter(type_id=type.id, is_show=0)
     paginator = Paginator(blogs, 10)
     page = request.GET.get('page')
     try:
@@ -128,25 +131,30 @@ def post_img(request):
             with open(txt_name, 'w') as f:
                 f.write(txt)
             if settings.DEBUG:
-                url = "http://127.0.0.1:8000/upload/txt/"+sub_txt_name
+                url = "http://127.0.0.1:8000/upload/txt/" + sub_txt_name
             else:
-                url = "https://www.manjiexiang.cn/upload/txt/"+sub_txt_name
+                url = "https://www.manjiexiang.cn/upload/txt/" + sub_txt_name
 
             return HttpResponseRedirect(url)
         else:
             me = Me.objects.all()
-            return render(request, "ascii.html",{"msg": me[0]})
+            return render(request, "ascii.html", {"msg": me[0]})
     else:
         me = Me.objects.all()
-        return render(request, "ascii.html",{"msg": me[0]})
+        return render(request, "ascii.html", {"msg": me[0]})
 
-#验证码
+
+# 验证码
 def validate_code(request):
     media_root = os.path.join(settings.BASE_DIR, 'upload/')
     img_name = media_root + "img/pic.png"
     print(media_root)
     randomcode.createImg(img_name)
-    return render(request,"validate.html")
+    if settings.DEBUG:
+        url = "http://127.0.0.1:8000/upload/img/pic.png"
+    else:
+        url = "https://www.manjiexiang.cn/upload/img/pic.png"
+    return render(request, "validate.html", {"img": url})
 
 
 def get_char(r, g, b, alpha=256):
@@ -159,5 +167,6 @@ def get_char(r, g, b, alpha=256):
     unit = (256.0 + 1) / length
     return ascii_char[int(gray / unit)]
 
+
 def get_root(request):
-    return render(request,"root.txt")
+    return render(request, "root.txt")
