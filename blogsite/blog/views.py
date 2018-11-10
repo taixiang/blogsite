@@ -8,7 +8,7 @@ import os
 from django.http import HttpResponseRedirect
 from django.conf import settings
 from . import randomcode
-import uuid
+import shortuuid
 
 
 # Create your views here.
@@ -148,7 +148,8 @@ def post_img(request):
 # 验证码
 def validate_code(request):
     media_root = os.path.join(settings.BASE_DIR, 'upload/')
-    id = uuid.uuid1()
+    me = Me.objects.all()
+    id = shortuuid.uuid()
     img_name = str(id) + ".png"
     img_path = media_root + "img/" + img_name
     print(media_root)
@@ -157,7 +158,7 @@ def validate_code(request):
         url = "http://127.0.0.1:8000/upload/img/" + img_name
     else:
         url = "https://www.manjiexiang.cn/upload/img/" + img_name
-    return render(request, "validate.html", {"img": url})
+    return render(request, "validate.html", {"img": url,"msg": me[0]})
 
 
 def get_char(r, g, b, alpha=256):
