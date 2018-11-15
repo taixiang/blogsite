@@ -1,6 +1,6 @@
 from django.conf.urls import url
 from .views import index, detail, archive, category, category_detail, about, post_img,\
-    get_root,category_name,validate_code
+    get_root,category_name,validate_code,wordtohtml
 
 urlpatterns = [
     url(r'^$', index, name='index'),
@@ -12,6 +12,7 @@ urlpatterns = [
     url(r'^about', about, name="about"),
     url(r'^post_img', post_img, name="post_img"),
     url(r'^validate',validate_code,name="validate"),
+    url(r'^wordtohtml', wordtohtml, name="wordtohtml"),
     url(r'^root.txt',get_root,name="root")
 
 ]

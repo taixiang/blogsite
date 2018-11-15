@@ -160,6 +160,10 @@ def validate_code(request):
         url = "https://www.manjiexiang.cn/upload/img/" + img_name
     return render(request, "validate.html", {"img": url,"msg": me[0]})
 
+# word转html
+def wordtohtml(request):
+
+    return render(request, "wordtohtml.html")
 
 def get_char(r, g, b, alpha=256):
     ascii_char = list("$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\|()1{}[]?-_+~<>i!lI;:,\"^`'. ")
