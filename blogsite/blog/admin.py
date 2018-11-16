@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Type, Blog, Me, Ascii
+from .models import Type, Blog, Me, Ascii, wordhtml
 from django.db import models
 from django import forms
 from django.utils.safestring import mark_safe
@@ -49,3 +49,4 @@ admin.site.register(Type)
 admin.site.register(Blog, BlogAdmin)
 admin.site.register(Me)
 admin.site.register(Ascii, AsciiAdminqq)
+admin.site.register(wordhtml)

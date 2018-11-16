@@ -175,8 +175,9 @@ def wordtohtml(request):
             html = PyDocX.to_html(file_path)
             html_name = str(word.uuid) + ".html"
             txt_name = media_root + "word/" + html_name
-            with open(txt_name, 'w') as f:
-                f.write(html)
+            f = open(txt_name, 'w', encoding="utf-8")
+            f.write(html)
+            f.close()
             if settings.DEBUG:
                 url = "http://127.0.0.1:8000/upload/word/" + html_name
             else:
