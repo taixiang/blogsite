@@ -1,6 +1,6 @@
 from django.db.models import Count
 from django.shortcuts import render
-from .models import Blog, Type, Me, Ascii
+from .models import Blog, Type, Me, Ascii, wordhtml
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import time
 from PIL import Image
@@ -9,6 +9,7 @@ from django.http import HttpResponseRedirect
 from django.conf import settings
 from . import randomcode
 import shortuuid
+from pydocx import PyDocX
 
 
 # Create your views here.
@@ -162,8 +163,31 @@ def validate_code(request):
 
 # word转html
 def wordtohtml(request):
-
-    return render(request, "wordtohtml.html")
+    media_root = os.path.join(settings.BASE_DIR, 'upload/')
+    if request.method == "POST":
+        file = request.FILES.get('file')
+        if file is not None:
+            t = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
+            id = shortuuid.uuid()
+            word = wordhtml(word=file,time=t,uuid=id)
+            word.save()
+            file_path = media_root + str(word.word)
+            html = PyDocX.to_html(file_path)
+            html_name = str(word.uuid) + ".html"
+            txt_name = media_root + "word/" + html_name
+            with open(txt_name, 'w') as f:
+                f.write(html)
+            if settings.DEBUG:
+                url = "http://127.0.0.1:8000/upload/word/" + html_name
+            else:
+                url = "https://www.manjiexiang.cn/upload/word/" + html_name
+            return HttpResponseRedirect(url)
+        else:
+            me = Me.objects.all()
+            return render(request, "wordtohtml.html", {"msg": me[0]})
+    else:
+        me = Me.objects.all()
+        return render(request, "wordtohtml.html", {"msg": me[0]})
 
 def get_char(r, g, b, alpha=256):
     ascii_char = list("$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\|()1{}[]?-_+~<>i!lI;:,\"^`'. ")

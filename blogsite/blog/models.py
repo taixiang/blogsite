@@ -62,7 +62,12 @@ class Ascii(models.Model):
     def __str__(self):
         return self.time
 
-#word转html
+
+# word转html
 class wordhtml(models.Model):
     word = models.FileField("word", upload_to='word/', blank=True)
     time = models.CharField("时间", max_length=150, blank=True, default="")
+    uuid = models.CharField("uuid", max_length=50, blank=True, default="")
+
+    def __str__(self):
+        return self.uuid
