@@ -1,0 +1,36 @@
+{% load staticfiles %}
+<header class="am-topbar am-topbar-inverse">
+    <div class="amz-container">
+        <h1 class="am-topbar-brand">
+            <a href="#" class="am-topbar-logo">
+                <img src="/upload/img/{{message.logo}}" style="width:41px;height:41px" alt=""/>
+            </a>
+        </h1>
+        <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only"
+                data-am-collapse="{target: '#doc-topbar-collapse-5'}">
+            <span class="am-sr-only">
+                导航切换
+            </span>
+            <span class="am-icon-bars">
+            </span>
+        </button>
+        <div class="am-collapse am-topbar-collapse" id="doc-topbar-collapse-5">
+            <ul id="li_con" class="am-nav am-nav-pills am-topbar-nav">
+                <li class="{%if not cake_id%}am-active{%endif%}">
+                    <a value="0" href="{% url 'cake:category' %}">
+                        首页
+                    </a>
+                </li>
+                {% for category in categorys %}
+                <li class="{%if cake_id == category.id%}am-active{% endif %}"><a value="{{category.id}}" href="{% url 'cake:cakeList' category.id %}"> {{category.name}} </a>
+                </li>
+                {% endfor %}
+                <li>
+                    <a href="http://blog.manjiexiang.cn" target="_blank">
+                        博客
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</header>

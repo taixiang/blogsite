@@ -1,0 +1,30 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>满街香蛋糕</title>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="keywords" content="满街香蛋糕,满街香,蛋糕">
+    <meta name="description" content="满街香蛋糕是最懂你的蛋糕店，蛋糕领鲜，品质优选,用“心”制作每一份甜蜜">
+    <meta name="baidu_union_verify" content="129daf8d1005e320dee22eb3f1881d0e">
+    <link rel="stylesheet" href="{% static 'css/amazeui.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/petshow.css' %}">
+    <link rel="stylesheet" href="{% static 'css/animate.min.css' %}">
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/amazeui.min.js' %}"></script>
+    <script src="{% static 'js/countUp.min.js' %}"></script>
+    <script src="{% static 'js/amazeui.lazyload.min.js' %}"></script>
+
+
+
+</head>
+<body>
+{% include "cake/header.html" %}
+{% block content %}{% endblock %}
+{% include "cake/footer.html" %}
+
+</body>
+</html>
