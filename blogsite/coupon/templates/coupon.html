@@ -1,7 +1,99 @@
-{% extends "base.html" %}
+{% extends "base_coupon.html" %}
 {% load staticfiles %}
 
 
 {% block content %}
-777
+
+<script>
+	if(/Android|webOS|iPhone|BlackBerry/i.test(navigator.userAgent)) {
+        console.log("==========")
+	} else {
+	    console.log("----------")
+
+	}
+	var q = {{ test | safe }}
+console.log("---22222222----")
+	console.log(q)
+
+
+</script>
+
+<style>
+    body{
+        font-family:Arial, "Microsoft Yahei";
+    }
+</style>
+
+
+<div class="am-g am-imglist">
+    <ul id="cake_content" data-am-widget="gallery" class="am-gallery am-avg-sm-2
+  am-avg-md-3 am-avg-lg-6 am-gallery-default">
+
+        {% for coupon in coupon_list %}
+        <li>
+            <div class="am-gallery-item am_list_block">
+
+                <a href="">
+                    <div class="am_img_bg">
+                        <img class="am_img animated" src="{% static 'img/loading.gif' %}"
+                             data-original="{{coupon.img}}"
+                             alt="优惠券"/>
+                    </div>
+                    <span style="margin-top:6px;color:#666;font-size:12px;text-overflow:ellipsis;-webkit-line-clamp:2;-webkit-box-orient: vertical;overflow: hidden;display: -webkit-box;">{{coupon.name}}</span>
+
+                    <div>
+                        <img style="width:17px;height:17px" src="{% static 'img/coupon/juan.png' %}">
+
+                        <span style="border: 1px solid #f50;
+                                    border-left: none;
+                                    display: inline-block;
+                                    vertical-align: top;
+                                    height: 17px;
+                                    line-height: 17px;
+                                    background-color: #FFF;
+                                    border-radius: 0 2px 2px 0;
+                                    padding: 0 3px;
+                                    color: #E64D00;
+                                    font-size: 14px;
+                                    margin-top: 5px;
+                                    margin-left: -5px;">{{coupon.rule}}</span>
+                    </div>
+
+                    <div class="am_listimg_info">
+                        {% if coupon.price %}
+                        <span style="margin-right:0px;color:#666;font-size:12px">原价：<span
+                                style="font-size:12px">￥</span><span
+                                style="color:#333;font-size:15px">{{coupon.price}}</span></span>
+                        {% endif %}
+                    </div>
+                    <div>
+                        {% if coupon.size %}
+                        <span class="am_imglist_user_font" style="color:#333">尺寸：{{coupon.size}}寸</span>
+                        {% endif %}
+                    </div>
+
+                </a>
+            </div>
+        </li>
+
+        {% endfor %}
+
+    </ul>
+</div>
+
+{% if has_next %}
+<div id="moreCake" class="am_news_load">
+      <span style="color:#333">
+          <i class="am-icon-spinner"></i> 查看更多</span>
+</div>
+{% endif %}
+
+<div style="height:50px"></div>
+
+
+<script src="{% static 'js/petshow.js' %}"></script>
+
+
 {% endblock %}
+
+

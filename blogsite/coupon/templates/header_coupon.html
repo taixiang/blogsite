@@ -16,13 +16,13 @@
         </button>
         <div class="am-collapse am-topbar-collapse" id="doc-topbar-collapse-5">
             <ul id="li_con" class="am-nav am-nav-pills am-topbar-nav">
-                <li class="{%if not cake_id%}am-active{%endif%}">
-                    <a value="0" href="{% url 'cake:category' %}">
+                <li>
+                    <a value="0">
                         首页
                     </a>
                 </li>
                 {% for category in categorys %}
-                <li class="{%if cake_id == category.id%}am-active{% endif %}"><a value="{{category.id}}" href="{% url 'cake:cakeList' category.id %}"> {{category.name}} </a>
+                <li><a value="" href=""> {{category.name}} </a>
                 </li>
                 {% endfor %}
                 <li>
