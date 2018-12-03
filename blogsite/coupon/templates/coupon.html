@@ -34,7 +34,6 @@
                         {% endif %}
                     </div>
                     <div>
-                        <img class="img_juan" src="{% static 'img/coupon/juan.png' %}">
                         <div class="coupon_shop">{{coupon.shop}}</div>
                     </div>
                     <div class="coupon_get_div">
@@ -67,10 +66,21 @@
 <script src="{% static 'js/coupon/couponjs.js' %}"></script>
 
 <script>
-    var q = {{ q | safe }}
-    console.log(q)
 
   //  $(".price").removeClass().addClass("price_down")
+
+    $("#price_tab").click(function(){
+        console.log("==============")
+        var type = "{{ type }}"
+        console.log(type)
+        if(type == "down"){
+            type = "up"
+        }else if( type != null){
+            type = "down"
+            console.log("=111111==========")
+        }
+        window.location.href = "{% url 'coupon:type_list' 0 %}".replace('0', type)
+    })
 
 
 </script>

@@ -16,25 +16,17 @@
         </button>
         <div class="am-collapse am-topbar-collapse" id="doc-topbar-collapse-5">
             <ul id="li_con" class="am-nav am-nav-pills am-topbar-nav">
-                <li>
-                    <a value="0">
+                <li class="{%if type != 'up' and type != 'down' %}am-active{%endif%}">
+                    <a value="0" href="{% url 'coupon:index' %}">
                         全部
                     </a>
                 </li>
-                <li>
-                    <a value="0" >
+
+                <li class="{%if type == 'up' or type == 'down' %}am-active{%endif%}">
+                    <a id="price_tab" value="1">
                         价格
-                        <div class="price" style="display:none" ></div>
-                            <img style="position: absolute;top: 18px;" src="{% static 'img/coupon/up.png' %}">
-                            <img style="margin-top: 8px;" src="{% static 'img/coupon/down.png' %}">
-
-                    </a>
-
-                </li>
-
-                <li>
-                    <a href="http://blog.manjiexiang.cn" target="_blank">
-                        博客
+                        <img style="position: absolute;top: 18px;" src="{%if type == 'up' %} {% static 'img/coupon/up_select.png' %} {%else%} {% static 'img/coupon/up.png' %} {%endif%}">
+                        <img style="margin-top: 8px;" src="{%if type == 'down' %} {% static 'img/coupon/down_select.png' %} {%else%} {% static 'img/coupon/down.png' %} {%endif%}">
                     </a>
                 </li>
             </ul>
