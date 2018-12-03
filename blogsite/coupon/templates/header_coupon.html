@@ -18,13 +18,20 @@
             <ul id="li_con" class="am-nav am-nav-pills am-topbar-nav">
                 <li>
                     <a value="0">
-                        首页
+                        全部
                     </a>
                 </li>
-                {% for category in categorys %}
-                <li><a value="" href=""> {{category.name}} </a>
+                <li>
+                    <a value="0" >
+                        价格
+                        <div class="price" style="display:none" ></div>
+                            <img style="position: absolute;top: 18px;" src="{% static 'img/coupon/up.png' %}">
+                            <img style="margin-top: 8px;" src="{% static 'img/coupon/down.png' %}">
+
+                    </a>
+
                 </li>
-                {% endfor %}
+
                 <li>
                     <a href="http://blog.manjiexiang.cn" target="_blank">
                         博客

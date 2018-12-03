@@ -1,0 +1,84 @@
+body{
+     font-family:Arial, "Microsoft Yahei";
+}
+
+.price,.price_down,.price_up{
+    display:inline !important;
+}
+
+.price_up::after{
+    display:inline !important;
+    content:"↑" !important;
+    color:white !important;
+}
+
+.price_down::after{
+    display:inline !important;
+    content:"↓" !important;
+    color:white !important;
+}
+
+.coupon_name{
+    margin-top:6px;
+    color:#666;
+    font-size:12px;
+    text-overflow:ellipsis;
+    -webkit-line-clamp:2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    display: -webkit-box;
+}
+
+.img_juan{
+    width:17px !important;
+    height:17px !important
+}
+
+.coupon_rule{
+    border: 1px solid #f50;
+    border-left: none;
+    display: inline-block;
+    vertical-align: top;
+    height: 17px;
+    line-height: 17px;
+    background-color: #FFF;
+    border-radius: 0 2px 2px 0;
+    padding: 0 3px;
+    color: #E64D00;
+    font-size: 14px;
+    margin-top: 5px;
+    margin-left: -5px;
+}
+
+.ori_price{
+    margin-right:0px;
+    color:#666;
+    font-size:12px
+}
+
+.ori_font{
+    font-size:12px
+}
+
+.coupon_price{
+    color:#333;
+    font-size:15px !important
+}
+
+.coupon_shop{
+    color:#333;
+    font-size:14px;
+    display:inline
+}
+
+.coupon_get_div{
+    text-align: right;
+    cursor: pointer;
+}
+.coupon_get{
+    border: 1px red solid;
+    padding: 3px 5px;
+    font-size: 14px;
+    border-radius: 4px;
+    color: red;
+}
