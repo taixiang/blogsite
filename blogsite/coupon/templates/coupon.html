@@ -15,7 +15,7 @@
                 <a href="{% url 'coupon:detail' coupon.uuid %}">
                     <div class="am_img_bg">
                         <img class="am_img animated" src="{% static 'img/loading.gif' %}"
-                             data-original=""
+                             data-original="{{coupon.img}}"
                              alt="优惠券"/>
                     </div>
                     <span class="coupon_name">{{coupon.name}}</span>
@@ -27,11 +27,10 @@
                     </div>
 
                     <div class="am_listimg_info">
-                        {% if coupon.price %}
-                        <span class="ori_price">原价：<span
-                                class="ori_font">￥</span><span
-                                class="coupon_price">{{coupon.price}}</span></span>
-                        {% endif %}
+                        <span class="ori_price">原价：
+                            <span class="ori_font">￥</span>
+                            <span class="coupon_price">{{coupon.price}}</span>
+                        </span>
                     </div>
                     <div>
                         <div class="coupon_shop">{{coupon.shop}}</div>
@@ -121,8 +120,60 @@
                 console.log(data)
                 $(".am-icon-spinner").removeClass("am-icon-spin");
                 if(!data.next){
-                    $("#moreCake").css("display","none");
+                    $("#moreCoupon").css("display","none");
                 }
+                page = data.page+1;
+
+                $.each(data.data,function(i,item){
+                var baseurl = "{% url 'coupon:detail' 0 %}".replace('0', item.fields.uuid)
+
+                $("#coupon_content").append("<li>"
+                    + "<div class='am-gallery-item am_list_block'> "
+                    + " <a href= " + baseurl + " > "
+                    + "<div class='am_img_bg'>"
+                    + "<img class='am_img animated' src='{% static 'img/loading.gif' %}'"
+                    + "data-original='" + item.fields.img + " ' "
+                    + " alt='优惠券'/> "
+                    + "</div>"
+                    + "<span class='coupon_name'>" + item.fields.name + "</span>"
+                    + "<div>"
+                    + "<img class='img_juan' src='{% static 'img/coupon/juan.png' %}'>"
+                    + "<span class='coupon_rule'>" + item.fields.rule + "</span>"
+                    + "</div>"
+                    + "<div class='am_listimg_info'>"
+                    + "<span class='ori_price'>原价："
+                    + "<span class='ori_font'>￥</span>"
+                    + "<span class='coupon_price'>" + item.fields.price + "</span>"
+                    + "</span>"
+                    + "</div>"
+                    + "<div>"
+                    + "<div class='coupon_shop'>"+item.fields.shop+"</div>"
+                    + "</div>"
+                    + "<div id='"+item.fields.id+"' class='coupon_get_div' data-clipboard-action='copy' value='"+item.fields.phone_url+"'"
+                    + "data-clipboard-target='div'>"
+                    + "<a class='coupon_url'>"
+                    + "<span id='coupon_get' class='coupon_get'>立即领取</span>"
+                    + "</a>"
+                    + "</div>"
+                    + "</a>"
+                    + "</div>"
+                    + "</li>"
+                )
+
+            })
+
+            $('.am_img_bg').removeClass('am_img_bg');
+            $(this).find('.am_img').addClass('bounceIn');
+
+            $(".am_list_block").on('mouseover', function(){
+                $('.am_img_bg').removeClass('am_img_bg');
+                $(this).find('.am_img').addClass('bounceIn');
+            });
+            $("img.am_img").lazyload();
+              $("a.am_img_bg").lazyload({
+              effect : 'fadeIn'
+            });
+
             }
         })
 

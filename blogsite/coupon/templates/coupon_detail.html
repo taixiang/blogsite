@@ -45,7 +45,7 @@
                 <div class="detail_txt">{{detail.shop}}</div>
                 <div class="detail_txt">原价：￥{{detail.price}}
                     <div style="display:inline;float:right" class="coupon_get_div">
-                        <a href="{{detail.detail_url}}">
+                        <a href="{{detail.detail_url}}" target="_blank">
                             <span id="detail_get" class="coupon_get">商品链接</span>
                         </a>
                     </div>
@@ -53,8 +53,8 @@
 
             </div>
             <div class="am_albums">
-                <img class="am_img animated" src="{% static 'img/loading.gif' %}"
-                     data-original=""
+                <img class="am_img animated" width="100%" height="100%"
+                     src="{{detail.img}}"
                      alt="优惠券"/>
             </div>
 
@@ -107,6 +107,19 @@
         $(".coupon_url").attr("target","_blank");
 
     }
+
+    $("#price_tab").click(function(){
+        console.log("==============")
+        var type = "{{ type }}"
+        console.log(type)
+        if(type == "down"){
+            type = "up"
+        }else if( type != null){
+            type = "down"
+            console.log("=111111==========")
+        }
+        window.location.href = "{% url 'coupon:type_list' 0 %}".replace('0', type)
+    })
 
 
 
