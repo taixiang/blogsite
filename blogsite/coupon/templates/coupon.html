@@ -117,7 +117,12 @@
             url:'{% url 'coupon:more_coupon' %}?page='+page + '&type='+type,
             dataType:'json',
             success:function(response, status){
-
+                var data = JSON.parse(response)
+                console.log(data)
+                $(".am-icon-spinner").removeClass("am-icon-spin");
+                if(!data.next){
+                    $("#moreCake").css("display","none");
+                }
             }
         })
 
