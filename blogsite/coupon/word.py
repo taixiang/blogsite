@@ -13,11 +13,12 @@ from coupon.models import Coupon
 def takeSecond(elem):
     return elem[9]
 
+
 # 删除文件
 def deleteFile():
     media_root = os.path.join(settings.BASE_DIR, 'upload/excel/')
     for i in os.listdir(media_root):
-       os.remove(media_root+i)
+        os.remove(media_root + i)
 
 
 def word():
@@ -33,7 +34,7 @@ def word():
 
     for i in range(1, sheet.nrows):
         v = sheet.row_values(i)
-        if v[19] >= cur_time:
+        if v[19] >= cur_time >= v[18]:
             goods_list.append(v)
     # 佣金排序
     goods_list.sort(key=lambda x: float(x[9]), reverse=True)
@@ -58,4 +59,10 @@ def word():
         coupon.phone_url = i[21]
         coupon.save()
 
-word()
+
+def time():
+    q = "2019-01-10"
+    w = "2018-01-10"
+    print(q > w)
+
+time()

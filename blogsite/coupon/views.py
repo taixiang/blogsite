@@ -1,12 +1,14 @@
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.http import JsonResponse
 from django.shortcuts import render
-
+import time
 from .models import Coupon
 
 
 # Create your views here.
 def index(request):
-    all_data = Coupon.objects.all()
+    cur_time = time.strftime('%Y-%m-%d', time.localtime(time.time()))
+    all_data = Coupon.objects.filter(start_time__lte=cur_time).filter(end_time__gte=cur_time)
     paginator = Paginator(all_data, 10)
     page = request.GET.get('page')
 
@@ -26,9 +28,14 @@ def index(request):
 
 
 def type_list(request, type):
-    print("========")
-    print(type)
-    all_data = Coupon.objects.all()
+    cur_time = time.strftime('%Y-%m-%d', time.localtime(time.time()))
+    print(cur_time)
+    if type == "down":
+        all_data = Coupon.objects.filter(start_time__lte=cur_time).filter(end_time__gte=cur_time).order_by("-price")
+    elif type == "up":
+        all_data = Coupon.objects.filter(start_time__lte=cur_time).filter(end_time__gte=cur_time).order_by('price')
+    else:
+        all_data = Coupon.objects.filter(start_time__lte=cur_time).filter(end_time__gte=cur_time)
     paginator = Paginator(all_data, 10)
     page = request.GET.get('page')
 
@@ -45,6 +52,19 @@ def type_list(request, type):
         has_next = False
 
     return render(request, "coupon.html", {"coupon_list": coupon_list, "has_next": has_next, "type": type})
+
+
+def more_coupon(request):
+    page = request.GET.get('page')
+    type = request.GET.get('type')
+    print(page)
+    print(type)
+    return JsonResponse(None, safe=False)
+
+
+def detail(request, coupon_id):
+    detail_c = Coupon.objects.filter(uuid=coupon_id)
+    return render(request, "coupon_detail.html", {"detail": detail_c[0]})
 
 
 def delete_excel(request):
