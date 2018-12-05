@@ -1,24 +1,15 @@
 {% load staticfiles %}
 <footer class="am_footer">
-    <div class="am_footer_con">
-
-        <div class="am_footer_don">
-            <span>满街香蛋糕</span>
-            <dl>
-                <dt><img src="/upload/img/{{message.logo}}" alt=""></dt>
-                <dd>{{message.address}}
-                    </dd>
-
-            </dl>
-        </div>
+    <div class="am_footer_con" style="padding-bottom:0">
 
         <div class="am_footer_erweima">
-            <div class="am_footer_weixin"><img src="/upload/img/{{message.qrcode}}" alt="">
-                <div class="am_footer_d_gzwx am-icon-weixin"> 关注微信</div>
+            <div class="am_footer_weixin" style="margin: 0 auto;float: none">
+                <img src="{% static 'img/coupon/wechat.jpg' %}" alt="">
+                <div class="am_footer_d_gzwx am-icon-weixin"> 关注微信<br>小姐姐在线解答</div>
             </div>
 
         </div>
 
     </div>
-    <div class="am_info_line">Copyright(c)2018 <span>满街香蛋糕</span> All Rights Reserved</div>
+    <div class="am_info_line">Copyright(c)2019 <span></span> All Rights Reserved</div>
 </footer>

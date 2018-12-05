@@ -58,11 +58,6 @@ def word():
         coupon.web_url = i[20]
         coupon.phone_url = i[21]
         coupon.save()
+    deleteFile()
 
-
-def time():
-    q = "2019-01-10"
-    w = "2018-01-10"
-    print(q > w)
-
-time()
+word()

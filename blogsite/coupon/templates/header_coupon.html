@@ -3,7 +3,7 @@
     <div class="amz-container">
         <h1 class="am-topbar-brand">
             <a href="#" class="am-topbar-logo">
-                <img src="/upload/img/{{message.logo}}" style="width:41px;height:41px" alt=""/>
+                <img src="{% static 'img/coupon/coupon_logo.png' %}" style="width:41px;height:41px" alt=""/>
             </a>
         </h1>
         <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only"
@@ -33,11 +33,13 @@
                 </li>
             </ul>
 
-            <form method="get" action="/youhui/search/" class="am-topbar-form am-topbar-left am-form-inline" role="search">
+            <form method="get" action="/youhui/search/" class="am-topbar-form am-topbar-left am-form-inline"
+                  role="search">
                 <div class="am-form-group">
-                    <input type="text" class="am-form-field am-input-sm" placeholder="搜索">
+                    <input type="text" value="{{keyword}}" name="search" class="am-form-field am-input-sm"
+                           placeholder="搜索">
                 </div>
-                <input type="submit" value="确定">
+                <input style="background: #323436;border: 1px;" type="submit" value="确定">
             </form>
         </div>
     </div>

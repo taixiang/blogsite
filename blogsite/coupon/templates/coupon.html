@@ -12,7 +12,7 @@
         <li>
             <div class="am-gallery-item am_list_block">
 
-                <a href="{% url 'coupon:detail' coupon.uuid %}">
+                <a href="{% url 'coupon:detail' coupon.uuid %}" target="_blank">
                     <div class="am_img_bg">
                         <img class="am_img animated" src="{% static 'img/loading.gif' %}"
                              data-original="{{coupon.img}}"
@@ -86,34 +86,18 @@
         type = "{{type}}"
     }
 
-    console.log(type)
+    var keyword = "{{keyword}}"
 
-    if(Util.isWeixin()){
-        $("#coupon_content").parent().find(".coupon_get").text("复制链接");
-        $(".coupon_url").attr("data-am-modal","{target: '#doc-modal-1', closeViaDimmer: 0, width: 300, height: 225}");
-        var clipboard = new ClipboardJS('.coupon_get_div', {
-                                            text: function(trigger) {
-                                            console.log(trigger)
-                                            console.log(trigger.getAttribute('value'))
-                                                return trigger.getAttribute('value');
-                                            }
-                                        });
+    console.log("type=== "+type)
+    console.log("keyword==== "+keyword)
 
-        clipboard.on('success', function(e) {
-            });
-
-        clipboard.on('error', function(e) {
-            });
-    }else{
-        $(".coupon_get_div").attr("onclick","cc(this)");
-
-    }
+    Util.diff()
 
     $("#moreCoupon").click(function(){
         $(".am-icon-spinner").addClass("am-icon-spin");
         $.ajax({
             type:"GET",
-            url:'{% url 'coupon:more_coupon' %}?page='+page + '&type='+type,
+            url:'{% url 'coupon:more_coupon' %}?page='+page + '&type='+type + '&search='+keyword,
             dataType:'json',
             success:function(response, status){
                 var data = JSON.parse(response)
@@ -129,7 +113,7 @@
 
                 $("#coupon_content").append("<li>"
                     + "<div class='am-gallery-item am_list_block'> "
-                    + " <a href= " + baseurl + " > "
+                    + " <a href= " + baseurl + " target='_blank' > "
                     + "<div class='am_img_bg'>"
                     + "<img class='am_img animated' src='{% static 'img/loading.gif' %}'"
                     + "data-original='" + item.fields.img + " ' "
@@ -162,6 +146,8 @@
 
             })
 
+            Util.diff()
+
             $('.am_img_bg').removeClass('am_img_bg');
             $(this).find('.am_img').addClass('bounceIn');
 
@@ -189,7 +175,8 @@
             type = "down"
             console.log("=111111==========")
         }
-        window.location.href = "{% url 'coupon:type_list' 0 %}".replace('0', type)
+        var url = "{% url 'coupon:type_list' 0 %}".replace('0', type)
+        window.location.href = url + '?search='+keyword
     })
 
 

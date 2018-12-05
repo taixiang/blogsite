@@ -20,6 +20,7 @@ class Coupon(models.Model):
     end_time = models.CharField("结束时间", blank=True, default="", max_length=20)
     web_url = models.TextField("pc", blank=True, default="")
     phone_url = models.TextField("phone", blank=True, default="")
+    count = models.IntegerField("次数", default=0)
 
     class Meta:
         verbose_name = "优惠券"
