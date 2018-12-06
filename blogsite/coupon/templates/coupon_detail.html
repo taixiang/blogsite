@@ -66,8 +66,7 @@
             <div class="am-modal-hd">提示
                 <a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>&times;</a>
             </div>
-            <div class="am-modal-bd">
-                链接复制成功，打开手机自带浏览器 粘贴访问可以领取！
+            <div class="am-modal-bd" id="am-modal-bd">
             </div>
         </div>
     </div>
@@ -83,30 +82,40 @@
     console.log(Util.isWeixin())
     console.log(Util.isMobile())
 
-    if(Util.isWeixin()){
-        $("#coupon_get").text("复制链接");
-        $(".coupon_url").attr("data-am-modal","{target: '#doc-modal-1', closeViaDimmer: 0, width: 300, height: 125}");
-        var clipboard = new ClipboardJS('.coupon_get_div', {
-                                            text: function(trigger) {
-                                                return "{{ detail.phone_url }}";
-                                            }
-                                        });
+    if (ClipboardJS.isSupported() && Util.isMobile()) {
+            $("#coupon_get").text("复制优惠券");
+            var clipboard = new ClipboardJS('.coupon_get_div', {
+                text: function (trigger) {
+                    var url = "{{ detail.phone_url }}";
+                    var text = "{{ detail.name }}";
+                    var logo = "{{ detail.img }}"
+                    var model;
+                    var msg;
+                    $.ajax({
+                        type: "GET",
+                        url: '/youhui/create_key?text='+text + '&url=' + url + '&logo=' + logo,
+                        dataType: 'json',
+                        async: false,
+                        success: function (response, status) {
+                            model = response.tbk_tpwd_create_response.data.model;
+                            console.log(response.tbk_tpwd_create_response.data.model)
+                            msg = model + "复制成功，打开「手机淘宝」即可领取！"
+                            $("#am-modal-bd").text(msg)
+                            $(".coupon_url").attr("data-am-modal", "{target: '#doc-modal-1', closeViaDimmer: 0, width: 300, height: 125}");
+                        }
+                    })
 
-        clipboard.on('success', function(e) {
-                console.log('success');
-                console.log(e);
+                    return msg;
+                }
             });
-
-        clipboard.on('error', function(e) {
-                console.log('fail');
-                console.log(e);
+            clipboard.on('success', function (e) {
             });
-
-    }else {
-        $(".coupon_url").attr("href","{{ detail.phone_url }}");
-        $(".coupon_url").attr("target","_blank");
-
-    }
+            clipboard.on('error', function (e) {
+            });
+        } else {
+            $(".coupon_url").attr("href","{{ detail.phone_url }}");
+            $(".coupon_url").attr("target","_blank");
+        }
 
     $("#price_tab").click(function(){
         console.log("==============")
@@ -118,7 +127,8 @@
             type = "down"
             console.log("=111111==========")
         }
-        window.location.href = "{% url 'coupon:type_list' 0 %}".replace('0', type)
+        var url = "{% url 'coupon:type_list' 0 %}".replace('0', type)
+        window.location.href = url + '?search='+""
     })
 
 

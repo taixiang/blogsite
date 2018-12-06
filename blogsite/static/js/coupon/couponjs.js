@@ -10,13 +10,11 @@ var Util = (function(){
     }
 
     exports.diff = function(){
-        if(exports.isWeixin()){
+        if(exports.isMobile()){
         $("#coupon_content").parent().find(".coupon_get").text("复制链接");
         $(".coupon_url").attr("data-am-modal","{target: '#doc-modal-1', closeViaDimmer: 0, width: 300, height: 225}");
         var clipboard = new ClipboardJS('.coupon_get_div', {
                                             text: function(trigger) {
-                                            console.log(trigger)
-                                            console.log(trigger.getAttribute('value'))
                                                 return trigger.getAttribute('value');
                                             }
                                         });
@@ -28,6 +26,42 @@ var Util = (function(){
                 });
         }else{
             $(".coupon_get_div").attr("onclick","cc(this)");
+        }
+    }
+
+    exports.judge = function() {
+        if (ClipboardJS.isSupported() && Util.isMobile()) {
+            $("#coupon_content").parent().find(".coupon_get").text("复制链接");
+            var clipboard = new ClipboardJS('.coupon_get_div', {
+                text: function (trigger) {
+                    var url = trigger.getAttribute('value');
+                    var text = trigger.getAttribute('txt');
+                    var logo = trigger.getAttribute('logo');
+                    var model;
+                    var msg;
+                    $.ajax({
+                        type: "GET",
+                        url: '/youhui/create_key?text='+text + '&url=' + url + '&logo=' + logo,
+                        dataType: 'json',
+                        async: false,
+                        success: function (response, status) {
+                            model = response.tbk_tpwd_create_response.data.model;
+                            console.log(response.tbk_tpwd_create_response.data.model)
+                            msg = model + "复制成功，打开「手机淘宝」即可领取！"
+                            $("#am-modal-bd").text(msg)
+                            $(".coupon_url").attr("data-am-modal", "{target: '#doc-modal-1', closeViaDimmer: 0, width: 300, height: 125}");
+                        }
+                    })
+
+                    return msg;
+                }
+            });
+            clipboard.on('success', function (e) {
+            });
+            clipboard.on('error', function (e) {
+            });
+        } else {
+            $(".coupon_get_div").attr("onclick", "cc(this)");
         }
     }
 

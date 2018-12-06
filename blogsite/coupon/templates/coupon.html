@@ -15,7 +15,7 @@
                 <a href="{% url 'coupon:detail' coupon.uuid %}" target="_blank">
                     <div class="am_img_bg">
                         <img class="am_img animated" src="{% static 'img/loading.gif' %}"
-                             data-original="{{coupon.img}}"
+                             data-original=""
                              alt="优惠券"/>
                     </div>
                     <span class="coupon_name">{{coupon.name}}</span>
@@ -36,6 +36,8 @@
                         <div class="coupon_shop">{{coupon.shop}}</div>
                     </div>
                     <div id="{{coupon.id}}"  class="coupon_get_div"  data-clipboard-action="copy" value="{{ coupon.phone_url }}"
+                         txt="{{ coupon.name }}"
+                         logo="{{ coupon.img }}"
                          data-clipboard-target="div">
                         <a class="coupon_url">
                             <span id="coupon_get" class="coupon_get">立即领取</span>
@@ -63,8 +65,7 @@
         <div class="am-modal-hd">提示
             <a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>&times;</a>
         </div>
-        <div class="am-modal-bd">
-            链接复制成功，打开手机自带浏览器 粘贴访问可以领取！
+        <div class="am-modal-bd" id="am-modal-bd">
         </div>
     </div>
 </div>
@@ -81,6 +82,7 @@
 
     var page = 2;
     var type = "";
+    var isloading = false;
 
     if("{{type}}" == "up" || "{{type}}" == "down"){
         type = "{{type}}"
@@ -91,15 +93,25 @@
     console.log("type=== "+type)
     console.log("keyword==== "+keyword)
 
-    Util.diff()
+    Util.judge();
 
     $("#moreCoupon").click(function(){
+
         $(".am-icon-spinner").addClass("am-icon-spin");
+        if(isloading){
+            return
+        }
+        isloading = true;
         $.ajax({
             type:"GET",
             url:'{% url 'coupon:more_coupon' %}?page='+page + '&type='+type + '&search='+keyword,
             dataType:'json',
+            complete:function(){
+                isloading = false;
+                $(".am-icon-spinner").removeClass("am-icon-spin");
+            },
             success:function(response, status){
+                isloading = false
                 var data = JSON.parse(response)
                 console.log(data)
                 $(".am-icon-spinner").removeClass("am-icon-spin");
@@ -116,7 +128,7 @@
                     + " <a href= " + baseurl + " target='_blank' > "
                     + "<div class='am_img_bg'>"
                     + "<img class='am_img animated' src='{% static 'img/loading.gif' %}'"
-                    + "data-original='" + item.fields.img + " ' "
+                    + "data-original='" + "" + " ' "
                     + " alt='优惠券'/> "
                     + "</div>"
                     + "<span class='coupon_name'>" + item.fields.name + "</span>"
@@ -133,7 +145,7 @@
                     + "<div>"
                     + "<div class='coupon_shop'>"+item.fields.shop+"</div>"
                     + "</div>"
-                    + "<div id='"+item.fields.id+"' class='coupon_get_div' data-clipboard-action='copy' value='"+item.fields.phone_url+"'"
+                    + "<div id='"+item.fields.id+"' class='coupon_get_div' data-clipboard-action='copy' value='"+item.fields.phone_url+"'" + "txt='" + item.fields.name +"'" + "logo='" + item.fields.img +"'"
                     + "data-clipboard-target='div'>"
                     + "<a class='coupon_url'>"
                     + "<span id='coupon_get' class='coupon_get'>立即领取</span>"
@@ -146,7 +158,11 @@
 
             })
 
-            Util.diff()
+            if (ClipboardJS.isSupported() && Util.isMobile()) {
+                $("#coupon_content").parent().find(".coupon_get").text("复制优惠券");
+            } else {
+                $(".coupon_get_div").attr("onclick", "cc(this)");
+            }
 
             $('.am_img_bg').removeClass('am_img_bg');
             $(this).find('.am_img').addClass('bounceIn');

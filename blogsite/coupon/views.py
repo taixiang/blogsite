@@ -5,10 +5,13 @@ from django.db.models import Q
 from django.http import JsonResponse
 from django.shortcuts import render
 import time
+
+import top
 from .models import Coupon
 import os
 from django.conf import settings
 
+# user_id 的使用
 # Create your views here.
 # 处理数据 类型+关键词
 def query_data(keyword, type):
@@ -142,11 +145,31 @@ def search(request):
 
     return render(request, "coupon.html", {"coupon_list": coupon_list, "has_next": has_next, "keyword": keyword})
 
+
+def create_key(request):
+    print(request.GET["text"])
+    print(request.GET["url"])
+    text = request.GET["text"]
+    url = request.GET["url"]
+    logo = request.GET["logo"]
+    req = top.api.TbkTpwdCreateRequest()
+    req.set_app_info(top.appinfo("25102570", "a3bd49181cbecae30111cde7631ab5d6"))
+
+    # req.user_id = "123"
+    req.text = text
+    req.url = url
+    req.logo = logo
+    # req.ext = "{}"
+    resp = req.getResponse()
+    return JsonResponse(resp, safe=None)
+
+
 # 删除文件
 def deleteFile():
     media_root = os.path.join(settings.BASE_DIR, 'upload/excel/')
     for i in os.listdir(media_root):
         os.remove(media_root + i)
+
 
 # 删除结束时间小于今日的
 def delete_excel(request):
@@ -155,7 +178,6 @@ def delete_excel(request):
     coupon_list.delete()
     print(coupon_list)
     return JsonResponse("{success}", safe=False)
-
 
 
 def word_create(request):

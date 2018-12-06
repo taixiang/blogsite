@@ -3,6 +3,7 @@ import time
 import os
 import django
 from django.conf import settings
+import top.api
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "blogsite.settings")
 django.setup()
@@ -60,4 +61,15 @@ def word():
         coupon.save()
     deleteFile()
 
-word()
+
+def key():
+    req = top.api.TbkTpwdCreateRequest()
+    req.set_app_info(top.appinfo("25102570", "a3bd49181cbecae30111cde7631ab5d6"))
+
+    req.user_id = "123"
+    req.text = "长度大于5个字符"
+    req.url = "https://uland.taobao.com/"
+    req.logo = "https://uland.taobao.com/"
+    req.ext = "{}"
+    resp = req.getResponse()
+    print(resp)
