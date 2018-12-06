@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from .views import index, type_list, detail, more_coupon, search, delete_excel, word_create, create_key, ques
+from .views import index, type_list, detail, more_coupon, search, delete_excel, word_create, create_key, ques, post_advice
 
 urlpatterns = [
     url(r'^$', index, name='index'),
@@ -9,6 +9,7 @@ urlpatterns = [
     url(r'^search', search, name='search'),
     url(r'^create_key', create_key, name='create_key'),
     url(r'^question', ques, name="ques"),
+    url(r'^post_advice', post_advice, name="post_advice"),
     # 根据excel 创建数据 删除文件
     url(r'^word_create_coupon', word_create, name='word_create'),
     # 删除过期数据

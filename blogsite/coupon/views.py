@@ -6,13 +6,16 @@ from django.http import JsonResponse
 from django.shortcuts import render
 import time
 
+from django.views.decorators.csrf import csrf_exempt
+
 import top
-from .models import Coupon, Ques
+from .models import Coupon, Ques, Advice
 import os
 from django.conf import settings
+import json
 
 
-# user_id 的使用 问题收集
+# user_id 的使用 问题收集 定位 去重 回顶部
 # Create your views here.
 # 处理数据 类型+关键词
 def query_data(keyword, type):
@@ -33,7 +36,7 @@ def query_data(keyword, type):
             Q(**name_dict) | Q(**type_dict) | Q(**shop_dict)).order_by('price')
     else:
         all_data = Coupon.objects.filter(start_time__lte=cur_time).filter(end_time__gte=cur_time).filter(
-            Q(**name_dict) | Q(**type_dict) | Q(**shop_dict)).order_by("id")
+            Q(**name_dict) | Q(**type_dict) | Q(**shop_dict)).order_by("-sale")
 
     return all_data
 
@@ -41,7 +44,7 @@ def query_data(keyword, type):
 # 首页
 def index(request):
     cur_time = time.strftime('%Y-%m-%d', time.localtime(time.time()))
-    all_data = Coupon.objects.filter(start_time__lte=cur_time).filter(end_time__gte=cur_time).order_by("id")
+    all_data = Coupon.objects.filter(start_time__lte=cur_time).filter(end_time__gte=cur_time).order_by("-sale")
     paginator = Paginator(all_data, 10)
     page = request.GET.get('page')
 
@@ -133,7 +136,7 @@ def search(request):
 
     cur_time = time.strftime('%Y-%m-%d', time.localtime(time.time()))
     all_data = Coupon.objects.filter(start_time__lte=cur_time, end_time__gte=cur_time).filter(
-        Q(**name_dict) | Q(**type_dict) | Q(**shop_dict)).order_by("id")
+        Q(**name_dict) | Q(**type_dict) | Q(**shop_dict)).order_by("-sale")
     paginator = Paginator(all_data, 10)
     page = request.GET.get('page')
 
@@ -162,7 +165,7 @@ def create_key(request):
     req = top.api.TbkTpwdCreateRequest()
     req.set_app_info(top.appinfo("25102570", "a3bd49181cbecae30111cde7631ab5d6"))
 
-    # req.user_id = "123"
+    # req.user_id = "872592326"
     req.text = text
     req.url = url
     req.logo = logo
@@ -178,6 +181,17 @@ def ques(request):
     first.count += 1
     first.save()
     return render(request, "coupon_ques.html",{"msg": first})
+
+# 意见反馈
+@csrf_exempt
+def post_advice(request):
+    print(request.body.decode('utf-8'))
+    value = request.POST["value"]
+    print(value)
+    t = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
+    advice = Advice(content=value,time=t)
+    advice.save()
+    return JsonResponse("{success}", safe=None)
 
 
 # 删除文件
@@ -220,6 +234,7 @@ def word_create(request):
         coupon.type = i[4]
         coupon.detail_url = i[5]
         coupon.price = i[6]
+        coupon.sale = i[7]
         coupon.money = i[9]
         coupon.shop = i[12]
         if i[13] == "淘宝":

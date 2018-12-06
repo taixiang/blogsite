@@ -12,6 +12,7 @@ class Coupon(models.Model):
     type = models.CharField("商品类别", blank=True, default="", max_length=50)
     detail_url = models.TextField("淘宝客链接", blank=True, default="")
     price = models.DecimalField("商品价格", blank=True, max_digits=7, decimal_places=2)
+    sale = models.IntegerField("销量", default=0)
     money = models.CharField("佣金", blank=True, default="", max_length=10)
     shop = models.CharField("店铺", blank=True, default="", max_length=50)
     platform = models.IntegerField("平台", choices=platform_type, blank=True, default=0)

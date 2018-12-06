@@ -3,9 +3,48 @@
 
 {% block content %}
 
+<style>
+    img{
+       max-width:100% !important
+    }
+    .post-body{
+        margin:10px 5px
+    }
+    .am-form{
+
+    }
+
+
+</style>
+
 <div class="post-body" itemprop="articleBody" id="content-body">
 
-                            </div>
+</div>
+
+<div class="am-form">
+    <fieldset>
+
+        <div class="am-form-group">
+            <label for="doc-ta-1">反馈：</label>
+            <textarea placeholder="请提出您宝贵的意见！" class="" rows="5" id="doc-ta-1"></textarea>
+        </div>
+        <p>
+            <button id="advice" class="am-btn am-btn-default">提交</button>
+        </p>
+
+    </fieldset>
+</div>
+
+<div class="am-modal am-modal-no-btn" tabindex="-1" id="doc-modal-1">
+        <div class="am-modal-dialog">
+            <div class="am-modal-hd">提示
+                <a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>&times;</a>
+            </div>
+            <div class="am-modal-bd" id="am-modal-bd">
+                感谢反馈！
+            </div>
+        </div>
+</div>
 
 <script type="text/javascript" src="{% static 'js/marked.js' %}"></script>
 
@@ -24,6 +63,27 @@
         {% endif %}
 
     });
+
+    $("#advice").click(function () {
+        console.log("===========");
+        console.log($("#doc-ta-1").val());
+        var data = {
+          "value":$("#doc-ta-1").val()
+        };
+        $.ajax({
+            type:"POST",
+            url:"/youhui/post_advice/",
+            dataType:"json",
+            data:data,
+            success:function (result) {
+                console.log(result)
+
+            }
+
+        })
+
+    });
+
 
 </script>
 

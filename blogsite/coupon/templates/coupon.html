@@ -15,7 +15,7 @@
                 <a href="{% url 'coupon:detail' coupon.uuid %}" target="_blank">
                     <div class="am_img_bg">
                         <img class="am_img animated" src="{% static 'img/loading.gif' %}"
-                             data-original=""
+                             data-original="{{coupon.img}}"
                              alt="优惠券"/>
                     </div>
                     <span class="coupon_name">{{coupon.name}}</span>
@@ -128,7 +128,7 @@
                     + " <a href= " + baseurl + " target='_blank' > "
                     + "<div class='am_img_bg'>"
                     + "<img class='am_img animated' src='{% static 'img/loading.gif' %}'"
-                    + "data-original='" + "" + " ' "
+                    + "data-original='" + item.fields.img + " ' "
                     + " alt='优惠券'/> "
                     + "</div>"
                     + "<span class='coupon_name'>" + item.fields.name + "</span>"
