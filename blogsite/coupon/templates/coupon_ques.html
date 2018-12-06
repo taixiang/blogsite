@@ -1,0 +1,30 @@
+{% extends "base_coupon.html" %}
+{% load staticfiles %}
+
+{% block content %}
+
+<div class="post-body" itemprop="articleBody" id="content-body">
+
+                            </div>
+
+<script type="text/javascript" src="{% static 'js/marked.js' %}"></script>
+
+<script>
+
+    $(function () {
+        {% if msg.about_me %}
+            $.ajax({
+                url: '/upload/{{msg.about_me}}',
+                type: "GET",
+                dataType: "text",
+                success: function (data) {
+                    markdownFromText(data, "content-body");
+                }
+            });
+        {% endif %}
+
+    });
+
+</script>
+
+{% endblock %}

@@ -7,11 +7,12 @@ from django.shortcuts import render
 import time
 
 import top
-from .models import Coupon
+from .models import Coupon, Ques
 import os
 from django.conf import settings
 
-# user_id 的使用
+
+# user_id 的使用 问题收集
 # Create your views here.
 # 处理数据 类型+关键词
 def query_data(keyword, type):
@@ -37,6 +38,7 @@ def query_data(keyword, type):
     return all_data
 
 
+# 首页
 def index(request):
     cur_time = time.strftime('%Y-%m-%d', time.localtime(time.time()))
     all_data = Coupon.objects.filter(start_time__lte=cur_time).filter(end_time__gte=cur_time).order_by("id")
@@ -58,6 +60,7 @@ def index(request):
     return render(request, "coupon.html", {"coupon_list": coupon_list, "has_next": has_next})
 
 
+# 排序
 def type_list(request, type):
     keyword = request.GET["search"]
     all_data = query_data(keyword, type)
@@ -80,6 +83,7 @@ def type_list(request, type):
                   {"coupon_list": coupon_list, "has_next": has_next, "type": type, "keyword": keyword})
 
 
+# 更多
 def more_coupon(request):
     type = request.GET.get('type')
     keyword = request.GET["search"]
@@ -106,6 +110,7 @@ def more_coupon(request):
     return JsonResponse(data, safe=False)
 
 
+# 详情
 def detail(request, coupon_id):
     detail_c = Coupon.objects.filter(uuid=coupon_id)
     detail = detail_c[0]
@@ -114,6 +119,7 @@ def detail(request, coupon_id):
     return render(request, "coupon_detail.html", {"detail": detail})
 
 
+# 搜索
 def search(request):
     keyword = request.GET["search"]
     keyword = keyword.replace(" ", "")
@@ -146,6 +152,7 @@ def search(request):
     return render(request, "coupon.html", {"coupon_list": coupon_list, "has_next": has_next, "keyword": keyword})
 
 
+# 口令生成
 def create_key(request):
     print(request.GET["text"])
     print(request.GET["url"])
@@ -164,6 +171,15 @@ def create_key(request):
     return JsonResponse(resp, safe=None)
 
 
+# 相关问题
+def ques(request):
+    ques = Ques.objects.all()
+    first = ques[0]
+    first.count += 1
+    first.save()
+    return render(request, "coupon_ques.html",{"msg": first})
+
+
 # 删除文件
 def deleteFile():
     media_root = os.path.join(settings.BASE_DIR, 'upload/excel/')
@@ -180,6 +196,7 @@ def delete_excel(request):
     return JsonResponse("{success}", safe=False)
 
 
+# 先写入数据库，同时删除excel文件
 def word_create(request):
     goods_list = []
     media_root = os.path.join(settings.BASE_DIR, 'upload/excel/')

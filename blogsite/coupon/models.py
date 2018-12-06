@@ -37,3 +37,23 @@ class Word(models.Model):
 
     def __str__(self):
         return "test"
+
+
+# 意见反馈
+class Advice(models.Model):
+    content = models.TextField("意见反馈", blank=True, default="")
+    time = models.CharField("时间", max_length=150, blank=True, default="")
+
+    class Meta:
+        verbose_name = "意见反馈"
+        verbose_name_plural = "意见反馈"
+        ordering = ["-time"]
+
+
+# md文件
+class Ques(models.Model):
+    about_me = models.FileField("相关问题", upload_to='file/%Y/%m/%d/', blank=True)
+    count = models.IntegerField("次数", default=0)
+
+    def __str__(self):
+        return "相关问题"

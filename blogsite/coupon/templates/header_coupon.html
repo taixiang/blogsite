@@ -31,6 +31,13 @@
                              src="{%if type == 'down' %} {% static 'img/coupon/down_select.png' %} {%else%} {% static 'img/coupon/down.png' %} {%endif%}">
                     </a>
                 </li>
+
+                <li >
+                    <a href="{% url 'coupon:ques' %}" target="_blank">
+                        相关问题
+                    </a>
+                </li>
+
             </ul>
 
             <form method="get" action="/youhui/search/" class="am-topbar-form am-topbar-left am-form-inline"
