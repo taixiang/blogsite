@@ -45,7 +45,7 @@ def query_data(keyword, type):
 def index(request):
     cur_time = time.strftime('%Y-%m-%d', time.localtime(time.time()))
     all_data = Coupon.objects.filter(start_time__lte=cur_time).filter(end_time__gte=cur_time).order_by("-sale")
-    paginator = Paginator(all_data, 10)
+    paginator = Paginator(all_data, 12)
     page = request.GET.get('page')
 
     try:
@@ -67,7 +67,7 @@ def index(request):
 def type_list(request, type):
     keyword = request.GET["search"]
     all_data = query_data(keyword, type)
-    paginator = Paginator(all_data, 10)
+    paginator = Paginator(all_data, 12)
     page = request.GET.get('page')
 
     try:
@@ -91,7 +91,7 @@ def more_coupon(request):
     type = request.GET.get('type')
     keyword = request.GET["search"]
     all_data = query_data(keyword, type)
-    paginator = Paginator(all_data, 10)
+    paginator = Paginator(all_data, 12)
     page = request.GET.get('page')
     try:
         coupon_list = paginator.page(page)
@@ -137,7 +137,7 @@ def search(request):
     cur_time = time.strftime('%Y-%m-%d', time.localtime(time.time()))
     all_data = Coupon.objects.filter(start_time__lte=cur_time, end_time__gte=cur_time).filter(
         Q(**name_dict) | Q(**type_dict) | Q(**shop_dict)).order_by("-sale")
-    paginator = Paginator(all_data, 10)
+    paginator = Paginator(all_data, 12)
     page = request.GET.get('page')
 
     try:
