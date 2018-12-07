@@ -126,7 +126,6 @@ def detail(request, coupon_id):
 def search(request):
     keyword = request.GET["search"]
     keyword = keyword.replace(" ", "")
-    print(keyword)
     name_dict = {}
     name_dict["name__contains"] = keyword
     type_dict = {}
@@ -157,8 +156,6 @@ def search(request):
 
 # 口令生成
 def create_key(request):
-    print(request.GET["text"])
-    print(request.GET["url"])
     text = request.GET["text"]
     url = request.GET["url"]
     logo = request.GET["logo"]
@@ -186,9 +183,7 @@ def ques(request):
 # 意见反馈
 @csrf_exempt
 def post_advice(request):
-    print(request.body.decode('utf-8'))
     value = request.POST["value"]
-    print(value)
     t = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
     advice = Advice(content=value, time=t)
     advice.save()
@@ -207,7 +202,6 @@ def delete_excel(request):
     cur_time = time.strftime('%Y-%m-%d', time.localtime(time.time()))
     coupon_list = Coupon.objects.filter(end_time__lt=cur_time)
     coupon_list.delete()
-    print(coupon_list)
     return JsonResponse("{success}", safe=False)
 
 
