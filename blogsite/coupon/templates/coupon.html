@@ -12,12 +12,12 @@
         <li>
             <div class="am-gallery-item am_list_block">
 
-                <a href="{% url 'coupon:detail' coupon.uuid %}" target="_blank">
-                    <div class="am_img_bg">
+                <a >
+                    <a class="am_img_bg" href="{% url 'coupon:detail' coupon.uuid %}" target="_blank">
                         <img class="am_img animated" src="{% static 'img/loading.gif' %}"
                              data-original="{{coupon.img}}"
                              alt="优惠券"/>
-                    </div>
+                    </a>
                     <span class="coupon_name">{{coupon.name}}</span>
 
                     <div>
@@ -120,12 +120,12 @@
 
                 $("#coupon_content").append("<li>"
                     + "<div class='am-gallery-item am_list_block'> "
-                    + " <a href= " + baseurl + " target='_blank' > "
-                    + "<div class='am_img_bg'>"
+                    + " <a> "
+                    + "<a class='am_img_bg' href= " + baseurl + " target='_blank' > "
                     + "<img class='am_img animated' src='{% static 'img/loading.gif' %}'"
                     + "data-original='" + item.fields.img + " ' "
                     + " alt='优惠券'/> "
-                    + "</div>"
+                    + "</a>"
                     + "<span class='coupon_name'>" + item.fields.name + "</span>"
                     + "<div>"
                     + "<img class='img_juan' src='{% static 'img/coupon/juan.png' %}'>"
