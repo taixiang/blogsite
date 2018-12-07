@@ -15,7 +15,7 @@ from django.conf import settings
 import json
 
 
-# user_id 的使用 问题收集 定位 去重 回顶部
+# markdown定位 去重
 # Create your views here.
 # 处理数据 类型+关键词
 def query_data(keyword, type):
@@ -180,7 +180,8 @@ def ques(request):
     first = ques[0]
     first.count += 1
     first.save()
-    return render(request, "coupon_ques.html",{"msg": first})
+    return render(request, "coupon_ques.html", {"msg": first})
+
 
 # 意见反馈
 @csrf_exempt
@@ -189,7 +190,7 @@ def post_advice(request):
     value = request.POST["value"]
     print(value)
     t = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
-    advice = Advice(content=value,time=t)
+    advice = Advice(content=value, time=t)
     advice.save()
     return JsonResponse("{success}", safe=None)
 
@@ -248,4 +249,11 @@ def word_create(request):
         coupon.phone_url = i[21]
         coupon.save()
     deleteFile()
+    return JsonResponse("{success}", safe=False)
+
+
+# 删除所有数据
+def delete_all(request):
+    coupon_list = Coupon.objects.all()
+    coupon_list.delete()
     return JsonResponse("{success}", safe=False)

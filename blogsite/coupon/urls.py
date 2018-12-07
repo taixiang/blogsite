@@ -1,5 +1,6 @@
 from django.conf.urls import url
-from .views import index, type_list, detail, more_coupon, search, delete_excel, word_create, create_key, ques, post_advice
+from .views import index, type_list, detail, more_coupon, search, delete_excel, word_create, create_key, ques, \
+    post_advice, delete_all
 
 urlpatterns = [
     url(r'^$', index, name='index'),
@@ -14,5 +15,7 @@ urlpatterns = [
     url(r'^word_create_coupon', word_create, name='word_create'),
     # 删除过期数据
     url(r'^delete_tai_excel_xiang', delete_excel, name='delete_excel'),
+    # 删除所有数据
+    url(r'^delete_all', delete_all, name='delete_all')
 
 ]

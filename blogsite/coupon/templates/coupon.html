@@ -62,7 +62,7 @@
 
 <div class="am-modal am-modal-no-btn" tabindex="-1" id="doc-modal-1">
     <div class="am-modal-dialog">
-        <div class="am-modal-hd">提示
+        <div class="am-modal-hd">
             <a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>&times;</a>
         </div>
         <div class="am-modal-bd" id="am-modal-bd">
@@ -75,8 +75,7 @@
 
 <script src="{% static 'js/petshow.js' %}"></script>
 
-<script src="{% static 'js/coupon/couponjs.js' %}"></script>
-<script src="{% static 'js/clipboard.min.js' %}"></script>
+
 
 <script>
 
@@ -89,9 +88,6 @@
     }
 
     var keyword = "{{keyword}}"
-
-    console.log("type=== "+type)
-    console.log("keyword==== "+keyword)
 
     Util.judge();
 
@@ -113,7 +109,6 @@
             success:function(response, status){
                 isloading = false
                 var data = JSON.parse(response)
-                console.log(data)
                 $(".am-icon-spinner").removeClass("am-icon-spin");
                 if(!data.next){
                     $("#moreCoupon").css("display","none");
@@ -181,19 +176,7 @@
 
     })
 
-    $("#price_tab").click(function(){
-        console.log("==============")
-        var type = "{{ type }}"
-        console.log(type)
-        if(type == "down"){
-            type = "up"
-        }else if( type != null){
-            type = "down"
-            console.log("=111111==========")
-        }
-        var url = "{% url 'coupon:type_list' 0 %}".replace('0', type)
-        window.location.href = url + '?search='+keyword
-    })
+    Util.tab("{{type}}", keyword);
 
 
     function cc(e){

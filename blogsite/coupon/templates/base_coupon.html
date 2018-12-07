@@ -3,12 +3,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>优惠券聚集地</title>
+    <title>优惠券集中营</title>
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="keywords" content="优惠券，天猫，淘宝">
-    <meta name="description" content="分享优惠券，">
+    <meta name="description" content="分享优惠券，海量优惠券等你来领">
     <link rel="stylesheet" href="{% static 'css/amazeui.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/petshow.css' %}">
     <link rel="stylesheet" href="{% static 'css/animate.min.css' %}">
@@ -17,7 +17,18 @@
     <script src="{% static 'js/amazeui.min.js' %}"></script>
     <script src="{% static 'js/countUp.min.js' %}"></script>
     <script src="{% static 'js/amazeui.lazyload.min.js' %}"></script>
+    <script src="{% static 'js/coupon/couponjs.js' %}"></script>
+    <script src="{% static 'js/clipboard.min.js' %}"></script>
 
+    <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?1bf3f860dd0493b3d856aa3baccb107c";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
 
 
 </head>
@@ -25,6 +36,18 @@
 {% include "header_coupon.html" %}
 {% block content %}{% endblock %}
 {% include "footer_coupon.html" %}
-
+<div data-am-widget="gotop" class="am-gotop am-gotop-fixed" >
+<a href="#top" title="回到顶部">
+    <span class="am-gotop-title">回到顶部</span>
+      <i class="am-gotop-icon am-icon-chevron-up"></i>
+</a>
+</div>
 </body>
+<script>
+
+    Util.help();
+    Util.packet();
+    Util.showPocket();
+
+</script>
 </html>

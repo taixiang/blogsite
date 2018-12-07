@@ -36,8 +36,12 @@ class Word(models.Model):
     word = models.FileField("word", upload_to='excel/', blank=True)
     pub_time = models.DateTimeField("时间", default=timezone.now)
 
+    class Meta:
+        verbose_name = "excel文件"
+        verbose_name_plural = "excel文件"
+
     def __str__(self):
-        return "test"
+        return "excel文件"
 
 
 # 意见反馈
@@ -56,5 +60,9 @@ class Ques(models.Model):
     about_me = models.FileField("相关问题", upload_to='file/%Y/%m/%d/', blank=True)
     count = models.IntegerField("次数", default=0)
 
+    class Meta:
+        verbose_name = "md文件"
+        verbose_name_plural = "md文件"
+
     def __str__(self):
-        return "相关问题"
+        return "md文件"

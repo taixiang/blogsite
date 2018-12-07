@@ -37,11 +37,10 @@
 
 <div class="am-modal am-modal-no-btn" tabindex="-1" id="doc-modal-1">
         <div class="am-modal-dialog">
-            <div class="am-modal-hd">提示
+            <div class="am-modal-hd">
                 <a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>&times;</a>
             </div>
             <div class="am-modal-bd" id="am-modal-bd">
-                感谢反馈！
             </div>
         </div>
 </div>
@@ -65,10 +64,12 @@
     });
 
     $("#advice").click(function () {
-        console.log("===========");
-        console.log($("#doc-ta-1").val());
+        var value = $("#doc-ta-1").val().trim();
+        if(value == null || value.length <= 0){
+            return
+        }
         var data = {
-          "value":$("#doc-ta-1").val()
+          "value":value
         };
         $.ajax({
             type:"POST",
@@ -76,15 +77,15 @@
             dataType:"json",
             data:data,
             success:function (result) {
-                console.log(result)
-
+                $("#am-modal-bd").text("感谢反馈！");
+                $('#doc-modal-1').modal({
+                    relatedTarget: this
+                });
             }
-
         })
-
     });
 
-
+    Util.tab("{{type}}", "");
 </script>
 
 {% endblock %}

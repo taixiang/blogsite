@@ -1,12 +1,30 @@
 {% load staticfiles %}
+
+<style type="text/css">
+        .pc_pocket img{display:block !important; padding:2px; border:0; margin-top: 40px; max-width:400px; margin-left:-90px}
+        .pc_pocket a span{display:none; color:#F00;z-index:99;}
+        .pc_pocket a:hover span{display:inline; position:absolute;}
+</style>
+
 <header class="am-topbar am-topbar-inverse">
     <div class="amz-container">
         <h1 class="am-topbar-brand">
-            <a href="#" class="am-topbar-logo">
+            <a href="{% url 'coupon:index' %}" class="am-topbar-logo">
                 <img src="{% static 'img/coupon/coupon_logo.png' %}" style="width:41px;height:41px" alt=""/>
             </a>
+            <li id="phone_help" style="display:inline">
+                <a href="{% url 'coupon:ques' %}" target="_blank" style="font-size:14px;margin-left:20px">
+                    帮助
+                </a>
+            </li>
+            <li id="red_packet" class="red_packet" style="display:inline;margin-left:20px" data-clipboard-action="copy" data-clipboard-target="div">
+                <a style="font-size:14px" href="#">
+                    双12红包领取
+                </a>
+            </li>
         </h1>
-        <button style="background: #ff5656"  class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only"
+        <button style="background: #ff5656"
+                class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only"
                 data-am-collapse="{target: '#doc-topbar-collapse-5'}">
             <span class="am-sr-only">
                 导航切换
@@ -32,7 +50,15 @@
                     </a>
                 </li>
 
-                <li >
+                <li id="pc_pocket" class="pc_pocket">
+                    <a rel="section" target="_blank">
+                        <span><img src="{% static 'img/coupon/pocket.png' %}" alt=""/>
+                        </span>
+                        双12红包(扫码领取)
+                    </a>
+                </li>
+
+                <li id="pc_help">
                     <a href="{% url 'coupon:ques' %}" target="_blank">
                         帮助
                     </a>
