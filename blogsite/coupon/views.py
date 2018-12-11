@@ -47,6 +47,7 @@ def index(request):
     all_data = Coupon.objects.filter(start_time__lte=cur_time).filter(end_time__gte=cur_time).order_by("-sale")
     paginator = Paginator(all_data, 12)
     page = request.GET.get('page')
+    s = request.GET.get('s')
 
     try:
         coupon_list = paginator.page(page)
@@ -59,6 +60,13 @@ def index(request):
         has_next = True
     else:
         has_next = False
+
+    # 二维码扫描
+    if "qr" == s:
+        ques = Ques.objects.all()
+        first = ques[0]
+        first.count_qr += 1
+        first.save()
 
     return render(request, "coupon.html", {"coupon_list": coupon_list, "has_next": has_next})
 

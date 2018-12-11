@@ -54,11 +54,15 @@ class Advice(models.Model):
         verbose_name_plural = "意见反馈"
         ordering = ["-time"]
 
+    def __str__(self):
+        return self.content
+
 
 # md文件
 class Ques(models.Model):
     about_me = models.FileField("相关问题", upload_to='file/%Y/%m/%d/', blank=True)
     count = models.IntegerField("次数", default=0)
+    count_qr = models.IntegerField("二维码次数", default=0)
 
     class Meta:
         verbose_name = "md文件"
