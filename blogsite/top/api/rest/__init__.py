@@ -34,3 +34,4 @@ from top.api.rest.HttpdnsGetRequest import HttpdnsGetRequest
 from top.api.rest.TbkUatmFavoritesGetRequest import TbkUatmFavoritesGetRequest
 from top.api.rest.OpenuidGetBytradeRequest import OpenuidGetBytradeRequest
 from top.api.rest.TbkUatmFavoritesItemGetRequest import TbkUatmFavoritesItemGetRequest
+from top.api.rest.TbkItemGuessLikeRequest import TbkItemGuessLikeRequest
