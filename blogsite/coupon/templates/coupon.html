@@ -4,7 +4,17 @@
 
 {% block content %}
 
-<div class="am-g am-imglist">
+<div class="banner_navbg" style="background: url({% static 'img/coupon/bannner_smallbg.png' %}) repeat-x;" data-am-sticky>
+    <div class="am-g">
+        <div class="banner_nav"><span class="am-icon-caret-right">  筛选：</span>
+            <a id="select" href="###" class="banner_hover">精选优质</a>
+            <a id="goods" href="###">好劵清单</a>
+            <a id="like" href="###" style="display:none">猜你喜欢</a>
+        </div>
+    </div>
+</div>
+
+<div class="am-g am-imglist" id="div_select">
     <ul id="coupon_content" data-am-widget="gallery" class="am-gallery am-avg-sm-2
   am-avg-md-3 am-avg-lg-6 am-gallery-default">
 
@@ -12,10 +22,10 @@
         <li>
             <div class="am-gallery-item am_list_block">
 
-                <a >
+                <a>
                     <a class="am_img_bg" href="{% url 'coupon:detail' coupon.uuid %}" target="_blank">
                         <img class="am_img animated" src="{% static 'img/loading.gif' %}"
-                             data-original="{{coupon.img}}"
+                             data-original=""
                              alt="优惠券"/>
                     </a>
                     <span class="coupon_name">{{coupon.name}}</span>
@@ -35,7 +45,8 @@
                     <div>
                         <div class="coupon_shop">{{coupon.shop}}</div>
                     </div>
-                    <div id="{{coupon.id}}"  class="coupon_get_div"  data-clipboard-action="copy" value="{{ coupon.phone_url }}"
+                    <div id="{{coupon.id}}" class="coupon_get_div" data-clipboard-action="copy"
+                         value="{{ coupon.phone_url }}"
                          txt="{{ coupon.name }}"
                          logo="{{ coupon.img }}"
                          data-clipboard-target="div">
@@ -53,12 +64,37 @@
     </ul>
 </div>
 
+<div class="am-g am-imglist" id="div_goods" style="display:none">
+    <ul id="good_list" data-am-widget="gallery" class="am-gallery am-avg-sm-2
+  am-avg-md-3 am-avg-lg-6 am-gallery-default">
+
+    </ul>
+</div>
+
+<div class="am-g am-imglist" id="div_like" style="display:none">
+    <ul id="like_list" data-am-widget="gallery" class="am-gallery am-avg-sm-2
+  am-avg-md-3 am-avg-lg-6 am-gallery-default">
+
+    </ul>
+</div>
+
 {% if has_next %}
 <div id="moreCoupon" class="am_news_load">
       <span style="color:#333">
           <i class="am-icon-spinner"></i> 查看更多</span>
 </div>
 {% endif %}
+
+<div id="moreGoods" class="am_news_load" style="display:none">
+      <span style="color:#333">
+          <i class="am-icon-spinner"></i> 查看更多</span>
+</div>
+
+<div id="moreLike" class="am_news_load" style="display:none">
+      <span style="color:#333">
+          <i class="am-icon-spinner"></i> 查看更多</span>
+</div>
+
 
 <div class="am-modal am-modal-no-btn" tabindex="-1" id="doc-modal-1">
     <div class="am-modal-dialog">
@@ -76,12 +112,9 @@
 <script src="{% static 'js/petshow.js' %}"></script>
 
 
-
 <script>
 
-    var page = 2;
     var type = "";
-    var isloading = false;
 
     if("{{type}}" == "up" || "{{type}}" == "down"){
         type = "{{type}}"
@@ -89,98 +122,22 @@
 
     var keyword = "{{keyword}}"
 
+    Util.choose(keyword);
+
     Util.judge();
 
-    $("#moreCoupon").click(function(){
-
-        $(".am-icon-spinner").addClass("am-icon-spin");
-        if(isloading){
-            return
-        }
-        isloading = true;
-        $.ajax({
-            type:"GET",
-            url:'{% url 'coupon:more_coupon' %}?page='+page + '&type='+type + '&search='+keyword,
-            dataType:'json',
-            complete:function(){
-                isloading = false;
-                $(".am-icon-spinner").removeClass("am-icon-spin");
-            },
-            success:function(response, status){
-                isloading = false
-                var data = JSON.parse(response)
-                $(".am-icon-spinner").removeClass("am-icon-spin");
-                if(!data.next){
-                    $("#moreCoupon").css("display","none");
-                }
-                page = data.page+1;
-
-                $.each(data.data,function(i,item){
-                var baseurl = "{% url 'coupon:detail' 0 %}".replace('0', item.fields.uuid)
-
-                $("#coupon_content").append("<li>"
-                    + "<div class='am-gallery-item am_list_block'> "
-                    + " <a> "
-                    + "<a class='am_img_bg' href= " + baseurl + " target='_blank' > "
-                    + "<img class='am_img animated' src='{% static 'img/loading.gif' %}'"
-                    + "data-original='" + item.fields.img + " ' "
-                    + " alt='优惠券'/> "
-                    + "</a>"
-                    + "<span class='coupon_name'>" + item.fields.name + "</span>"
-                    + "<div>"
-                    + "<img class='img_juan' src='{% static 'img/coupon/juan.png' %}'>"
-                    + "<span class='coupon_rule'>" + item.fields.rule + "</span>"
-                    + "</div>"
-                    + "<div class='am_listimg_info'>"
-                    + "<span class='ori_price'>原价："
-                    + "<span class='ori_font'>￥</span>"
-                    + "<span class='coupon_price'>" + item.fields.price + "</span>"
-                    + "</span>"
-                    + "</div>"
-                    + "<div>"
-                    + "<div class='coupon_shop'>"+item.fields.shop+"</div>"
-                    + "</div>"
-                    + "<div id='"+item.fields.id+"' class='coupon_get_div' data-clipboard-action='copy' value='"+item.fields.phone_url+"'" + "txt='" + item.fields.name +"'" + "logo='" + item.fields.img +"'"
-                    + "data-clipboard-target='div'>"
-                    + "<a class='coupon_url'>"
-                    + "<span id='coupon_get' class='coupon_get'>立即领取</span>"
-                    + "</a>"
-                    + "</div>"
-                    + "</a>"
-                    + "</div>"
-                    + "</li>"
-                )
-
-            })
-
-            if (ClipboardJS.isSupported() && Util.isMobile()) {
-                $("#coupon_content").parent().find(".coupon_get").text("复制优惠券");
-            } else {
-                $(".coupon_get_div").attr("onclick", "cc(this)");
-            }
-
-            $('.am_img_bg').removeClass('am_img_bg');
-            $(this).find('.am_img').addClass('bounceIn');
-
-            $(".am_list_block").on('mouseover', function(){
-                $('.am_img_bg').removeClass('am_img_bg');
-                $(this).find('.am_img').addClass('bounceIn');
-            });
-            $("img.am_img").lazyload();
-              $("a.am_img_bg").lazyload({
-              effect : 'fadeIn'
-            });
-
-            }
-        })
-
-    })
+    Util.moreSelect(type,keyword);
 
     Util.tab("{{type}}", keyword);
 
-
     function cc(e){
         window.open(e.getAttribute("value"))
+    }
+
+    function to_detail(item) {
+        sessionStorage.setItem("allJson", JSON.stringify(item));
+        console.log(item.title)
+        window.open("/youhui/goods_detail")
     }
 
 </script>

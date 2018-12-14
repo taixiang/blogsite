@@ -1,3 +1,4 @@
+# -*- coding:utf-8 -*-
 import xlrd
 from django.core import serializers
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
@@ -69,6 +70,63 @@ def index(request):
         first.save()
 
     return render(request, "coupon.html", {"coupon_list": coupon_list, "has_next": has_next})
+
+
+# 好劵清单
+def good_list(request):
+    page = request.GET.get('page')
+    keyword = request.GET["search"]
+    keyword = keyword.replace(" ", "")
+    try:
+        page = int(page)
+    except:
+        page = 1
+    print(keyword)
+    req = top.api.TbkDgItemCouponGetRequest()
+    req.set_app_info(top.appinfo("25102570", "a3bd49181cbecae30111cde7631ab5d6"))
+    req.adzone_id = 43052050407
+    req.platform = 2
+    req.page_size = 12
+    req.page_no = page
+    req.q = keyword
+    resp = req.getResponse()
+    return JsonResponse(resp, safe=False)
+
+
+def goods_detail(request):
+    return render(request, "coupon_json.html")
+
+
+# 猜你喜欢 暂时没有接口
+def like(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]  # 所以这里是真实的ip
+    else:
+        ip = request.META.get('REMOTE_ADDR')  # 这里获得代理ip
+    print(ip)
+    page = request.GET.get('page')
+    keyword = request.GET["search"]
+    ua = request.GET.get('ua')
+    net = request.GET["net"]
+    os = request.GET.get('os')
+    print(ua)
+    print(net)
+    print(os)
+
+    req = top.api.TbkItemGuessLikeRequest()
+    req.set_app_info(top.appinfo("25102570", "a3bd49181cbecae30111cde7631ab5d6"))
+
+    req.adzone_id = 43052050407
+    req.os = os
+    req.ip = ip
+    req.ua = ua
+    req.net = net
+    req.page_no = 1
+    req.page_size = 20
+    resp = req.getResponse()
+    print(resp)
+    return JsonResponse("{}", safe=False)
 
 
 # 排序

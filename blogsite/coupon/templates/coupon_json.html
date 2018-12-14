@@ -1,0 +1,77 @@
+{% extends "base_coupon.html" %}
+{% load staticfiles %}
+
+
+{% block content %}
+
+<style>
+    body{
+        font-family:Arial, "Microsoft Yahei";
+    }
+
+    .detail_txt{
+        width: 100%;
+    padding: 8px 22px;
+    font-size: 16px;
+    color: #222;
+    border-bottom: 1px solid #e9e9e9;
+    }
+
+</style>
+
+<div class="am_tuya">
+
+
+    <div class="am_tuya_content">
+        <div class="am_tuya_content_l">
+            <div class="am_tuya_more">
+                <div class="detail_txt">
+                    <div style="display:inline">
+                        <img class="img_juan" src="{% static 'img/coupon/juan.png' %}">
+                        <span id="coupon_rule" class="coupon_rule"></span>
+                    </div>
+
+                    <div style="display:inline;float:right" class="coupon_get_div" data-clipboard-action="copy"
+                         data-clipboard-target="div">
+                        <a class="coupon_url">
+                            <span id="coupon_get" class="coupon_get">立即领取</span>
+                        </a>
+                    </div>
+
+                </div>
+                <div id="tbk_title" class="detail_txt"></div>
+                <div id="tbk_shop" class="detail_txt"></div>
+                <div class="detail_txt"><span id="tbk_price" ></span>
+                    <div style="display:inline;float:right" class="coupon_get_div">
+                        <a id="tbk_url" target="_blank">
+                            <span id="detail_get" class="coupon_get">商品链接</span>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+            <div class="am_albums">
+                <img id="tbk_img" class="am_img animated" width="100%" height="100%"
+                     alt="优惠券"/>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="am-modal am-modal-no-btn" tabindex="-1" id="doc-modal-1">
+        <div class="am-modal-dialog">
+            <div class="am-modal-hd">
+                <a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>&times;</a>
+            </div>
+            <div class="am-modal-bd" id="am-modal-bd">
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    Util.goods_detail()
+</script>
+
+{% endblock %}

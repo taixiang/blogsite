@@ -29,6 +29,7 @@ var Util = (function(){
         }
     }
 
+    // 首页判断
     exports.judge = function() {
         if (ClipboardJS.isSupported() && Util.isMobile()) {
             $("#coupon_content").parent().find(".coupon_get").text("复制优惠券");
@@ -113,6 +114,391 @@ var Util = (function(){
             $("#pc_pocket").show();
             $("#red_packet").hide()
         }
+    }
+
+    //选择
+    exports.choose = function (keyword) {
+        $("#select").click(function () {
+            if (!$(this).hasClass("banner_hover")) {
+                $("#select").addClass("banner_hover");
+                $("#goods").removeClass("banner_hover");
+                $("#like").removeClass("banner_hover");
+                $("#div_select").show();
+                $("#div_goods").hide();
+                $("#div_like").hide();
+                $("#moreCoupon").show();
+                $("#moreGoods").hide();
+                $("#moreLike").hide();
+            }
+        })
+
+        $("#goods").click(function () {
+            if (!$(this).hasClass("banner_hover")) {
+                $("#select").removeClass("banner_hover");
+                $("#goods").addClass("banner_hover");
+                $("#like").removeClass("banner_hover");
+                $("#div_select").hide();
+                $("#div_goods").show();
+                $("#div_like").hide();
+                $("#moreCoupon").hide();
+                $("#moreGoods").show();
+                $("#moreLike").hide();
+
+                if($("#good_list").find("li").length <= 0){
+                    exports.good_list(keyword);
+                }
+            }
+        })
+
+        $("#like").click(function () {
+            if (!$(this).hasClass("banner_hover")) {
+                $("#select").removeClass("banner_hover");
+                $("#goods").removeClass("banner_hover");
+                $("#like").addClass("banner_hover");
+                $("#div_select").hide();
+                $("#div_goods").hide();
+                $("#div_like").show();
+                $("#moreCoupon").hide();
+                $("#moreGoods").hide();
+                $("#moreLike").show();
+
+                if($("#like_list").find("li").length <= 0){
+                    exports.like(keyword);
+                }
+            }
+        })
+
+    }
+
+    //更多请求 精选优质
+    exports.moreSelect = function(type, keyword){
+        var page = 2;
+        var isloading = false;
+
+        $("#moreCoupon").click(function() {
+
+            $(".am-icon-spinner").addClass("am-icon-spin");
+            if (isloading) {
+                return
+            }
+            isloading = true;
+            $.ajax({
+                type: "GET",
+                url: '/youhui/more?page=' + page + '&type=' + type + '&search=' + keyword,
+                dataType: 'json',
+                complete: function () {
+                    isloading = false;
+                    $(".am-icon-spinner").removeClass("am-icon-spin");
+                },
+                success: function (response, status) {
+                    isloading = false;
+                    var data = JSON.parse(response);
+                    $(".am-icon-spinner").removeClass("am-icon-spin");
+                    if (!data.next) {
+                        $("#moreCoupon").css("display", "none");
+                    }
+                    page = data.page + 1;
+                    $.each(data.data, function (i, item) {
+                        var baseurl = "/youhui/detail/" + item.fields.uuid;
+
+                        $("#coupon_content").append("<li>"
+                            + "<div class='am-gallery-item am_list_block'> "
+                            + " <a> "
+                            + "<a class='am_img_bg' href= " + baseurl + " target='_blank' > "
+                            + "<img class='am_img animated' src='/static/img/loading.gif'"
+                            + "data-original='" + item.fields.img + " ' "
+                            + " alt='优惠券'/> "
+                            + "</a>"
+                            + "<span class='coupon_name'>" + item.fields.name + "</span>"
+                            + "<div>"
+                            + "<img class='img_juan' src='/static/img/coupon/juan.png'>"
+                            + "<span class='coupon_rule'>" + item.fields.rule + "</span>"
+                            + "</div>"
+                            + "<div class='am_listimg_info'>"
+                            + "<span class='ori_price'>原价："
+                            + "<span class='ori_font'>￥</span>"
+                            + "<span class='coupon_price'>" + item.fields.price + "</span>"
+                            + "</span>"
+                            + "</div>"
+                            + "<div>"
+                            + "<div class='coupon_shop'>" + item.fields.shop + "</div>"
+                            + "</div>"
+                            + "<div id='" + item.fields.id + "' class='coupon_get_div' data-clipboard-action='copy' value='" + item.fields.phone_url + "'" + "txt='" + item.fields.name + "'" + "logo='" + item.fields.img + "'"
+                            + "data-clipboard-target='div'>"
+                            + "<a class='coupon_url'>"
+                            + "<span id='coupon_get' class='coupon_get'>立即领取</span>"
+                            + "</a>"
+                            + "</div>"
+                            + "</a>"
+                            + "</div>"
+                            + "</li>"
+                        )
+
+                    });
+
+                    if (ClipboardJS.isSupported() && Util.isMobile()) {
+                        $("#coupon_content").parent().find(".coupon_get").text("复制优惠券");
+                    } else {
+                        $(".coupon_get_div").attr("onclick", "cc(this)");
+                    }
+
+                    $('.am_img_bg').removeClass('am_img_bg');
+                    $(this).find('.am_img').addClass('bounceIn');
+
+                    $(".am_list_block").on('mouseover', function () {
+                        $('.am_img_bg').removeClass('am_img_bg');
+                        $(this).find('.am_img').addClass('bounceIn');
+                    });
+                    $("img.am_img").lazyload();
+                    $("a.am_img_bg").lazyload({
+                        effect: 'fadeIn'
+                    });
+
+                }
+            })
+        })
+    }
+
+    //好劵清单
+    exports.good_list = function (keyword) {
+
+        var page = 1;
+        var isloading = false;
+
+        function more_good() {
+            $(".am-icon-spinner").addClass("am-icon-spin");
+            if (isloading) {
+                return
+            }
+            isloading = true;
+            $.ajax({
+                type: "GET",
+                url: '/youhui/good_list?page=' + page + '&search=' + keyword,
+                dataType: 'json',
+                complete: function () {
+                    isloading = false;
+                    $(".am-icon-spinner").removeClass("am-icon-spin");
+                },
+                success: function (response, status) {
+                    isloading = false;
+                    $(".am-icon-spinner").removeClass("am-icon-spin");
+                    page = page + 1;
+                    if (page*12 > 10000) {
+                        $("#moreGoods").css("display", "none");
+                    }
+                    $.each(response.tbk_dg_item_coupon_get_response.results.tbk_coupon, function (i, item) {
+                        var baseurl = "###" ;
+
+                        $("#good_list").append("<li>"
+                            + "<div class='am-gallery-item am_list_block'> "
+                            + " <a> "
+                            + "<a class='am_img_bg' href= " + baseurl + " onclick='to_detail("+JSON.stringify(item)+")' > "
+                            + "<img class='am_img animated' src='/static/img/loading.gif'"
+                            + "data-original='" + item.pict_url + " ' "
+                            + " alt='优惠券'/> "
+                            + "</a>"
+                            + "<span class='coupon_name'>" + item.title + "</span>"
+                            + "<div>"
+                            + "<img class='img_juan' src='/static/img/coupon/juan.png'>"
+                            + "<span class='coupon_rule'>" + item.coupon_info + "</span>"
+                            + "</div>"
+                            + "<div class='am_listimg_info'>"
+                            + "<span class='ori_price'>原价："
+                            + "<span class='ori_font'>￥</span>"
+                            + "<span class='coupon_price'>" + item.zk_final_price + "</span>"
+                            + "</span>"
+                            + "</div>"
+                            + "<div>"
+                            + "<div class='coupon_shop'>" + item.shop_title + "</div>"
+                            + "</div>"
+                            + "<div class='coupon_get_div' data-clipboard-action='copy' value='" + item.coupon_click_url + "'" + "txt='" + item.title + "'" + "logo='" + item.pict_url + "'"
+                            + "data-clipboard-target='div'>"
+                            + "<a class='coupon_url'>"
+                            + "<span id='coupon_get' class='coupon_get'>立即领取</span>"
+                            + "</a>"
+                            + "</div>"
+                            + "</a>"
+                            + "</div>"
+                            + "</li>"
+                        )
+
+                    });
+
+                    if (ClipboardJS.isSupported() && Util.isMobile()) {
+                        $("#good_list").parent().find(".coupon_get").text("复制优惠券");
+                    } else {
+                        $(".coupon_get_div").attr("onclick", "cc(this)");
+                    }
+
+                    $('.am_img_bg').removeClass('am_img_bg');
+                    $(this).find('.am_img').addClass('bounceIn');
+
+                    $(".am_list_block").on('mouseover', function () {
+                        $('.am_img_bg').removeClass('am_img_bg');
+                        $(this).find('.am_img').addClass('bounceIn');
+                    });
+                    $("img.am_img").lazyload();
+                    $("a.am_img_bg").lazyload({
+                        effect: 'fadeIn'
+                    });
+
+                }
+            })
+        }
+
+        more_good();
+
+        $("#moreGoods").click(function () {
+            more_good();
+        });
+
+
+    }
+
+    //好劵详情
+    exports.goods_detail = function () {
+        var json = sessionStorage.getItem("allJson");
+        console.log(json);
+        var data = JSON.parse(json);
+        console.log(data);
+        $("#coupon_rule").text(data.coupon_info);
+        $("#tbk_title").text(data.title);
+        $("#tbk_shop").text(data.shop_title);
+        $("#tbk_price").text("原价：￥"+data.zk_final_price);
+        $("#tbk_url").attr("href",data.item_url);
+        $("#tbk_img").attr("src",data.pict_url);
+
+        if (ClipboardJS.isSupported() && Util.isMobile()) {
+            $("#coupon_get").text("复制优惠券");
+            var clipboard = new ClipboardJS('.coupon_get_div', {
+                text: function (trigger) {
+                    var url = data.coupon_click_url;
+                    var text = data.title;
+                    var logo = data.pict_url;
+                    var model;
+                    var msg;
+                    $.ajax({
+                        type: "GET",
+                        url: '/youhui/create_key?text='+text + '&url=' + url + '&logo=' + logo,
+                        dataType: 'json',
+                        async: false,
+                        success: function (response, status) {
+                            model = response.tbk_tpwd_create_response.data.model;
+                            msg = model + "复制成功，打开「手机淘宝」即可领取！";
+                            $("#am-modal-bd").text(msg);
+                            $(".coupon_url").attr("data-am-modal", "{target: '#doc-modal-1', closeViaDimmer: 0, width: 300, height: 125}");
+                        }
+                    })
+                    return msg;
+                }
+            });
+            clipboard.on('success', function (e) {
+            });
+            clipboard.on('error', function (e) {
+            });
+        } else {
+            $(".coupon_url").attr("href",data.coupon_click_url);
+            $(".coupon_url").attr("target","_blank");
+        }
+    };
+
+    //猜你喜欢
+    exports.like = function (keyword) {
+        var page = 1;
+        var isloading = false;
+        var u = navigator.userAgent;
+        var net =navigator.connection.effectiveType;
+        var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1;
+        var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+        var os = isAndroid ? "android" : isiOS ? "ios" :"other";
+
+        function more_like() {
+            $(".am-icon-spinner").addClass("am-icon-spin");
+            if (isloading) {
+                return
+            }
+            isloading = true;
+            $.ajax({
+                type: "GET",
+                url: '/youhui/like?page=' + page + '&search=' + keyword + '&ua='+ u + '&net='+net+'&os='+os,
+                dataType: 'json',
+                complete: function () {
+                    isloading = false;
+                    $(".am-icon-spinner").removeClass("am-icon-spin");
+                },
+                success: function (response, status) {
+                    isloading = false;
+                    $(".am-icon-spinner").removeClass("am-icon-spin");
+                    page = page + 1;
+                    if (page*12 > 10000) {
+                        $("#moreLike").css("display", "none");
+                    }
+                    $.each(response.tbk_dg_item_coupon_get_response.results.tbk_coupon, function (i, item) {
+                        var baseurl = "###" ;
+
+                        $("#like_list").append("<li>"
+                            + "<div class='am-gallery-item am_list_block'> "
+                            + " <a> "
+                            + "<a class='am_img_bg' href= " + baseurl + " onclick='to_detail("+JSON.stringify(item)+")' > "
+                            + "<img class='am_img animated' src='/static/img/loading.gif'"
+                            + "data-original='" + item.pict_url + " ' "
+                            + " alt='优惠券'/> "
+                            + "</a>"
+                            + "<span class='coupon_name'>" + item.title + "</span>"
+                            + "<div>"
+                            + "<img class='img_juan' src='/static/img/coupon/juan.png'>"
+                            + "<span class='coupon_rule'>" + item.coupon_info + "</span>"
+                            + "</div>"
+                            + "<div class='am_listimg_info'>"
+                            + "<span class='ori_price'>原价："
+                            + "<span class='ori_font'>￥</span>"
+                            + "<span class='coupon_price'>" + item.zk_final_price + "</span>"
+                            + "</span>"
+                            + "</div>"
+                            + "<div>"
+                            + "<div class='coupon_shop'>" + item.shop_title + "</div>"
+                            + "</div>"
+                            + "<div class='coupon_get_div' data-clipboard-action='copy' value='" + item.coupon_click_url + "'" + "txt='" + item.title + "'" + "logo='" + item.pict_url + "'"
+                            + "data-clipboard-target='div'>"
+                            + "<a class='coupon_url'>"
+                            + "<span id='coupon_get' class='coupon_get'>立即领取</span>"
+                            + "</a>"
+                            + "</div>"
+                            + "</a>"
+                            + "</div>"
+                            + "</li>"
+                        )
+
+                    });
+
+                    if (ClipboardJS.isSupported() && Util.isMobile()) {
+                        $("#like_list").parent().find(".coupon_get").text("复制优惠券");
+                    } else {
+                        $(".coupon_get_div").attr("onclick", "cc(this)");
+                    }
+
+                    $('.am_img_bg').removeClass('am_img_bg');
+                    $(this).find('.am_img').addClass('bounceIn');
+
+                    $(".am_list_block").on('mouseover', function () {
+                        $('.am_img_bg').removeClass('am_img_bg');
+                        $(this).find('.am_img').addClass('bounceIn');
+                    });
+                    $("img.am_img").lazyload();
+                    $("a.am_img_bg").lazyload({
+                        effect: 'fadeIn'
+                    });
+
+                }
+            })
+        }
+
+        more_like();
+
+        $("#moreLike").click(function () {
+            more_like();
+        });
+
     }
 
     return exports
