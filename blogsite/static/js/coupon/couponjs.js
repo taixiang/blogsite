@@ -108,10 +108,10 @@ var Util = (function(){
     //双端显示红包
     exports.showPocket = function () {
         if(exports.isMobile()){
-            $("#red_packet").show();
+            $("#red_packet").hide();
             $("#pc_pocket").hide()
         }else {
-            $("#pc_pocket").show();
+            $("#pc_pocket").hide();
             $("#red_packet").hide()
         }
     }
