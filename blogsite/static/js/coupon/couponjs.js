@@ -501,6 +501,102 @@ var Util = (function(){
 
     }
 
+    exports.favorites_list = function (id) {
+
+        var page = 1;
+        var isloading = false;
+
+        function more_fav() {
+            $(".am-icon-spinner").addClass("am-icon-spin");
+            if (isloading) {
+                return
+            }
+            isloading = true;
+            $.ajax({
+                type: "GET",
+                url: '/youhui/favorites_list/' + id + ' ?page=' + page,
+                dataType: 'json',
+                complete: function () {
+                    isloading = false;
+                    $(".am-icon-spinner").removeClass("am-icon-spin");
+                },
+                success: function (response, status) {
+                    isloading = false;
+                    $(".am-icon-spinner").removeClass("am-icon-spin");
+                    page = page + 1;
+                    if (response.error_response != null) {
+                        $("#moreFav").css("display", "none");
+                        console.log("=============================")
+                        return
+                    }
+                    $.each(response.tbk_uatm_favorites_item_get_response.results.uatm_tbk_item, function (i, item) {
+                        var baseurl = "###";
+
+                        $("#favorites_list").append("<li>"
+                            + "<div class='am-gallery-item am_list_block'> "
+                            + " <a> "
+                            + "<a class='am_img_bg' href= " + baseurl + " onclick='to_detail(" + JSON.stringify(item) + ")' > "
+                            + "<img class='am_img animated' src='/static/img/loading.gif'"
+                            + "data-original='" + item.pict_url + " ' "
+                            + " alt='优惠券'/> "
+                            + "</a>"
+                            + "<span class='coupon_name'>" + item.title + "</span>"
+                            + "<div>"
+                            + "<img class='img_juan' src='/static/img/coupon/juan.png'>"
+                            + "<span class='coupon_rule'>" + item.coupon_info + "</span>"
+                            + "</div>"
+                            + "<div class='am_listimg_info'>"
+                            + "<span class='ori_price'>原价："
+                            + "<span class='ori_font'>￥</span>"
+                            + "<span class='coupon_price'>" + item.zk_final_price + "</span>"
+                            + "</span>"
+                            + "</div>"
+                            + "<div>"
+                            + "<div class='coupon_shop'>" + item.shop_title + "</div>"
+                            + "</div>"
+                            + "<div class='coupon_get_div' data-clipboard-action='copy' value='" + item.coupon_click_url + "'" + "txt='" + item.title + "'" + "logo='" + item.pict_url + "'"
+                            + "data-clipboard-target='div'>"
+                            + "<a class='coupon_url'>"
+                            + "<span id='coupon_get' class='coupon_get'>立即领取</span>"
+                            + "</a>"
+                            + "</div>"
+                            + "</a>"
+                            + "</div>"
+                            + "</li>"
+                        )
+
+                    });
+
+                    if (ClipboardJS.isSupported() && Util.isMobile()) {
+                        $("#favorites_list").parent().find(".coupon_get").text("复制优惠券");
+                    } else {
+                        $(".coupon_get_div").attr("onclick", "cc(this)");
+                    }
+
+                    $('.am_img_bg').removeClass('am_img_bg');
+                    $(this).find('.am_img').addClass('bounceIn');
+
+                    $(".am_list_block").on('mouseover', function () {
+                        $('.am_img_bg').removeClass('am_img_bg');
+                        $(this).find('.am_img').addClass('bounceIn');
+                    });
+                    $("img.am_img").lazyload();
+                    $("a.am_img_bg").lazyload({
+                        effect: 'fadeIn'
+                    });
+
+                }
+            })
+        }
+
+        more_fav();
+
+        $("#moreFav").click(function () {
+            more_fav();
+        });
+
+    }
+
     return exports
 })()
 

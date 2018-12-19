@@ -1,0 +1,53 @@
+{% extends "base_coupon.html" %}
+{% load staticfiles %}
+
+
+{% block content %}
+
+<div class="am-g am-imglist" >
+    <ul id="favorites_list" data-am-widget="gallery" class="am-gallery am-avg-sm-2
+  am-avg-md-3 am-avg-lg-6 am-gallery-default">
+
+    </ul>
+</div>
+
+<div id="moreFav" class="am_news_load">
+      <span style="color:#333">
+          <i class="am-icon-spinner"></i> 查看更多</span>
+</div>
+
+<div class="am-modal am-modal-no-btn" tabindex="-1" id="doc-modal-1">
+    <div class="am-modal-dialog">
+        <div class="am-modal-hd">
+            <a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>&times;</a>
+        </div>
+        <div class="am-modal-bd" id="am-modal-bd">
+        </div>
+    </div>
+</div>
+
+<div style="height:50px"></div>
+
+
+
+<script src="{% static 'js/petshow.js' %}"></script>
+
+<script>
+
+    Util.judge();
+
+    Util.favorites_list("{{ favorites_id }}")
+
+    function cc(e){
+        window.open(e.getAttribute("value"))
+    }
+
+    function to_detail(item) {
+        sessionStorage.setItem("allJson", JSON.stringify(item));
+        console.log(item.title)
+        window.open("/youhui/goods_detail")
+    }
+
+</script>
+
+{% endblock %}

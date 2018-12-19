@@ -93,8 +93,36 @@ def good_list(request):
     return JsonResponse(resp, safe=False)
 
 
+# 好劵详情
 def goods_detail(request):
     return render(request, "coupon_json.html")
+
+
+# 选品库页面
+def favorite(request, favorites_id):
+    print(favorites_id)
+    return render(request, "favorite_list.html", {"favorites_id": favorites_id})
+
+
+# 选品库列表 18988664-母婴  18988609-女装
+def favorites_list(request, favorites_id):
+    page = request.GET.get('page')
+    id = favorites_id
+    try:
+        page = int(page)
+    except:
+        page = 1
+    req = top.api.TbkUatmFavoritesItemGetRequest()
+    req.set_app_info(top.appinfo("25102570", "a3bd49181cbecae30111cde7631ab5d6"))
+
+    req.platform = 2
+    req.page_size = 12
+    req.adzone_id = 43052050407
+    req.favorites_id = id
+    req.page_no = page
+    req.fields = "num_iid,title,volume,zk_final_price,pict_url,coupon_info,shop_title,coupon_click_url,status,item_url"
+    resp = req.getResponse()
+    return JsonResponse(resp, safe=False)
 
 
 # 猜你喜欢 暂时没有接口

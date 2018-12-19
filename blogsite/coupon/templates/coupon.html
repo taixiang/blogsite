@@ -4,6 +4,18 @@
 
 {% block content %}
 
+  <div data-am-widget="slider" class="am-slider am-slider-default" data-am-slider='{}' >
+  <ul class="am-slides">
+      <li>
+        	<div onclick="to_first(18988609)" style="overflow: hidden;"><img style="margin-bottom: -20px;" src="https://img.alicdn.com/tps/i4/TB1tyZqLVXXXXXKXFXXx6Mp7VXX-1440-380.png"></div>
+      </li>
+      <li>
+        	<div onclick="to_first(18988664)" style="overflow: hidden;"><img style="margin-bottom: -20px;" src="https://img.alicdn.com/tps/i4/TB1sIJTMXXXXXbFXVXXx6Mp7VXX-1440-380.png"></div>
+      </li>
+  </ul>
+</div>
+
+
 <div class="banner_navbg" style="background: url({% static 'img/coupon/bannner_smallbg.png' %}) repeat-x;" data-am-sticky>
     <div class="am-g">
         <div class="banner_nav"><span class="am-icon-caret-right">  筛选：</span>
@@ -138,6 +150,11 @@
         sessionStorage.setItem("allJson", JSON.stringify(item));
         console.log(item.title)
         window.open("/youhui/goods_detail")
+    }
+
+    function to_first(id){
+        var url = "/youhui/favorite/" + id
+        window.open(url)
     }
 
 </script>
