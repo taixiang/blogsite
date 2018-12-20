@@ -128,7 +128,6 @@ def favorites_list(request, favorites_id):
     req = top.api.TbkUatmFavoritesItemGetRequest()
     req.set_app_info(top.appinfo("25102570", "a3bd49181cbecae30111cde7631ab5d6"))
 
-    req.platform = 2
     req.page_size = 12
     req.adzone_id = 43052050407
     req.favorites_id = id
