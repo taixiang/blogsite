@@ -501,6 +501,7 @@ var Util = (function(){
 
     }
 
+    // 选品库
     exports.favorites_list = function (id) {
 
         var page = 1;
@@ -531,6 +532,10 @@ var Util = (function(){
                     }
                     $.each(response.tbk_uatm_favorites_item_get_response.results.uatm_tbk_item, function (i, item) {
                         var baseurl = "###";
+
+                        if(item.status == 0){
+                            return
+                        }
 
                         $("#favorites_list").append("<li>"
                             + "<div class='am-gallery-item am_list_block'> "

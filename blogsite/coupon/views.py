@@ -68,8 +68,9 @@ def index(request):
         first = ques[0]
         first.count_qr += 1
         first.save()
+    a = fav_type()
 
-    return render(request, "coupon.html", {"coupon_list": coupon_list, "has_next": has_next})
+    return render(request, "coupon.html", {"coupon_list": coupon_list, "has_next": has_next, "a":a})
 
 
 # 好劵清单
@@ -96,6 +97,18 @@ def good_list(request):
 # 好劵详情
 def goods_detail(request):
     return render(request, "coupon_json.html")
+
+
+# 选品库分类
+def fav_type():
+    req = top.api.TbkUatmFavoritesGetRequest()
+    req.set_app_info(top.appinfo("25102570", "a3bd49181cbecae30111cde7631ab5d6"))
+    req.fields = "favorites_title,favorites_id,type"
+    resp = req.getResponse()
+    dict_type = []
+    for i in resp["tbk_uatm_favorites_get_response"]["results"]["tbk_favorites"]:
+        dict_type.append(i["favorites_id"])
+    return dict_type
 
 
 # 选品库页面
@@ -176,8 +189,10 @@ def type_list(request, type):
     else:
         has_next = False
 
+    a = fav_type()
+
     return render(request, "coupon.html",
-                  {"coupon_list": coupon_list, "has_next": has_next, "type": type, "keyword": keyword})
+                  {"coupon_list": coupon_list, "has_next": has_next, "type": type, "keyword": keyword, "a":a})
 
 
 # 更多
@@ -245,7 +260,8 @@ def search(request):
     else:
         has_next = False
 
-    return render(request, "coupon.html", {"coupon_list": coupon_list, "has_next": has_next, "keyword": keyword})
+    a = fav_type()
+    return render(request, "coupon.html", {"coupon_list": coupon_list, "has_next": has_next, "keyword": keyword,"a":a})
 
 
 # 口令生成
