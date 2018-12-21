@@ -1,3 +1,9 @@
+import hashlib
+import json
+import random
+import string
+
+import requests
 import xlrd
 import time
 import os
@@ -73,3 +79,29 @@ def key():
     req.ext = "{}"
     resp = req.getResponse()
     print(resp)
+
+
+def get_access_token():
+    resp = requests.get(
+        "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx2591758bb5b63c70&secret=1db783ec4e6715bd9b9c2577f198b4c3")
+    token = json.loads(resp.text)
+    resp = requests.get(
+        "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=" + token["access_token"] + "&type=jsapi")
+    print(resp.text)
+
+
+# get_access_token()
+
+def create_nonce_str():
+    noncestr = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(16))
+    timestamp = int(time.time())
+    _jsapi_ticket = "jsapi_ticket"
+    _noncestr = "&noncestr=" + noncestr
+    _timestamp = "&timestamp="+ str(timestamp)
+    _url = "&url=https://www.manjiexiang.cn/youhui"
+    all_str = _jsapi_ticket + _noncestr + _timestamp + _url
+    print(all_str.encode("UTF-8"))
+    sha1 = hashlib.sha1(all_str.encode('utf8')).hexdigest()
+    print(sha1)
+
+create_nonce_str()

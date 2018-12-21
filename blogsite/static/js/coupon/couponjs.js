@@ -602,6 +602,32 @@ var Util = (function(){
 
     }
 
+    exports.wx_token = function () {
+        $.ajax({
+            type: "GET",
+            url: '/youhui/get_access_token',
+            dataType: 'json',
+            success: function (response, status) {
+                console.log(response)
+                if (response != null) {
+                    wx.config(response)
+                    wx.ready(function () {   //需在用户可能点击分享按钮前就先调用
+                        wx.updateAppMessageShareData({
+                            title: '分享标题', // 分享标题
+                            desc: '分享描述', // 分享描述
+                            link: 'https://www.manjiexiang.cn/youhui', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                            imgUrl: 'https://www.manjiexiang.cn/static/img/coupon/coupon_logo.png', // 分享图标
+                            success: function () {
+                                // 设置成功
+                                console.log("updateAppMessageShareData success")
+                            }
+                        });
+                    })
+                }
+            }
+        })
+    }
+
     return exports
 })()
 

@@ -1,4 +1,8 @@
 # -*- coding:utf-8 -*-
+import random
+import string
+
+import requests
 import xlrd
 from django.core import serializers
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
@@ -7,6 +11,7 @@ from django.http import JsonResponse
 from django.shortcuts import render
 import time
 
+from django.core.cache import cache
 from django.views.decorators.csrf import csrf_exempt
 
 import top
@@ -14,7 +19,8 @@ from .models import Coupon, Ques, Advice
 import os
 from django.conf import settings
 import json
-
+import hashlib
+import html
 
 # markdown定位 去重
 # Create your views here.
@@ -191,7 +197,7 @@ def type_list(request, type):
     a = fav_type()
 
     return render(request, "coupon.html",
-                  {"coupon_list": coupon_list, "has_next": has_next, "type": type, "keyword": keyword, "a":a})
+                  {"coupon_list": coupon_list, "has_next": has_next, "type": type, "keyword": keyword, "a": a})
 
 
 # 更多
@@ -260,7 +266,8 @@ def search(request):
         has_next = False
 
     a = fav_type()
-    return render(request, "coupon.html", {"coupon_list": coupon_list, "has_next": has_next, "keyword": keyword,"a":a})
+    return render(request, "coupon.html",
+                  {"coupon_list": coupon_list, "has_next": has_next, "keyword": keyword, "a": a})
 
 
 # 口令生成
@@ -364,3 +371,51 @@ def delete_all(request):
 
 def get_wx_root(request):
     return render(request, "MP_verify_cFL29g0dxlethL6n.txt")
+
+# 微信access_token
+def get_access_token(request):
+    try:
+        ticket = cache.get("ticket")
+        print("缓存中的")
+        print(ticket)
+        if not ticket:
+            resp = requests.get(
+                "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx2591758bb5b63c70&secret=1db783ec4e6715bd9b9c2577f198b4c3")
+            token = json.loads(resp.text)
+            print(token)
+            access_token = token["access_token"]
+            jsapi_ticket_resp = requests.get(
+                "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=" + access_token + "&type=jsapi")
+            jsapi_ticket = json.loads(jsapi_ticket_resp.text)
+            if jsapi_ticket["errcode"] == 0:
+                ticket = jsapi_ticket["ticket"]
+                print("新的")
+                print(ticket)
+                cache.set("ticket", ticket, 7000)
+
+        noncestr = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(16))
+        timestamp = int(time.time())
+        _jsapi_ticket = "jsapi_ticket=" + ticket
+        _noncestr = "&noncestr=" + noncestr
+        _timestamp = "&timestamp=" + str(timestamp)
+        _url = "&url=https://www.manjiexiang.cn/youhui"
+        all_str = _jsapi_ticket + _noncestr + _timestamp + _url
+        signature = hashlib.sha1(all_str.encode('utf8')).hexdigest()
+        data = {}
+        js_list = []
+        js_list.append("updateAppMessageShareData")
+        js_list.append("updateTimelineShareData")
+        print(js_list)
+        data["debug"] = True
+        data["appId"] = "wx2591758bb5b63c70"
+        data["timestamp"] = str(timestamp)
+        data["nonceStr"] = noncestr
+        data["signature"] = signature
+        data["jsApiList"] = js_list
+        print(data)
+    except:
+        return JsonResponse(None,safe=False)
+
+    return JsonResponse(data,safe=False)
+
+
