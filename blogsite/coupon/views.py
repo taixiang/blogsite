@@ -404,8 +404,10 @@ def get_access_token(request):
         signature = hashlib.sha1(all_str.encode('utf8')).hexdigest()
         data = {}
         js_list = []
-        js_list.append("updateAppMessageShareData")
-        js_list.append("updateTimelineShareData")
+        js_list.append("onMenuShareAppMessage")
+        js_list.append("onMenuShareTimeline")
+        js_list.append("onMenuShareQQ")
+        js_list.append("onMenuShareQZone")
         data["debug"] = False
         data["appId"] = "wx2591758bb5b63c70"
         data["timestamp"] = str(timestamp)
