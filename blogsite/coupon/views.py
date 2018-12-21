@@ -406,7 +406,7 @@ def get_access_token(request):
         js_list = []
         js_list.append("updateAppMessageShareData")
         js_list.append("updateTimelineShareData")
-        data["debug"] = True
+        data["debug"] = False
         data["appId"] = "wx2591758bb5b63c70"
         data["timestamp"] = str(timestamp)
         data["nonceStr"] = noncestr
