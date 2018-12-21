@@ -360,3 +360,7 @@ def delete_all(request):
     coupon_list = Coupon.objects.all()
     coupon_list.delete()
     return JsonResponse("{success}", safe=False)
+
+
+def get_wx_root(request):
+    return render(request, "MP_verify_cFL29g0dxlethL6n.txt")

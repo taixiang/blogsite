@@ -13,6 +13,5 @@ urlpatterns = [
     url(r'^post_img', post_img, name="post_img"),
     url(r'^validate',validate_code,name="validate"),
     url(r'^wordtohtml', wordtohtml, name="wordtohtml"),
-    url(r'^root.txt',get_root,name="root")
 
 ]
