@@ -398,14 +398,14 @@ def get_access_token(request):
         _jsapi_ticket = "jsapi_ticket=" + ticket
         _noncestr = "&noncestr=" + noncestr
         _timestamp = "&timestamp=" + str(timestamp)
-        _url = "&url=https://www.manjiexiang.cn/youhui"
+        _url = "&url=https://www.manjiexiang.cn/youhui/"
         all_str = _jsapi_ticket + _noncestr + _timestamp + _url
+        print(all_str)
         signature = hashlib.sha1(all_str.encode('utf8')).hexdigest()
         data = {}
         js_list = []
         js_list.append("updateAppMessageShareData")
         js_list.append("updateTimelineShareData")
-        print(js_list)
         data["debug"] = True
         data["appId"] = "wx2591758bb5b63c70"
         data["timestamp"] = str(timestamp)
