@@ -372,7 +372,7 @@ def delete_all(request):
 def get_wx_root(request):
     return render(request, "MP_verify_cFL29g0dxlethL6n.txt")
 
-# 微信access_token
+# 微信access_token 废弃  公众号未认证.....悲伤....
 def get_access_token(request):
     try:
         ticket = cache.get("ticket")
@@ -408,7 +408,7 @@ def get_access_token(request):
         js_list.append("onMenuShareTimeline")
         js_list.append("onMenuShareQQ")
         js_list.append("onMenuShareQZone")
-        data["debug"] = True
+        data["debug"] = False
         data["appId"] = "wx2591758bb5b63c70"
         data["timestamp"] = str(timestamp)
         data["nonceStr"] = noncestr
