@@ -616,7 +616,7 @@ var Util = (function(){
                             title: '分享标题', // 分享标题
                             desc: '分享描述', // 分享描述
                             link: 'https://www.manjiexiang.cn/youhui/', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-                            imgUrl: 'https://www.manjiexiang.cn/static/img/coupon/coupon_logo.png', // 分享图标
+                            imgUrl: 'https://img.alicdn.com/tps/i4/TB1tyZqLVXXXXXKXFXXx6Mp7VXX-1440-380.png', // 分享图标
                             success: function () {
                                 // 设置成功
                                 console.log("updateAppMessageShareData success")
