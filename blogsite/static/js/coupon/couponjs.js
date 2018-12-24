@@ -623,6 +623,9 @@ var Util = (function(){
                             }
                         });
                     })
+                    wx.error(function(res){
+                        console.log("失败》》》  ",res)
+                    })
                 }
             }
         })

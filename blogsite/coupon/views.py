@@ -408,7 +408,7 @@ def get_access_token(request):
         js_list.append("onMenuShareTimeline")
         js_list.append("onMenuShareQQ")
         js_list.append("onMenuShareQZone")
-        data["debug"] = False
+        data["debug"] = True
         data["appId"] = "wx2591758bb5b63c70"
         data["timestamp"] = str(timestamp)
         data["nonceStr"] = noncestr
