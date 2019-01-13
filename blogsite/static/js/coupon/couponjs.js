@@ -93,7 +93,7 @@ var Util = (function(){
     exports.packet = function(){
         var clipboard1 = new ClipboardJS('.red_packet', {
             text: function (trigger) {
-                var msg = "￥gE2Mbm1H95E￥复制成功，打开「手机淘宝」领取双12红包，跨店满减不封顶！"
+                var msg = "￥3UzAbJNJQoN￥复制成功，打开「手机淘宝」百万精选年货，即将开启！"
                 $("#am-modal-bd").text(msg)
                 $(".red_packet").attr("data-am-modal", "{target: '#doc-modal-1', closeViaDimmer: 0, width: 300, height: 100}");
                 return msg;
@@ -108,10 +108,10 @@ var Util = (function(){
     //双端显示红包
     exports.showPocket = function () {
         if(exports.isMobile()){
-            $("#red_packet").hide();
+            $("#red_packet").show();
             $("#pc_pocket").hide()
         }else {
-            $("#pc_pocket").hide();
+            $("#pc_pocket").show();
             $("#red_packet").hide()
         }
     }
