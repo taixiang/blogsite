@@ -1,7 +1,7 @@
 from django.conf.urls import url
 from .views import index, detail, archive, category, category_detail, about, post_img,\
     get_root,category_name,validate_code,wordtohtml
-from .apis import login
+from .apis import login, analyze
 
 urlpatterns = [
     url(r'^$', index, name='index'),
@@ -15,5 +15,6 @@ urlpatterns = [
     url(r'^validate',validate_code,name="validate"),
     url(r'^wordtohtml', wordtohtml, name="wordtohtml"),
     url(r'^login', login, name="login"),
+    url(r'^analyze', analyze, name="analyze"),
 
 ]
