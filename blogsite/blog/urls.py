@@ -15,6 +15,6 @@ urlpatterns = [
     url(r'^validate',validate_code,name="validate"),
     url(r'^wordtohtml', wordtohtml, name="wordtohtml"),
     url(r'^login', login, name="login"),
-    url(r'^analyze', analyze, name="analyze"),
+    url(r'^home', analyze, name="home"),
 
 ]

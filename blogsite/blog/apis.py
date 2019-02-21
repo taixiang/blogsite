@@ -85,4 +85,4 @@ def analyze(request):
     data["types"] = type_list
     # datas = serializers.serialize("json", blogs)
     print(data)
-    return api_result(200, "登录成功", data)
+    return api_result(200, "成功", data)
