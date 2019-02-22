@@ -1,4 +1,5 @@
 from django.contrib import auth
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.http import HttpResponse
 from rest_framework import viewsets
 from rest_framework.response import Response
@@ -8,6 +9,7 @@ import json
 from .models import Blog, Me, Type
 from django.core import serializers
 from django.db.models import Count
+
 
 class LoginApi(viewsets.ViewSet):
     def list(self, request):
@@ -57,6 +59,7 @@ def login(request):
             return api_result(500, "登录失败")
 
 
+@get_decorator("网络异常")
 @api_view()
 def analyze(request):
     data = {}
@@ -77,12 +80,46 @@ def analyze(request):
     data["me_count"] = me.count
     data["blogs"] = blog_list
     types = Type.objects.annotate(num_blogs=Count("blog_post")).order_by("-num_blogs")
-    for i,type in enumerate(types):
+    for i, type in enumerate(types):
         type_tmp = {}
         type_tmp["name"] = type.name
         type_tmp["count"] = type.num_blogs
         type_list.append(type_tmp)
     data["types"] = type_list
     # datas = serializers.serialize("json", blogs)
-    print(data)
+    return api_result(200, "成功", data)
+
+
+@get_decorator("网络异常")
+@api_view()
+def blogs(request):
+    data = {}
+    blog_list = []
+    blogs = Blog.objects.all()
+    page = request.GET.get('page')
+    paginator = Paginator(blogs, 10)
+    try:
+        total = paginator.page(page)
+    except PageNotAnInteger:
+        page = 1
+        total = paginator.page(1)
+    except EmptyPage:
+        total = paginator.page(paginator.num_pages)
+    if total.has_next():
+        next = True
+    else:
+        next = False
+    if total.has_previous():
+        last = True
+    else:
+        last = False
+    data["next"] = next
+    data['last'] = last
+    for i, blog in enumerate(total):
+        blog_tmp = {}
+        blog_tmp["title"] = blog.title
+        blog_tmp["count"] = blog.count
+        blog_list.append(blog_tmp)
+    data["blogs"] = blog_list
+    data['total_page'] = paginator.num_pages
     return api_result(200, "成功", data)
