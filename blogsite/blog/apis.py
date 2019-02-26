@@ -59,6 +59,7 @@ def login(request):
             return api_result(500, "登录失败")
 
 
+# 首页
 @get_decorator("网络异常")
 @api_view()
 def analyze(request):
@@ -90,6 +91,7 @@ def analyze(request):
     return api_result(200, "成功", data)
 
 
+# 博客
 @get_decorator("网络异常")
 @api_view()
 def blogs(request):
@@ -119,6 +121,7 @@ def blogs(request):
         blog_tmp = {}
         blog_tmp["title"] = blog.title
         blog_tmp["count"] = blog.count
+        blog_tmp["id"] = blog.id
         blog_list.append(blog_tmp)
     data["blogs"] = blog_list
     data['total_page'] = paginator.num_pages
