@@ -126,3 +126,29 @@ def blogs(request):
     data["blogs"] = blog_list
     data['total_page'] = paginator.num_pages
     return api_result(200, "成功", data)
+
+
+# 博客详情
+@api_view()
+def blog_detail(request, blog_id):
+    blog = Blog.objects.get(id=blog_id)
+    data = {}
+    data["title"] = blog.title
+    data["desc"] = blog.desc
+    data["pub_time"] = blog.pub_time
+    # data["md_file"] = blog.md_file
+    # data["type_id"] = blog.type_id
+    data["count"] = blog.count
+    data["is_show"] = blog.is_show
+    types = blog.type_id.all()
+    type_list = []
+    for type in types:
+        type_tmp = {}
+        type_tmp["name"] = type.name
+        type_list.append(type.name)
+    data["type"] = type_list
+
+    # type = Type.objects.get(id=blog.pk)
+    # data["type"] = type.name
+
+    return api_result(200, "成功", data)
