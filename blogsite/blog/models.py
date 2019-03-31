@@ -71,3 +71,69 @@ class wordhtml(models.Model):
 
     def __str__(self):
         return self.uuid
+
+
+# -----------------------------------
+
+# 用户表
+class UserInfo(models.Model):
+    nickName = models.CharField("昵称", max_length=150, blank=True, default="")
+    avatarUrl = models.TextField("头像", blank=True, default="")
+    gender = models.IntegerField("性别", blank=True, default=0)
+    language = models.CharField("语言", max_length=150, blank=True, default="")
+    city = models.CharField("市", max_length=150, blank=True, default="")
+    province = models.CharField("省", max_length=150, blank=True, default="")
+    country = models.CharField("国家", max_length=150, blank=True, default="")
+    openId = models.CharField("openId", max_length=150, blank=True, default="", unique=True)
+    time = models.CharField("时间", max_length=150, blank=True, default="")
+
+    class Meta:
+        verbose_name = "用户列表"
+        verbose_name_plural = "用户列表"
+
+    def __str__(self):
+        return self.nickName
+
+
+# 商户
+class Shop(models.Model):
+    name = models.CharField("商家", max_length=50, blank=True, default="")
+
+    class Meta:
+        verbose_name = "商户"
+        verbose_name_plural = "商户"
+
+    def __str__(self):
+        return self.name
+
+
+class Food(models.Model):
+    name = models.CharField("商品", max_length=50, blank=True, default="")
+    isChoose = models.BooleanField("是否数量选择")
+    num = models.CharField("数量选择(2个|4个 格式)", max_length=150, blank=True, default="")
+    remark = models.CharField("备注", max_length=150, blank=True, default="")
+    shop_id = models.ForeignKey(Shop, blank=True, default="")
+
+
+    class Meta:
+        verbose_name = "商品"
+        verbose_name_plural = "商品"
+
+    def __str__(self):
+        return self.name
+
+
+class FoodOrder(models.Model):
+    user_id = models.ForeignKey(UserInfo, to_field="openId", blank=True, default="")
+    time = models.CharField("时间", max_length=150, blank=True, default="")
+    name = models.CharField("商品", max_length=50, blank=True, default="")
+    isChoose = models.BooleanField("是否数量选择")
+    num = models.CharField("数量选择(2个|4个 格式)", max_length=150, blank=True, default="")
+    remark = models.CharField("备注", max_length=150, blank=True, default="")
+
+    class Meta:
+        verbose_name = "商品订单"
+        verbose_name_plural = "商品订单"
+
+    def __str__(self):
+        return self.name

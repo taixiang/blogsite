@@ -1,7 +1,7 @@
 from django.conf.urls import url
 from .views import index, detail, archive, category, category_detail, about, post_img,\
     get_root,category_name,validate_code,wordtohtml
-from .apis import login, analyze, blogs, blog_detail
+from .apis import login, analyze, blogs, blog_detail, foodList
 
 urlpatterns = [
     url(r'^$', index, name='index'),
@@ -18,5 +18,6 @@ urlpatterns = [
     url(r'^home', analyze, name="home"),
     url(r'^blogs', blogs, name="blogs"),
     url(r'^blog_detail/(?P<blog_id>\d+)', blog_detail, name='blog_detail'),
+    url(r'^foodList',foodList,name="foodList")
 
 ]

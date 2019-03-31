@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from collections import OrderedDict
 from rest_framework.decorators import api_view
 import json
-from .models import Blog, Me, Type
+from .models import Blog, Me, Type, Shop
 from django.core import serializers
 from django.db.models import Count
 
@@ -152,3 +152,20 @@ def blog_detail(request, blog_id):
     # data["type"] = type.name
 
     return api_result(200, "成功", data)
+
+@api_view()
+def foodList(request):
+    data = {}
+    shop = Shop.objects.all()
+    shop_list = []
+    for i, item in enumerate(shop):
+        item_tmp = {}
+        item_tmp["id"] = item.id
+        item_tmp["name"] = item.name
+        foods = item.food_set.all()
+        food_json = serializers.serialize("json", foods)
+        item_tmp["food"] = food_json
+        print(food_json)
+        shop_list.append(item_tmp)
+    data["list"] = shop_list
+    return api_result(200, "成功", shop_list)
