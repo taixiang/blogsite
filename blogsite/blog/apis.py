@@ -6,9 +6,14 @@ from rest_framework.response import Response
 from collections import OrderedDict
 from rest_framework.decorators import api_view
 import json
-from .models import Blog, Me, Type, Shop
+from .models import Blog, Me, Type, Shop, UserInfo
 from django.core import serializers
 from django.db.models import Count
+import requests
+from django.views.decorators.csrf import csrf_exempt
+import time
+from django.http import JsonResponse, HttpResponse
+
 
 
 class LoginApi(viewsets.ViewSet):
@@ -163,9 +168,45 @@ def foodList(request):
         item_tmp["id"] = item.id
         item_tmp["name"] = item.name
         foods = item.food_set.all()
-        food_json = serializers.serialize("json", foods)
-        item_tmp["food"] = food_json
-        print(food_json)
+        food_list = []
+        for j, food in enumerate(foods):
+            food_tmp = {}
+            food_tmp["id"] = food.id
+            food_tmp["name"] = food.name
+            food_tmp["num"] = food.num
+            food_tmp["choose"] = food.isChoose
+            food_tmp["remark"] = food.remark
+            food_list.append(food_tmp)
+
+        # food_json = serializers.serialize("json", foods)
+        item_tmp["food"] = food_list
+        # print(food_json)
         shop_list.append(item_tmp)
     data["list"] = shop_list
     return api_result(200, "成功", shop_list)
+
+
+# 获取openid
+def getOpenId(request):
+    jscode = request.GET.get('code')
+    print(jscode)
+    print(111111)
+    resp = requests.get(
+        "https://api.weixin.qq.com/sns/jscode2session?appid=wx88c73bf8649fd49f&secret=f107ae71998364744c60acebc7fda862&js_code=" + str(
+            jscode) + "&grant_type=authorization_code")
+    print(resp.text)
+    # data = serializers.serialize("json", resp.text)
+    return HttpResponse(json.dumps(resp.text), content_type="application/json")
+
+# 用户信息保存
+@csrf_exempt
+def postUserInfo(request):
+    if request.method == 'POST':
+        data = json.loads(request.body.decode('utf-8'))
+        t = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
+        print(data)
+        data['time'] = t
+        print(data['openId'])
+        user = UserInfo.objects.update_or_create(openId=data['openId'], defaults=data)[0]
+        user.save()
+    return JsonResponse(None, safe=False)

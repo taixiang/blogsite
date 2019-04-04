@@ -114,7 +114,6 @@ class Food(models.Model):
     remark = models.CharField("备注", max_length=150, blank=True, default="")
     shop_id = models.ForeignKey(Shop, blank=True, default="")
 
-
     class Meta:
         verbose_name = "商品"
         verbose_name_plural = "商品"
