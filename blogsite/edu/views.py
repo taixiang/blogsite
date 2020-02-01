@@ -162,6 +162,18 @@ def getOpenId(request):
     return HttpResponse(json.dumps(resp.text), content_type="application/json")
 
 
+def getQQOpenId(request):
+    jscode = request.GET.get('code')
+    print(jscode)
+    print(111111)
+    resp = requests.get(
+        "https://api.q.qq.com/sns/jscode2session?appid=1110240408&secret=ggDFVipPDnsXkbzz&js_code=" + str(
+            jscode) + "&grant_type=authorization_code")
+    print(resp.text)
+    # data = serializers.serialize("json", resp.text)
+    return HttpResponse(json.dumps(resp.text), content_type="application/json")
+
+
 # 用户信息保存
 @csrf_exempt
 def postUserInfo(request):
@@ -381,5 +393,6 @@ def postAdvice(request):
 
     return JsonResponse(result, safe=False)
 
+
 def test(request):
-    return render(request,"test.html")
+    return render(request, "test.html")
