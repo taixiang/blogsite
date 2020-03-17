@@ -198,3 +198,7 @@ class Advice(models.Model):
         verbose_name = "意见"
         verbose_name_plural = "意见"
         ordering = ["-time"]
+
+
+class Sentence(models.Model):
+    content = models.TextField("句子 ", blank=True, default="")
