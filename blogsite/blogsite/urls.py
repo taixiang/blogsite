@@ -33,6 +33,7 @@ router.register(r'm_ques', edu_view.QuestionMViewSet, base_name='m_ques')
 router.register(r'rank', edu_view.RankViewSet, base_name='rank')
 router.register(r'wrongQues', edu_view.WrongViewSet, base_name='wrongQues')
 router.register(r'error', edu_view.ErrorViewSet, base_name='error')
+router.register(r'sentence', edu_view.SentenceViewSet, base_name='sentence')
 router.register(r'login', blogApi.LoginApi, base_name='login')
 
 urlpatterns = [
