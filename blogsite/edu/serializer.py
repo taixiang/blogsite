@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from rest_framework.pagination import PageNumberPagination
-from .models import Mission, ClassType, Ques, UserInfo, Result, Total, Question, Score, WrongQues, QuestionM, ErrorInfo
+from .models import Mission, ClassType, Ques, UserInfo, Result, Total, Question, Score, WrongQues, QuestionM, ErrorInfo, \
+    Sentence
 from django.forms.models import model_to_dict
 
 
@@ -47,6 +48,7 @@ class QuestionSerializer(serializers.ModelSerializer):
         model = Question
         fields = ("id", "title", "optA", "optB", "optC", "optD", "correct")
 
+
 # 初中题目
 class QuestionMSerializer(serializers.ModelSerializer):
     class Meta:
@@ -69,7 +71,7 @@ class WrongSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = WrongQues
-        fields = ("id","answer", "pId")
+        fields = ("id", "answer", "pId")
 
     def getQues(self, obj):
         if obj.type_id == 1:
@@ -86,7 +88,7 @@ class ErrorSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ErrorInfo
-        fields = ("id","content", "pId")
+        fields = ("id", "content", "pId")
 
     def getQues(self, obj):
         if obj.type_id == 1:
@@ -95,3 +97,10 @@ class ErrorSerializer(serializers.ModelSerializer):
             queryset = QuestionM.objects.get(id=obj.qId)
         content = model_to_dict(queryset)
         return content
+
+
+# 句子
+class SentenceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Sentence
+        fields = ("id", "content",)

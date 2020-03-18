@@ -4,10 +4,10 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from collections import OrderedDict
 from .models import Mission, ClassType, Ques, UserInfo, Result, Total, Question, \
-    Score, WrongQues, ErrorInfo, Advice, QuestionM
+    Score, WrongQues, ErrorInfo, Advice, QuestionM, Sentence, SentenceUser
 from .serializer import MissionSerializer, QuesSerializer, ResultSerializer, \
     TotalSerializer, QuestionSerializer, RankSerializer, WrongSerializer, ErrorSerializer, ResultPagination, \
-    QuestionMSerializer
+    QuestionMSerializer, SentenceSerializer
 import json
 import time
 from django.http import JsonResponse, HttpResponse
@@ -381,6 +381,40 @@ class ErrorViewSet(viewsets.ModelViewSet):
             ]))
 
 
+# 句子
+class SentenceViewSet(viewsets.ModelViewSet):
+    pagination_class = ResultPagination
+    queryset = Sentence.objects.all()
+    serializer_class = SentenceSerializer
+
+    def list(self, request, *args, **kwargs):
+        try:
+            # 随机获取10条
+            # queryset = Sentence.objects.order_by("?")[:10]
+            queryset = self.filter_queryset(self.queryset)
+            page = self.paginate_queryset(queryset)
+            if page is not None:
+                serializer = self.get_serializer(page, many=True)
+                return Response(OrderedDict([
+                    ('code', 200),
+                    ('count', self.paginator.page.paginator.count),
+                    ('next', self.paginator.get_next_link()),
+                    ('previous', self.paginator.get_previous_link()),
+                    ('results', serializer.data)
+                ]))
+
+            serializer = self.get_serializer(queryset, many=True)
+            return Response(OrderedDict([
+                ('code', 200),
+                ('results', serializer.data)
+            ]))
+        except:
+            return Response(OrderedDict([
+                ('code', 500),
+                ('results', None)
+            ]))
+
+
 @csrf_exempt
 def postAdvice(request):
     if request.method == 'POST':
@@ -389,6 +423,20 @@ def postAdvice(request):
         data["time"] = t
 
         Advice(**data).save()
+        result = "{ \"code\":" + "200" + ",\"result\":" + "\"提交成功\"}"
+
+    return JsonResponse(result, safe=False)
+
+
+# 复制提交
+@csrf_exempt
+def postCopy(request):
+    if request.method == 'POST':
+        data = json.loads(request.body.decode('utf-8'))
+        t = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
+        data["time"] = t
+
+        SentenceUser(**data).save()
         result = "{ \"code\":" + "200" + ",\"result\":" + "\"提交成功\"}"
 
     return JsonResponse(result, safe=False)

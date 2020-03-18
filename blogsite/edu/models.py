@@ -200,5 +200,16 @@ class Advice(models.Model):
         ordering = ["-time"]
 
 
+# 句子赏析
 class Sentence(models.Model):
     content = models.TextField("句子 ", blank=True, default="")
+
+
+# 句子复制
+class SentenceUser(models.Model):
+    sId = models.IntegerField("句子id")
+    user_id = models.ForeignKey(UserInfo, to_field="openId", blank=True, default="")
+    time = models.CharField("时间", max_length=150, blank=True, default="")
+
+    class Meta:
+        ordering = ["-time"]
