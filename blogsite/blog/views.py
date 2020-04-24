@@ -94,7 +94,7 @@ def agent(request):
     last_ag = new_data_ag[-20:]
     time = msg.pub_time
 
-    return render(request, "agent.html", {"last_ag": last_ag, "time": time})
+    return render(request, "agent.html", {"last_ag": last_ag, "time": time, "msg": me[0]})
 
 
 def detail(request, blog_id):
