@@ -1,11 +1,12 @@
 from django.conf.urls import url
 from .views import index, detail, archive, category, category_detail, about, post_img,\
-    get_root,category_name,validate_code,wordtohtml
+    get_root,category_name,validate_code,wordtohtml, talk, agent
 from .apis import login, analyze, blogs, blog_detail, foodList, getOpenId, postUserInfo
 
 urlpatterns = [
     url(r'^$', index, name='index'),
     url(r'(?P<blog_id>\d+)/detail/$', detail, name='detail'),
+    url(r'^talk', talk, name='talk'),
     url(r'^archive', archive, name='archive'),
     url(r'^category', category, name='category'),
     url(r'(?P<type_id>\d+)/category', category_detail, name='category_detail'),
@@ -21,5 +22,6 @@ urlpatterns = [
     url(r'^foodList',foodList,name="foodList"),
     url(r'^getOpenId', getOpenId, name="getOpenId"),
     url(r'^postUserInfo', postUserInfo, name='postUserInfo'),
+    url(r'^agent', agent,name='agent')
 
 ]
