@@ -28,6 +28,12 @@
                             首页
                         </a>
                     </li>
+                    <li class="menu-item menu-item-home" style="display: none">
+                        <a href="{% url 'blog:talk' %}" rel="section" target="_blank">
+                            <i class="menu-item-icon fa fa-fw fa-home"></i> <br/>
+                            杂谈
+                        </a>
+                    </li>
                     <li class="menu-item menu-item-archives">
                         <a href="{% url 'blog:archive' %}" rel="section" target="_blank">
                             <i class="menu-item-icon fa fa-fw fa-archive"></i> <br/>
@@ -58,12 +64,6 @@
                             </span>
                             <i class="menu-item-icon fa fa-fw fa-book"></i> <br/>
                             双11
-                        </a>
-                    </li>
-                    <li class="menu-item menu-item-gift">
-                        <a href="https://www.manjiexiang.cn/youhui/" rel="section" target="_blank">
-                            <i class="menu-item-icon fa fa-fw fa-gift"></i> <br/>
-                            优惠券
                         </a>
                     </li>
                 </ul>

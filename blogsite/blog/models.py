@@ -45,6 +45,7 @@ class Me(models.Model):
     jianshu = models.CharField("简书", max_length=150)
     count = models.IntegerField("次数", default=0)
     pub_time = models.DateTimeField("时间", default=timezone.now)
+    ag_num = models.IntegerField("ag数量", default=0)
 
     def __str__(self):
         return self.name

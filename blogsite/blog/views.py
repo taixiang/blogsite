@@ -91,10 +91,12 @@ def agent(request):
             data_ag.append(data)
 
     new_data_ag = sorted(data_ag, key=lambda s: s[1], reverse=True)
-    last_ag = new_data_ag[-20:]
+
+    ag_num = msg.ag_num
+    last_ag = new_data_ag[-ag_num:]
     time = msg.pub_time
 
-    return render(request, "agent.html", {"last_ag": last_ag, "time": time, "msg": me[0]})
+    return render(request, "agent.html", {"last_ag": last_ag, "time": time,"ag_num":ag_num, "msg": me[0]})
 
 
 def detail(request, blog_id):
