@@ -46,6 +46,7 @@ class Me(models.Model):
     count = models.IntegerField("次数", default=0)
     pub_time = models.DateTimeField("时间", default=timezone.now)
     ag_num = models.IntegerField("ag数量", default=0)
+    agent_data = models.TextField("结果", default='', blank=True)
 
     def __str__(self):
         return self.name
