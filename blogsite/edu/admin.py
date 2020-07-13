@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import ClassType, Mission, Ques, UserInfo, Result, Total, \
-    Question, QuestionM, Score, WrongQues, ErrorInfo, Advice, Sentence
+    Question, QuestionM, Score, WrongQues, ErrorInfo, Advice, Sentence, Content, ContentType
 
 
 # 下列汉字笔画、音序、部首都对的一组是（    ）
@@ -58,6 +58,10 @@ class SentenceAdmin(admin.ModelAdmin):
     list_display = ('content',)
     list_per_page = 10
 
+class ContentAdmin(admin.ModelAdmin):
+    list_display = ('title',)
+    list_per_page = 10
+
 # admin.site.register(ClassType)
 # admin.site.register(Mission, MissionAdmin)
 # admin.site.register(Ques, QuesAdmin)
@@ -71,3 +75,6 @@ admin.site.register(WrongQues, WrongAdmin)
 admin.site.register(ErrorInfo, ErrorAdmin)
 admin.site.register(Advice, AdviceAdmin)
 admin.site.register(Sentence, SentenceAdmin)
+
+admin.site.register(ContentType)
+admin.site.register(Content, ContentAdmin)

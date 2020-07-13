@@ -213,3 +213,27 @@ class SentenceUser(models.Model):
 
     class Meta:
         ordering = ["-time"]
+
+
+# 内容分类
+class ContentType(models.Model):
+    name = models.CharField("类别", max_length=20)
+    time = models.DateTimeField("时间", default=timezone.now)
+
+    class Meta:
+        verbose_name = "内容分类"
+        verbose_name_plural = "内容分类"
+        ordering = ["-time"]
+
+
+# 内容赏析
+class Content(models.Model):
+    title = models.CharField("标题 ",max_length=100, blank=True, default="")
+    content = models.TextField("内容 ", blank=True, default="")
+    time = models.DateTimeField("时间", default=timezone.now)
+    type_id = models.ManyToManyField("ContentType", related_name="type_post", verbose_name="分类", blank=True, default="")
+
+    class Meta:
+        verbose_name = "内容赏析"
+        verbose_name_plural = "内容赏析"
+        ordering = ["-time"]
