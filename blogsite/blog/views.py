@@ -230,3 +230,8 @@ def get_root(request):
 
 def get_wx_root(request):
     return render(request, "MP_verify_cFL29g0dxlethL6n.txt")
+
+
+#marry
+def marry(request):
+    return render(request, "marry.html")

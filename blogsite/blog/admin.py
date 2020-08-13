@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Type, Blog, Me, Ascii, wordhtml, UserInfo, Shop, Food, FoodOrder
+from .models import Type, Blog, Me, Ascii, wordhtml, UserInfo, Shop, Food, FoodOrder, Category,Marry
 from django.db import models
 from django import forms
 from django.utils.safestring import mark_safe
@@ -54,3 +54,5 @@ admin.site.register(UserInfo)
 admin.site.register(Shop)
 admin.site.register(Food)
 admin.site.register(FoodOrder)
+admin.site.register(Category)
+admin.site.register(Marry)
