@@ -136,8 +136,10 @@ h1 span, h2 span, h3 span, h4 span, h5 span, h6 span{
 section{
 	padding:120px 0px;
 }
+
+/*文字描述*/
 section.img-bg-2{
-	background:url(../img/bg-2.jpg) no-repeat;
+	background:url(../img/bg.jpg) no-repeat;
 	background-attachment:fixed;
 	background-size:cover;
 	color:#FFF;
@@ -204,8 +206,11 @@ section.img-bg-5{
 /* ==================================================================
 	3. Section - Home (banner)
 ================================================================== */
+/**
+顶部背景图
+**/
 section#home{
-	background:url(../img/bg-1.jpg) no-repeat;
+	background:url(../img/bg.jpg) no-repeat;
 	background-attachment:fixed;
 	background-size:cover;
 	text-align:center;
