@@ -12,12 +12,20 @@ import shortuuid
 from pydocx import PyDocX
 import xlrd
 import json
+import requests
 
 
-# Create your views here.
+# Create your views here. https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APPID&secret=APPSECRET
 
 
 def index(request):
+    resp = requests.get(
+        "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx2591758bb5b63c70&secret=1db783ec4e6715bd9b9c2577f198b4c3")
+
+    print('---------------------')
+    print(resp.text)
+
+
     me = Me.objects.all()
     blogs = Blog.objects.all().filter(is_show=0)
     paginator = Paginator(blogs, 10)

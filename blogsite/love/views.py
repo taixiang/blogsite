@@ -4,3 +4,7 @@ from django.shortcuts import render
 def index(request):
 
     return render(request, "love.html")
+
+def marry(request):
+
+    return render(request, "wedding.html")
