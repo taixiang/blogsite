@@ -84,7 +84,7 @@ def index(request):
     jsapiTicket = getJsApiTicket()
     # 注意 URL 一定要动态获取，不能 hardcode.
     # 获取当前页面的url
-    url = 'http://' + request.get_host() + request.get_full_path()
+    url = 'https://' + request.get_host() + request.get_full_path()
 
     # 获取timestamp（时间戳）
     timestamp = int(time.time())
