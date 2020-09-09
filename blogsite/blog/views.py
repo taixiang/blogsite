@@ -1,6 +1,6 @@
 from django.db.models import Count
 from django.shortcuts import render
-from .models import Blog, Type, Me, Ascii, wordhtml
+from .models import Blog, Type, Me, Ascii, wordhtml, WxToken, JsToken
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import time
 from PIL import Image
@@ -13,18 +13,107 @@ from pydocx import PyDocX
 import xlrd
 import json
 import requests
+import uuid
+import random
+import string
+from django.utils import timezone
+import hashlib
 
 
 # Create your views here. https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APPID&secret=APPSECRET
 
 
+def getJsApiTicket():
+    # 获得jsapi_ticket
+    # 获得jsapi_ticket之后，就可以生成JS-SDK权限验证的签名了
+    # 获取access_token
+    try:
+        ticket = WxToken.objects.all()[0]
+        if ticket.get_date():
+            return ticket.token
+    except:
+        ticket = WxToken()
+
+    accessToken = accesstokens()
+
+    # 获取jsapi_ticket
+    url = 'https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=' + accessToken + '&type=jsapi'
+    jsapiReq = requests.get(url)
+
+    jsapi = json.loads(jsapiReq.text)
+    jsapi_ticket = jsapi['ticket']
+
+    ticket.token = str(jsapi_ticket)
+    ticket.lifetime = timezone.now()
+    ticket.save()
+    print('--------jsapi_ticket---------')
+    print(jsapi_ticket)
+    return str(jsapi_ticket)
+
+
+def accesstokens():
+    try:
+        accesstoken = JsToken.objects.all()[0]
+        if accesstoken.get_date():
+            return accesstoken.token
+    except:
+        accesstoken = JsToken()
+
+    url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx2591758bb5b63c70&secret=1db783ec4e6715bd9b9c2577f198b4c3'
+
+    resp = requests.get(url)
+    token_json = json.loads(resp.text)
+    # print(token_json['access_token'])
+    ACCESS_TOKEN = token_json['access_token']
+
+    accesstoken.token = ACCESS_TOKEN
+    accesstoken.lifetime = timezone.now()
+    accesstoken.save()
+    print('--------ACCESS_TOKEN---------')
+    print(ACCESS_TOKEN)
+    return ACCESS_TOKEN
+
+
+def createNonceStr(length=16):
+    # 获取noncestr（随机字符串）
+    return ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(15))
+
+
 def index(request):
-    resp = requests.get(
-        "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx2591758bb5b63c70&secret=1db783ec4e6715bd9b9c2577f198b4c3")
+    # 获得jsapi_ticket
+    jsapiTicket = getJsApiTicket()
+    # 注意 URL 一定要动态获取，不能 hardcode.
+    # 获取当前页面的url
+    url = 'http://' + request.get_host() + request.get_full_path()
 
-    print('---------------------')
-    print(resp.text)
+    # 获取timestamp（时间戳）
+    timestamp = int(time.time())
+    # 获取noncestr（随机字符串）
+    nonceStr = createNonceStr()
 
+    # 这里参数的顺序要按照 key 值 ASCII 码升序排序
+    # 得到signature
+    # $signature = hashlib.sha1(string).hexdigest();
+    ret = {
+        'nonceStr': nonceStr,
+        'jsapi_ticket': jsapiTicket,
+        'timestamp': timestamp,
+        'url': url
+    }
+
+    string = '&'.join(['%s=%s' % (key.lower(), ret[key]) for key in sorted(ret)])
+    signature = hashlib.sha1(string.encode("utf8")).hexdigest()
+
+    signPackage = {
+        "appId": 'wx2591758bb5b63c70',
+        "nonceStr": nonceStr,
+        "timestamp": timestamp,
+        "url": url,
+        "signature": signature,
+        "rawString": string
+    }
+
+    print(signPackage)
 
     me = Me.objects.all()
     blogs = Blog.objects.all().filter(is_show=0)
@@ -42,7 +131,7 @@ def index(request):
         has_next = True
     else:
         has_next = False
-    return render(request, "index.html", {"blogs": customer, "cur_page": page, "has_next": has_next, "msg": me[0]})
+    return render(request, "index.html", {"blogs": customer, "cur_page": page, "has_next": has_next, "msg": me[0], "obj":signPackage})
 
 
 # 杂谈
@@ -61,7 +150,7 @@ def agent(request):
     last_ag = all_data[-ag_num:]
     time = msg.pub_time
 
-    return render(request, "agent.html", {"last_ag": last_ag, "time": time,"ag_num":ag_num, "msg": me[0]})
+    return render(request, "agent.html", {"last_ag": last_ag, "time": time, "ag_num": ag_num, "msg": me[0]})
 
 
 def detail(request, blog_id):
@@ -240,6 +329,6 @@ def get_wx_root(request):
     return render(request, "MP_verify_cFL29g0dxlethL6n.txt")
 
 
-#marry
+# marry
 def marry(request):
     return render(request, "marry.html")

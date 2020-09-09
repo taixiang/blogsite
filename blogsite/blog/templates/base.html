@@ -3,7 +3,7 @@
 <html class="theme-next mist use-motion" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{{msg.name}}</title>
+    <title>{{ msg.name }}</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
     <meta name="keywords" content="程序猿tx,android,python,博客">
@@ -14,9 +14,24 @@
     <link rel="shortcut icon" href="{% static 'img/blog.ico' %}"/>
 
     <style type="text/css">
-        .box2 img{display:block; padding:2px; border:0; margin-top: 30px; max-width:400px; margin-left:-180px}
-        .box2 a span{display:none; color:#F00;}
-        .box2 a:hover span{display:inline; position:absolute;}
+        .box2 img {
+            display: block;
+            padding: 2px;
+            border: 0;
+            margin-top: 30px;
+            max-width: 400px;
+            margin-left: -180px
+        }
+
+        .box2 a span {
+            display: none;
+            color: #F00;
+        }
+
+        .box2 a:hover span {
+            display: inline;
+            position: absolute;
+        }
     </style>
 
     <script src="{% static 'js/jquery.min.js' %}"></script>
@@ -59,13 +74,13 @@
     </script>
 
     <script>
-    var _hmt = _hmt || [];
-    (function() {
-      var hm = document.createElement("script");
-      hm.src = "https://hm.baidu.com/hm.js?fc58c91e67d7cbaced16be40fe6eaeb7";
-      var s = document.getElementsByTagName("script")[0];
-      s.parentNode.insertBefore(hm, s);
-    })();
+        var _hmt = _hmt || [];
+        (function () {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?fc58c91e67d7cbaced16be40fe6eaeb7";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
 
     </script>
 
@@ -77,7 +92,7 @@
     left: 0px;
     position: fixed;
     margin-top: -100px;">
-    <img src="/upload/{{msg.qr_code}}">
+    <img src="/upload/{{ msg.qr_code }}">
     微信公众号
 </div>
 
@@ -99,9 +114,53 @@
 <script type="text/javascript" src="{% static 'js/post-details.js' %}"></script>
 <script>
 
-    if(/Android|webOS|iPhone|BlackBerry/i.test(navigator.userAgent)) {
-        $(".div_right_bottom").css("display","none")
+    if (/Android|webOS|iPhone|BlackBerry/i.test(navigator.userAgent)) {
+        $(".div_right_bottom").css("display", "none")
     }
+
+    wx.config({
+        debug: true,  //调式模式，设置为ture后会直接在网页上弹出调试信息，用于排查问题
+        appId: 'wx2591758bb5b63c70',
+        timestamp: {{ obj.timestamp }},
+        nonceStr: '{{ obj.nonceStr }}',
+        signature: '{{ obj.signature }}',
+        jsApiList: [  //需要使用的网页服务接口
+            'checkJsApi',  //判断当前客户端版本是否支持指定JS接口
+            'onMenuShareTimeline', //分享到朋友圈
+            'onMenuShareAppMessage', //分享给好友
+        ]
+    });
+
+
+    wx.ready(function () {   //ready函数用于调用API，如果你的网页在加载后就需要自定义分享和回调功能，需要在此调用分享函数。//如果是微信游戏结束后，需要点击按钮触发得到分值后分享，这里就不需要调用API了，可以在按钮上绑定事件直接调用。因此，微信游戏由于大多需要用户先触发获取分值，此处请不要填写如下所示的分享API
+        // 1 判断当前版本是否支持指定 JS 接口，支持批量判断
+        wx.checkJsApi({
+            jsApiList: [
+                'onMenuShareAppMessage', 'onMenuShareTimeline'
+            ],
+            success: function (res) {
+                console.log({res})
+                //alert(JSON.stringify(res));
+            }
+        })
+
+        wx.onMenuShareAppMessage({
+            title: '分享标题', // 分享标题
+            desc: '分享描述', // 分享描述
+            imgUrl: 'https://happymall-1253765789.cos.ap-shanghai.myqcloud.com/20200420/1587370524500.png', // 分享图标
+            success: function () {
+                // 用户点击了分享后执行的回调函数
+            }
+        })
+
+
+    })
+
+    wx.error(function (res) {
+        console.log({res})
+        // config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名。
+    });
+
 
 </script>
 
