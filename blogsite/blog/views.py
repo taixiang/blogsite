@@ -80,40 +80,40 @@ def createNonceStr(length=16):
 
 
 def index(request):
-    # 获得jsapi_ticket
-    jsapiTicket = getJsApiTicket()
-    # 注意 URL 一定要动态获取，不能 hardcode.
-    # 获取当前页面的url
-    url = 'https://' + request.get_host() + request.get_full_path()
-
-    # 获取timestamp（时间戳）
-    timestamp = int(time.time())
-    # 获取noncestr（随机字符串）
-    nonceStr = createNonceStr()
-
-    # 这里参数的顺序要按照 key 值 ASCII 码升序排序
-    # 得到signature
-    # $signature = hashlib.sha1(string).hexdigest();
-    ret = {
-        'nonceStr': nonceStr,
-        'jsapi_ticket': jsapiTicket,
-        'timestamp': timestamp,
-        'url': url
-    }
-
-    string = '&'.join(['%s=%s' % (key.lower(), ret[key]) for key in sorted(ret)])
-    signature = hashlib.sha1(string.encode("utf8")).hexdigest()
-
-    signPackage = {
-        "appId": 'wx2591758bb5b63c70',
-        "nonceStr": nonceStr,
-        "timestamp": timestamp,
-        "url": url,
-        "signature": signature,
-        "rawString": string
-    }
-
-    print(signPackage)
+    # # 获得jsapi_ticket
+    # jsapiTicket = getJsApiTicket()
+    # # 注意 URL 一定要动态获取，不能 hardcode.
+    # # 获取当前页面的url
+    # url = 'https://' + request.get_host() + request.get_full_path()
+    #
+    # # 获取timestamp（时间戳）
+    # timestamp = int(time.time())
+    # # 获取noncestr（随机字符串）
+    # nonceStr = createNonceStr()
+    #
+    # # 这里参数的顺序要按照 key 值 ASCII 码升序排序
+    # # 得到signature
+    # # $signature = hashlib.sha1(string).hexdigest();
+    # ret = {
+    #     'nonceStr': nonceStr,
+    #     'jsapi_ticket': jsapiTicket,
+    #     'timestamp': timestamp,
+    #     'url': url
+    # }
+    #
+    # string = '&'.join(['%s=%s' % (key.lower(), ret[key]) for key in sorted(ret)])
+    # signature = hashlib.sha1(string.encode("utf8")).hexdigest()
+    #
+    # signPackage = {
+    #     "appId": 'wx2591758bb5b63c70',
+    #     "nonceStr": nonceStr,
+    #     "timestamp": timestamp,
+    #     "url": url,
+    #     "signature": signature,
+    #     "rawString": string
+    # }
+    #
+    # print(signPackage)
 
     me = Me.objects.all()
     blogs = Blog.objects.all().filter(is_show=0)
@@ -131,7 +131,7 @@ def index(request):
         has_next = True
     else:
         has_next = False
-    return render(request, "index.html", {"blogs": customer, "cur_page": page, "has_next": has_next, "msg": me[0], "obj":signPackage})
+    return render(request, "index.html", {"blogs": customer, "cur_page": page, "has_next": has_next, "msg": me[0]})
 
 
 # 杂谈
