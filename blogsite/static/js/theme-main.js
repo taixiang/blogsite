@@ -9,9 +9,11 @@
 7. Owl Carrousel
 */
 
-"use strict";
+//"use strict";
 $(document).ready(function() {
 
+
+console.log('------------=================================')
 	/*==============================
 		1. Nav - Sticky
 	==============================*/
