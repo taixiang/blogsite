@@ -128,7 +128,7 @@
         jsApiList: [  //需要使用的网页服务接口
             'checkJsApi',  //判断当前客户端版本是否支持指定JS接口
             'onMenuShareTimeline', //分享到朋友圈
-            'updateAppMessageShareData', //分享给好友
+            'onMenuShareAppMessage', //分享给好友
         ]
     });
 
@@ -140,12 +140,14 @@
                 'onMenuShareAppMessage', 'onMenuShareTimeline'
             ],
             success: function (res) {
-                console.log('checkJsApicheckJsApicheckJsApi',  res)
+                console.log('checkJsApicheckJsApicheckJsApi', res)
                 //alert(JSON.stringify(res));
+
+
             }
         })
 
-        wx.updateAppMessageShareData({
+        wx.onMenuShareAppMessage({
             title: '分享标题', // 分享标题
             desc: '分享描述', // 分享描述
             imgUrl: 'https://happymall-1253765789.cos.ap-shanghai.myqcloud.com/20200420/1587370524500.png', // 分享图标
