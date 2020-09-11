@@ -18,6 +18,7 @@ import random
 import string
 from django.utils import timezone
 import hashlib
+from django.http import JsonResponse
 
 
 # Create your views here. https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APPID&secret=APPSECRET
@@ -332,3 +333,8 @@ def get_wx_root(request):
 # marry
 def marry(request):
     return render(request, "marry.html")
+
+
+def home_swiper(request):
+    list = ''
+    return JsonResponse(list, safe=False)

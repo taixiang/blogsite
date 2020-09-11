@@ -210,3 +210,9 @@ def postUserInfo(request):
         user = UserInfo.objects.update_or_create(openId=data['openId'], defaults=data)[0]
         user.save()
     return JsonResponse(None, safe=False)
+
+#首页图片集合
+@api_view()
+def home_swiper(request):
+    list = [1,2,3]
+    return api_result(200, "成功", list)
