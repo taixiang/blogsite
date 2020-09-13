@@ -214,5 +214,17 @@ def postUserInfo(request):
 #首页图片集合
 @api_view()
 def home_swiper(request):
-    list = [1,2,3]
-    return api_result(200, "成功", list)
+    home_data = {
+        'mainInfo':{
+            'he': '邰祥',
+            'she': '孙娟',
+            'date': '10月24日',
+            'lunar': '九月初八',
+            'address': '姜堰区娄庄镇新龙村那旮旯'
+        }
+    }
+    list = [
+        'https://7765-wedding-i9l06-1303164777.tcb.qcloud.la/123171599922837_.pic.jpg?sign=fab2c50a183dc6def20ee21b8a964736&t=1599925918',        'https://happymall-1253765789.picsh.myqcloud.com/20200428/1588084740504.jpg?imageView2/3/w/400/h/400/q/100',
+        'https://happymall-1253765789.picsh.myqcloud.com/20200814/1597404456153.jpg?imageView2/3/w/400/h/400/q/100']
+    home_data['img'] = list
+    return api_result(200, "成功", home_data)
