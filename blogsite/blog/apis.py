@@ -15,7 +15,6 @@ import time
 from django.http import JsonResponse, HttpResponse
 
 
-
 class LoginApi(viewsets.ViewSet):
     def list(self, request):
         return Response(OrderedDict([
@@ -158,6 +157,7 @@ def blog_detail(request, blog_id):
 
     return api_result(200, "成功", data)
 
+
 @api_view()
 def foodList(request):
     data = {}
@@ -198,6 +198,7 @@ def getOpenId(request):
     # data = serializers.serialize("json", resp.text)
     return HttpResponse(json.dumps(resp.text), content_type="application/json")
 
+
 # 用户信息保存
 @csrf_exempt
 def postUserInfo(request):
@@ -211,11 +212,12 @@ def postUserInfo(request):
         user.save()
     return JsonResponse(None, safe=False)
 
-#首页图片集合
+
+# 首页图片集合
 @api_view()
 def home_swiper(request):
     home_data = {
-        'mainInfo':{
+        'mainInfo': {
             'he': '邰祥',
             'she': '孙娟',
             'date': '10月24日',
@@ -224,7 +226,11 @@ def home_swiper(request):
         }
     }
     list = [
-        'https://7765-wedding-i9l06-1303164777.tcb.qcloud.la/123171599922837_.pic.jpg?sign=fab2c50a183dc6def20ee21b8a964736&t=1599925918',        'https://happymall-1253765789.picsh.myqcloud.com/20200428/1588084740504.jpg?imageView2/3/w/400/h/400/q/100',
-        'https://happymall-1253765789.picsh.myqcloud.com/20200814/1597404456153.jpg?imageView2/3/w/400/h/400/q/100']
+        'https://7765-wedding-i9l06-1303164777.tcb.qcloud.la/zhu1.jpg?sign=4496115c1ce17b097ec569d159fa08b8&t=1600005801',
+        'https://7765-wedding-i9l06-1303164777.tcb.qcloud.la/xiuhe.jpg?sign=20af6488897108f69e62d3b7a323f85b&t=1600004835',
+        'https://7765-wedding-i9l06-1303164777.tcb.qcloud.la/wai1.jpg?sign=6231f416a823262ee71593ece46c1a77&t=1600006469',
+        'https://7765-wedding-i9l06-1303164777.tcb.qcloud.la/wai2.jpg?sign=ddd8b2ddc7076b9fc7236dcf58a6244f&t=1600006447',
+        'https://7765-wedding-i9l06-1303164777.tcb.qcloud.la/xiaoyuan1.jpg?sign=6fd10c5c0885b0be49c764a2e34e642f&t=1600005512',
+        'https://7765-wedding-i9l06-1303164777.tcb.qcloud.la/xiaoyuan2.jpg?sign=755e47cc7e4b88a0e6a2618d547da70c&t=1600006187']
     home_data['img'] = list
     return api_result(200, "成功", home_data)
