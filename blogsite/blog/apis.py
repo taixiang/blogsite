@@ -6,9 +6,9 @@ from rest_framework.response import Response
 from collections import OrderedDict
 from rest_framework.decorators import api_view
 import json
-from .models import Blog, Me, Type, Shop, UserInfo, Marry
+from .models import Blog, Me, Type, Shop, UserInfo, Marry, Category
 from django.core import serializers
-from django.db.models import Count
+from django.db.models import Count, Q
 import requests
 from django.views.decorators.csrf import csrf_exempt
 import time
@@ -235,8 +235,33 @@ def home_swiper(request):
 
     imgs = Marry.objects.all().filter(category_id=1)
     img_list = []
-    for i,img in enumerate(imgs):
+    for i, img in enumerate(imgs):
         img_list.append(img.img)
 
     home_data['img'] = img_list
     return api_result(200, "成功", home_data)
+
+
+# 获取分类
+@api_view()
+def type_list(request):
+    type_list = []
+    cate = Category.objects.all().filter(~Q(img=''))
+    for i, c in enumerate(cate):
+        tmp = {}
+        tmp['id'] = c.id
+        tmp['img'] = c.img
+        tmp['name'] = c.name
+        type_list.append(tmp)
+    return api_result(200, "成功", type_list)
+
+# 根据分类获取图片
+@api_view()
+def get_img(request):
+    img_list = []
+    id = request.GET.get('id')
+    imgs = Marry.objects.all().filter(category_id=id)
+    print(imgs)
+    for i, img in enumerate(imgs):
+        img_list.append(img.img)
+    return api_result(200, "成功", img_list)

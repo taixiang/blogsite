@@ -144,6 +144,7 @@ class FoodOrder(models.Model):
 # ------------------------------------------------------------------------------------------------------------------------
 class Category(models.Model):
     name = models.CharField("类别", max_length=40)
+    img = models.CharField("图片", max_length=200, default="", blank=True)
     pub_time = models.DateTimeField("时间", default=timezone.now)
     order = models.IntegerField("权重值", default=0, help_text="值越大越靠前")
 
