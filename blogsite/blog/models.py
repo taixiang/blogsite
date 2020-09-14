@@ -141,7 +141,7 @@ class FoodOrder(models.Model):
     def __str__(self):
         return self.name
 
-
+# ------------------------------------------------------------------------------------------------------------------------
 class Category(models.Model):
     name = models.CharField("类别", max_length=40)
     pub_time = models.DateTimeField("时间", default=timezone.now)
@@ -158,7 +158,7 @@ class Category(models.Model):
 
 class Marry(models.Model):
     name = models.CharField("名称", max_length=40, default="", blank=True)
-    img = models.ImageField("图片", upload_to="photos/%Y/%m/%d", help_text="必填")
+    img = models.CharField("图片", max_length=200, default="", blank=True)
     order = models.IntegerField("权重值", default=0, help_text="值越大越靠前")
     pub_time = models.DateTimeField("时间", default=timezone.now)
     category_id = models.ManyToManyField("Category", related_name="marry_post", verbose_name="分类", blank=True)

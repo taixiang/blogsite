@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from collections import OrderedDict
 from rest_framework.decorators import api_view
 import json
-from .models import Blog, Me, Type, Shop, UserInfo
+from .models import Blog, Me, Type, Shop, UserInfo, Marry
 from django.core import serializers
 from django.db.models import Count
 import requests
@@ -192,7 +192,7 @@ def getOpenId(request):
     print(jscode)
     print(111111)
     resp = requests.get(
-        "https://api.weixin.qq.com/sns/jscode2session?appid=wx88c73bf8649fd49f&secret=f107ae71998364744c60acebc7fda862&js_code=" + str(
+        "https://api.weixin.qq.com/sns/jscode2session?appid=wx439a5d6962d0e1dc&secret=5081af1734a36ab72c2add3e934cdfdc&js_code=" + str(
             jscode) + "&grant_type=authorization_code")
     print(resp.text)
     # data = serializers.serialize("json", resp.text)
@@ -232,5 +232,11 @@ def home_swiper(request):
         'https://7765-wedding-i9l06-1303164777.tcb.qcloud.la/wai2.jpg?sign=ddd8b2ddc7076b9fc7236dcf58a6244f&t=1600006447',
         'https://7765-wedding-i9l06-1303164777.tcb.qcloud.la/xiaoyuan1.jpg?sign=6fd10c5c0885b0be49c764a2e34e642f&t=1600005512',
         'https://7765-wedding-i9l06-1303164777.tcb.qcloud.la/xiaoyuan2.jpg?sign=755e47cc7e4b88a0e6a2618d547da70c&t=1600006187']
-    home_data['img'] = list
+
+    imgs = Marry.objects.all().filter(category_id=1)
+    img_list = []
+    for i,img in enumerate(imgs):
+        img_list.append(img.img)
+
+    home_data['img'] = img_list
     return api_result(200, "成功", home_data)

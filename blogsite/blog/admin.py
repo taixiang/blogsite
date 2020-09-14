@@ -44,6 +44,9 @@ class AsciiAdminqq(admin.ModelAdmin):
     formfield_overrides = {models.ImageField: {'widget': ImageWidget2}}
 
 
+class MarryAdmin(admin.ModelAdmin):
+    list_per_page = 10
+    list_display = ('name',)
 
 admin.site.register(Type)
 admin.site.register(Blog, BlogAdmin)
@@ -55,4 +58,4 @@ admin.site.register(Shop)
 admin.site.register(Food)
 admin.site.register(FoodOrder)
 admin.site.register(Category)
-admin.site.register(Marry)
+admin.site.register(Marry,MarryAdmin)
