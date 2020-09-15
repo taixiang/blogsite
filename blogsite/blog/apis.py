@@ -252,6 +252,7 @@ def type_list(request):
         tmp['id'] = c.id
         tmp['img'] = c.img
         tmp['name'] = c.name
+        tmp['desc'] = c.desc
         type_list.append(tmp)
     return api_result(200, "成功", type_list)
 
@@ -262,6 +263,9 @@ def get_img(request):
     id = request.GET.get('id')
     imgs = Marry.objects.all().filter(category_id=id)
     print(imgs)
-    for i, img in enumerate(imgs):
-        img_list.append(img.img)
+    for i, c in enumerate(imgs):
+        tmp = {}
+        tmp['img'] = c.img
+        tmp['desc'] = c.desc
+        img_list.append(tmp)
     return api_result(200, "成功", img_list)
