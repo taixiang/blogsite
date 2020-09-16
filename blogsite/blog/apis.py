@@ -187,6 +187,7 @@ def foodList(request):
 
 
 # 获取openid
+@api_view()
 def getOpenId(request):
     jscode = request.GET.get('code')
     print(jscode)
@@ -196,21 +197,39 @@ def getOpenId(request):
             jscode) + "&grant_type=authorization_code")
     print(resp.text)
     # data = serializers.serialize("json", resp.text)
-    return HttpResponse(json.dumps(resp.text), content_type="application/json")
+    return api_result(200, "成功", json.loads(resp.text))
 
 
 # 用户信息保存
-@csrf_exempt
+@api_view(['POST'])
 def postUserInfo(request):
     if request.method == 'POST':
         data = json.loads(request.body.decode('utf-8'))
         t = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
-        print(data)
         data['time'] = t
-        print(data['openId'])
         user = UserInfo.objects.update_or_create(openId=data['openId'], defaults=data)[0]
         user.save()
-    return JsonResponse(None, safe=False)
+    return api_result(200, "成功", [])
+
+
+# 获取用户信息
+@api_view()
+def getUserInfo(request):
+    info = {}
+    try:
+        openId = request.GET.get('openId')
+        q = UserInfo.objects.all().get(openId=openId)
+        # json.loads(serializers.serialize("json", q))
+        info = model2json(q)
+    except UserInfo.DoesNotExist:
+        info = None
+    return api_result(200, "成功", info)
+
+
+def model2json(data):
+    data.__dict__.pop("_state")
+    rData = data.__dict__
+    return rData
 
 
 # 首页图片集合
@@ -255,6 +274,7 @@ def type_list(request):
         tmp['desc'] = c.desc
         type_list.append(tmp)
     return api_result(200, "成功", type_list)
+
 
 # 根据分类获取图片
 @api_view()

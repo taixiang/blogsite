@@ -1,7 +1,8 @@
 from django.conf.urls import url
 from .views import index, detail, archive, category, category_detail, about, post_img, \
     get_root, category_name, validate_code, wordtohtml, talk, agent, marry
-from .apis import login, analyze, blogs, blog_detail, foodList, getOpenId, postUserInfo, home_swiper, type_list, get_img
+from .apis import login, analyze, blogs, blog_detail, foodList, getOpenId, postUserInfo, home_swiper, type_list, \
+    get_img, getUserInfo
 
 urlpatterns = [
     url(r'^$', index, name='index'),
@@ -22,6 +23,7 @@ urlpatterns = [
     url(r'^foodList',foodList,name="foodList"),
     url(r'^getOpenId', getOpenId, name="getOpenId"),
     url(r'^postUserInfo', postUserInfo, name='postUserInfo'),
+    url(r'^getUserInfo', getUserInfo, name='getUserInfo'),
     url(r'^agent', agent,name='agent'),
     url(r'^marry', marry,name='marry'),
     url(r'^wswiper', home_swiper, name='home_swiper'),
