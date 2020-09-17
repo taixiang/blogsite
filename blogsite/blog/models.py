@@ -148,6 +148,7 @@ class Category(models.Model):
     desc = models.CharField("描述", max_length=100, default="", blank=True)
     pub_time = models.DateTimeField("时间", default=timezone.now)
     order = models.IntegerField("权重值", default=0, help_text="值越大越靠前")
+    is_show = models.IntegerField("显示", default=1)
 
     class Meta:
         ordering = ["-order", "pub_time"]
@@ -157,7 +158,7 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
-
+# 图片
 class Marry(models.Model):
     name = models.CharField("名称", max_length=40, default="", blank=True)
     img = models.CharField("图片", max_length=200, default="", blank=True)
@@ -165,6 +166,7 @@ class Marry(models.Model):
     order = models.IntegerField("权重值", default=0, help_text="值越大越靠前")
     pub_time = models.DateTimeField("时间", default=timezone.now)
     category_id = models.ManyToManyField("Category", related_name="marry_post", verbose_name="分类", blank=True)
+    is_h = models.IntegerField("是否横向", default=0)
 
     class Meta:
         ordering = ["-order", "pub_time"]
@@ -176,6 +178,21 @@ class Marry(models.Model):
 
     image.allow_tags = True
     image.short_description = "图片"
+
+    def __str__(self):
+        return self.name
+
+class JoinMsg(models.Model):
+    name = models.CharField("姓名", max_length=40, default="", blank=True)
+    phone = models.CharField("手机号", max_length=20, default="", blank=True)
+    msg = models.CharField("出席信息", max_length=10, default="", blank=True)
+    remark = models.CharField("备注", max_length=100, default="", blank=True)
+    openId = models.CharField("openId", max_length=150, blank=True, default="")
+    time = models.CharField("时间", max_length=150, blank=True, default="")
+
+    class Meta:
+        verbose_name = "出席信息"
+        verbose_name_plural = "出席信息"
 
     def __str__(self):
         return self.name

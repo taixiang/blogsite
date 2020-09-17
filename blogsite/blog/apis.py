@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from collections import OrderedDict
 from rest_framework.decorators import api_view
 import json
-from .models import Blog, Me, Type, Shop, UserInfo, Marry, Category
+from .models import Blog, Me, Type, Shop, UserInfo, Marry, Category, JoinMsg
 from django.core import serializers
 from django.db.models import Count, Q
 import requests
@@ -211,6 +211,34 @@ def postUserInfo(request):
         user.save()
     return api_result(200, "成功", [])
 
+# 出席信息
+#3、在国家有关政策的号召和鼓舞下，在社会各界的关注下，随着恋爱的不断发展，为了高举婚姻是爱情的归属的旗帜。打击认为婚姻是爱情的坟墓之反动份子。我等以身作则，奔赴前线战斗，周——月——号 在**酒店水到到渠成，请各位亲友携款钱往，要求，概不赊账新郎**，新娘**宣。
+#1、日盼夜盼，结婚盼到。告别单身，不再烦恼。从今后，二人世界共同创造，小小家庭夫妻同欢笑。为了祝贺新的开始，特准备美酒佳肴，请各位亲朋好友做个见证。一定要到。
+@api_view(['POST'])
+def postJoinMsg(request):
+    if request.method == 'POST':
+        data = json.loads(request.body.decode('utf-8'))
+        t = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
+        data['time'] = t
+        info = JoinMsg.objects.update_or_create(openId=data['openId'], defaults=data)[0]
+        info.save()
+    return api_result(200, "成功", '诚挚邀请您的到来')
+
+# 获取出席信息
+@api_view()
+def getJoinMsg(request):
+    info = {}
+    try:
+        openId = request.GET.get('openId')
+        q = JoinMsg.objects.all().get(openId=openId)
+        # json.loads(serializers.serialize("json", q))
+        info = model2json(q)
+    except JoinMsg.DoesNotExist:
+        info = None
+    return api_result(200, "成功", info)
+
+
+
 
 # 获取用户信息
 @api_view()
@@ -244,14 +272,6 @@ def home_swiper(request):
             'address': '姜堰区娄庄镇新龙村那旮旯'
         }
     }
-    list = [
-        'https://7765-wedding-i9l06-1303164777.tcb.qcloud.la/zhu1.jpg?sign=4496115c1ce17b097ec569d159fa08b8&t=1600005801',
-        'https://7765-wedding-i9l06-1303164777.tcb.qcloud.la/xiuhe.jpg?sign=20af6488897108f69e62d3b7a323f85b&t=1600004835',
-        'https://7765-wedding-i9l06-1303164777.tcb.qcloud.la/wai1.jpg?sign=6231f416a823262ee71593ece46c1a77&t=1600006469',
-        'https://7765-wedding-i9l06-1303164777.tcb.qcloud.la/wai2.jpg?sign=ddd8b2ddc7076b9fc7236dcf58a6244f&t=1600006447',
-        'https://7765-wedding-i9l06-1303164777.tcb.qcloud.la/xiaoyuan1.jpg?sign=6fd10c5c0885b0be49c764a2e34e642f&t=1600005512',
-        'https://7765-wedding-i9l06-1303164777.tcb.qcloud.la/xiaoyuan2.jpg?sign=755e47cc7e4b88a0e6a2618d547da70c&t=1600006187']
-
     imgs = Marry.objects.all().filter(category_id=1)
     img_list = []
     for i, img in enumerate(imgs):
@@ -265,7 +285,7 @@ def home_swiper(request):
 @api_view()
 def type_list(request):
     type_list = []
-    cate = Category.objects.all().filter(~Q(img=''))
+    cate = Category.objects.all().filter(~Q(img=''), is_show=1)
     for i, c in enumerate(cate):
         tmp = {}
         tmp['id'] = c.id
@@ -287,5 +307,6 @@ def get_img(request):
         tmp = {}
         tmp['img'] = c.img
         tmp['desc'] = c.desc
+        tmp['h'] = c.is_h
         img_list.append(tmp)
     return api_result(200, "成功", img_list)
