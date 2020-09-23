@@ -228,6 +228,12 @@ def postJoinMsg(request):
 @api_view()
 def getJoinMsg(request):
     info = {}
+    cakeList = [
+        'https://7765-wedding-i9l06-1303164777.tcb.qcloud.la/c1.jpg?sign=168da852be253d86c48e1a3c3fba1fe4&t=1600854536',
+        'https://7765-wedding-i9l06-1303164777.tcb.qcloud.la/c2.jpg?sign=5142cbbc6f1e0e090cae32b45405e6fe&t=1600854554',
+        'https://7765-wedding-i9l06-1303164777.tcb.qcloud.la/c3.jpg?sign=d953bdd6a6ddbee15d89fb7a71ec0a65&t=1600854564',
+        'https://7765-wedding-i9l06-1303164777.tcb.qcloud.la/c4.jpg?sign=dc7aeeacafe5777f3ac86303c87bcc39&t=1600854574'
+    ]
     try:
         openId = request.GET.get('openId')
         q = JoinMsg.objects.all().get(openId=openId)
@@ -235,6 +241,7 @@ def getJoinMsg(request):
         info = model2json(q)
     except JoinMsg.DoesNotExist:
         info = None
+    info['cakeList'] = cakeList
     return api_result(200, "成功", info)
 
 
