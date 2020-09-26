@@ -240,7 +240,7 @@ def getJoinMsg(request):
         # json.loads(serializers.serialize("json", q))
         info = model2json(q)
     except JoinMsg.DoesNotExist:
-        info = None
+        info = {}
     info['cakeList'] = cakeList
     return api_result(200, "成功", info)
 
@@ -257,7 +257,7 @@ def getUserInfo(request):
         # json.loads(serializers.serialize("json", q))
         info = model2json(q)
     except UserInfo.DoesNotExist:
-        info = None
+        info = {}
     return api_result(200, "成功", info)
 
 
