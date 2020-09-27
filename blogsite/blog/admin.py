@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Type, Blog, Me, Ascii, wordhtml, UserInfo, Shop, Food, FoodOrder, Category,Marry
+from .models import Type, Blog, Me, Ascii, wordhtml, UserInfo, Shop, Food, FoodOrder, Category, Marry, JoinMsg
 from django.db import models
 from django import forms
 from django.utils.safestring import mark_safe
@@ -47,15 +47,28 @@ class AsciiAdminqq(admin.ModelAdmin):
 class MarryAdmin(admin.ModelAdmin):
     list_per_page = 10
     list_display = ('name',)
+    list_filter = ('category_id',)  # 过滤器
+
+class UserInfoAdmin(admin.ModelAdmin):
+    list_per_page = 10
+    list_display = ('nickName','openId')
+
+
+class JoinMsgAdmin(admin.ModelAdmin):
+    list_per_page = 10
+    list_display = ('name','phone','msg','remark','openId')
+    list_filter =('msg',) #过滤器
+    search_fields =('name', 'phone') #搜索字段
 
 admin.site.register(Type)
 admin.site.register(Blog, BlogAdmin)
 admin.site.register(Me)
 admin.site.register(Ascii, AsciiAdminqq)
 admin.site.register(wordhtml)
-admin.site.register(UserInfo)
+admin.site.register(UserInfo, UserInfoAdmin)
 admin.site.register(Shop)
 admin.site.register(Food)
 admin.site.register(FoodOrder)
 admin.site.register(Category)
 admin.site.register(Marry,MarryAdmin)
+admin.site.register(JoinMsg,JoinMsgAdmin)
