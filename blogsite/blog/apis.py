@@ -317,3 +317,11 @@ def get_img(request):
         tmp['h'] = c.is_h
         img_list.append(tmp)
     return api_result(200, "成功", img_list)
+
+@api_view()
+def get_seat(request):
+    me = Me.objects.all()
+    msg = me[0]
+    agent_data = msg.agent_data
+    all_data = json.loads(agent_data)
+    return api_result(200, "成功", all_data)
