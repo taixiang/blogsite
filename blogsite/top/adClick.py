@@ -41,8 +41,11 @@ def clickJD():
     while True:
         if count == 5:
             return
-        # 京东
-        os.system('adb shell input tap 875 1695')
+        # 京东 866 1175 852 164 863 1622
+        os.system('adb shell input tap 863 1622')
+        #浏览
+        # os.system('adb shell input tap 670 654')
+
         print('详情')
         time.sleep(30)
         # 返回
@@ -50,87 +53,138 @@ def clickJD():
         print('返回')
         time.sleep(10)
         # 领取
-        os.system('adb shell input tap 875 1695')
-        print('领取')
-        time.sleep(10)
+        # os.system('adb shell input tap 875 1695')
+        # print('领取')
+        # time.sleep(10)
         count += 1
         print(str(count) + "完成")
 
 
 # 从浏览列表开始 横线对齐
 def clickEle():
-    count = 0
+    # 第一个循环
     # 第一个
+    # print('进入第一个')
     # os.system('adb shell input tap 949 1033')
     # time.sleep(30)
     # # 返回
+    # print('第一个返回')
     # os.system('adb shell input keyevent 4')
-    # print('返回')
     # time.sleep(10)
     # # 领取
+    # print('第一个领取')
     # os.system('adb shell input tap 949 1033')
-    # print('领取')
-    # time.sleep(10)
-    #
-    # # 第二个
-    # os.system('adb shell input tap 949 1251')
-    # time.sleep(30)
-    # # 返回
-    # os.system('adb shell input keyevent 4')
-    # print('返回')
-    # time.sleep(10)
-    # # 领取
-    # os.system('adb shell input tap 949 1251')
-    # print('领取')
     # time.sleep(10)
 
+    # 第一个
+    print('进入第一个')
+    os.system('adb shell input tap 949 1033')
+    time.sleep(30)
+    # 返回
+    print('第一个返回')
+    os.system('adb shell input keyevent 4')
+    time.sleep(10)
+    # 领取
+    print('第一个领取')
+    os.system('adb shell input tap 949 1033')
+    time.sleep(10)
+
+    # 第二个
+    print('进入第二个')
+    os.system('adb shell input tap 949 1251')
+    time.sleep(30)
+    # 返回
+    os.system('adb shell input keyevent 4')
+    print('第二个返回')
+    time.sleep(10)
+    # 领取
+    os.system('adb shell input tap 949 1251')
+    print('第二个领取')
+    time.sleep(10)
+
     # 第三个
+    print('进入第三个')
     os.system('adb shell input tap 949 1465')
     time.sleep(30)
     # 返回
     os.system('adb shell input keyevent 4')
-    print('返回')
+    print('第三个返回')
     time.sleep(10)
     # 领取
     os.system('adb shell input tap 949 1465')
-    print('领取')
+    print('第三个领取')
     time.sleep(10)
 
     # 第四个
+    print('进入第四个')
     os.system('adb shell input tap 949 1683')
     time.sleep(30)
     # 返回
     os.system('adb shell input keyevent 4')
-    print('返回')
+    print('第四个返回')
     time.sleep(10)
     # 领取
     os.system('adb shell input tap 949 1683')
-    print('领取')
+    print('第四个领取')
     time.sleep(10)
 
     # 第五个
+    print('进入第五个')
     os.system('adb shell input tap 949 1920')
     time.sleep(30)
     # 返回
     os.system('adb shell input keyevent 4')
-    print('返回')
+    print('第五个返回')
     time.sleep(10)
     # 领取
     os.system('adb shell input tap 949 1920')
-    print('领取')
+    print('第五个领取')
     time.sleep(10)
 
     # 第六个
+    print('进入第六个')
     os.system('adb shell input tap 949 2148')
     time.sleep(30)
     # 返回
     os.system('adb shell input keyevent 4')
-    print('返回')
+    print('第六个返回')
     time.sleep(10)
     # 领取
     os.system('adb shell input tap 949 2148')
-    print('领取')
+    print('第六个领取')
     time.sleep(10)
 
 
-clickEle()
+# 从第一个图片延边开始 264 * 7 + 348
+def clickEleDou():
+    count = 0
+    while count < 8:
+        str1 = 'adb shell input tap 910 ' + str(264 * count + 348)
+        print('进入详情')
+        os.system(str1)
+        time.sleep(30)
+        # 返回
+        os.system('adb shell input keyevent 4')
+        print('返回')
+        count = count + 1
+        time.sleep(10)
+
+# 惊喜 从上面开始 160 * 5 + 820
+def clickJX():
+    count = 0
+    while count < 6:
+        str1 = 'adb shell input tap 910 ' + str(160 * count + 820)
+        print('进入详情')
+        os.system(str1)
+        time.sleep(20)
+        # 返回
+        os.system('adb shell input keyevent 4')
+        print('返回')
+        time.sleep(10)
+        # 领取
+        os.system('adb shell input tap 949 2148')
+        print('第领取')
+        count = count + 1
+        time.sleep(10)
+
+clickJD()
