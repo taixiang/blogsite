@@ -6,10 +6,10 @@ import random
 def click():
     count = 0
     while True:
-        if count == 20:
+        if count == 5:
             return
-        # 淘宝
-        os.system('adb shell input tap 537 1165')
+        # 淘宝 537 1436 第二个
+        os.system('adb shell input tap 537 1436')
         print('详情')
         time.sleep(30)
         # 返回
@@ -39,10 +39,13 @@ def click():
 def clickJD():
     count = 0
     while True:
-        if count == 5:
+        if count == 20:
             return
         # 京东 866 1175 852 164 863 1622
-        os.system('adb shell input tap 863 1622')
+        # 第二个 866 1175
+        # 第4个 866 1635
+        # 第5个 866 1849
+        os.system('adb shell input tap 866 1849')
         #浏览
         # os.system('adb shell input tap 670 654')
 
@@ -58,6 +61,46 @@ def clickJD():
         # time.sleep(10)
         count += 1
         print(str(count) + "完成")
+
+def clickJD2():
+    os.system('adb shell input tap 255 840')
+    print('详情1')
+    time.sleep(5)
+    os.system('adb shell input keyevent 4')
+    print('返回')
+
+
+    os.system('adb shell input tap 778 805')
+    print('详情2')
+    time.sleep(5)
+    os.system('adb shell input keyevent 4')
+    print('返回')
+
+
+    os.system('adb shell input tap 255 1517')
+    print('详情3')
+    time.sleep(5)
+    os.system('adb shell input keyevent 4')
+    print('返回')
+
+
+    os.system('adb shell input tap 778 1530')
+    print('详情4')
+    time.sleep(5)
+    os.system('adb shell input keyevent 4')
+    print('返回')
+
+
+
+    os.system('adb shell input tap 255 2035')
+    print('详情4')
+    time.sleep(5)
+    os.system('adb shell input keyevent 4')
+    print('返回')
+
+
+    time.sleep(5)
+    print("完成")
 
 
 # 从浏览列表开始 横线对齐
@@ -187,4 +230,4 @@ def clickJX():
         count = count + 1
         time.sleep(10)
 
-clickJD()
+clickJD2()
