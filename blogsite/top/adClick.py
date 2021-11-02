@@ -6,7 +6,7 @@ import random
 def click():
     count = 0
     while True:
-        if count == 20:
+        if count == 4:
             return
         # 淘宝 537 1436 第二个
         # 淘宝 537 1463 第三个
@@ -40,10 +40,10 @@ def click():
 def clickJD():
     count = 0
     while True:
-        if count == 5:
+        if count == 10:
             return
         # 京东 866 1175 852 164 863 1622
-        # 第二个 866 1175
+        # 第二个 866 1175 1389
         # 第4个 866 1635
         # 第5个 866 1849
         os.system('adb shell input tap 866 1849')
@@ -235,4 +235,4 @@ def clickJX():
         count = count + 1
         time.sleep(10)
 
-click()
+clickJD()
